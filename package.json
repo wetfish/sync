@@ -1,0 +1,14 @@
+{
+  "name": "wetfish-sync",
+  "version": "0.0.1",
+  "author": "Rachel <rachel@wetfish.net>",
+  "description": "Synchronize HTML5 audio and video over the 'net with friends! (Also supports YouTube, Vimeo, SoundCloud, etc.)",
+  "dependencies" : {
+    "jquery": "*",
+    "express": "*",
+    "express-session": "*",
+    "connect-redis": "*",
+    "socket.io": "*"
+  },
+  "license": "MIT"
+}
