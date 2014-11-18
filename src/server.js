@@ -1,13 +1,13 @@
 // Main application variables
 var express = require('express'),
     app = express(),
-    server  = require('http').createServer(app),
-    io      = require('socket.io').listen(server);
+    server = require('http').Server(app),
+    io = require('socket.io')(server);
 
-app.listen(2333);
+server.listen(2333);    
 console.log("Sync Server Started");
 
-//app.use(express.static(__dirname + '/static'));
+app.use(express.static(__dirname + '/static'));
 
 app.get('/', function(req, res)
 {
