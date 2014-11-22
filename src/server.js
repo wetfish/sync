@@ -16,7 +16,7 @@ app.get('/', function(req, res)
 });
 
 // Socket variables
-var count;
+var count = 0;
 
 io.sockets.on('connection', function(socket)
 {
@@ -26,7 +26,7 @@ io.sockets.on('connection', function(socket)
     socket.emit('connected');
     
     count++;
-    io.sockets.emit('count', {count: count});
+    io.sockets.emit('stats', {count: count});
     
     socket.on('chat', function(chat)
     {
@@ -38,6 +38,6 @@ io.sockets.on('connection', function(socket)
         console.log('User disconnected');
         count--;
         
-        io.sockets.emit('count', {count: count});
+        io.sockets.emit('stats', {count: count});
     });
 });
