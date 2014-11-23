@@ -29,3 +29,20 @@
 .status {
     transition: all 0.6s;
 }
+
+.video-wrap {
+    text-align: center;
+    padding: 0em 2em;
+    margin-bottom: 6em;
+}
+
+.video {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+.chat-wrap,
+.input-wrap {
+    padding: 0em 2em;
+    margin-bottom: 1em;
+}
