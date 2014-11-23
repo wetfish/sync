@@ -1,7 +1,11 @@
 $(document).ready(function()
 {
     console.log('Hi!');
-    socket = io.connect();
+
+    if(typeof config.websocket != "undefined")
+        socket = io.connect(config.websocket);
+    else
+        socket = io.connect();
 
     socket.on('connected', function()
     {

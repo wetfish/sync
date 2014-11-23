@@ -1,7 +1,15 @@
+var fs = require('fs');
+
+// Todo: These should be config options
+var ssl_options = {
+    key: fs.readFileSync('cert/key.pem'),
+    cert: fs.readFileSync('cert/cert.pem')
+};
+
 // Main application variables
 var express = require('express'),
     app = express(),
-    server = require('http').Server(app),
+    server = require('https').createServer(ssl_options, app),
     io = require('socket.io')(server);
 
 server.listen(2333);    
