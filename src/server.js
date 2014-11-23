@@ -23,6 +23,7 @@ app.get('/:room', function(req, res)
 
 // Socket variables
 var count = 0;
+var channels = {};
 
 io.sockets.on('connection', function(socket)
 {
@@ -32,7 +33,7 @@ io.sockets.on('connection', function(socket)
     socket.emit('connected');
     
     count++;
-    io.sockets.emit('stats', {users: count, channels: Object.keys(io.sockets.adapter.rooms).length});
+    io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
 
     socket.on('join', function(channel)
     {
@@ -46,7 +47,13 @@ io.sockets.on('connection', function(socket)
         socket.join(channel);
         socket.emit('join');
 
-        io.to(channel).emit('stats', {channel: Object.keys(io.sockets.adapter.rooms[channel]).length});
+        if(typeof channels[channel] == "undefined")
+            channels[channel] = 0;
+
+        channels[channel]++;
+
+        io.sockets.emit('stats', {channels: Object.keys(channels).length});
+        io.to(channel).emit('stats', {channel: channels[channel]});
         console.log("User joined "+channel);
     });
     
@@ -59,14 +66,20 @@ io.sockets.on('connection', function(socket)
     {
         console.log('User disconnected');
         count--;
-        
-        io.sockets.emit('stats', {users: count, channels: Object.keys(io.sockets.adapter.rooms).length});
 
         // Leave channel if user joined one
-        if(typeof user.channel != undefined)
+        if(typeof user.channel != "undefined")
         {
+            channels[user.channel]--;
+
+            // If no one is in this channel anymore
+            if(channels[user.channel] == 0)
+                delete channels[user.channel];
+            
             socket.leave(user.channel);
-            io.to(user.channel).emit('stats', {channel: Object.keys(io.sockets.adapter.rooms[user.channel]).length});
+            io.to(user.channel).emit('stats', {channel: channels[user.channel]});
         }
+
+        io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
     });
 });
