@@ -7,16 +7,7 @@
     </head>
 
     <body>
-        <div class="row full-width">
-            <div class="small-2 columns">
-                <h1 class="count">Connecting...</h1>
-            </div>
-
-            <div class="small-10 columns">
-            </div>
-        </div>
-
-        <nav class="bottom-bar top-bar" data-topbar role="navigation">
+        <nav class="top-bar" data-topbar role="navigation">
             <ul class="title-area">
                 <li class="name">
                     <h1><a href="/">Sync</a></h1>
@@ -27,22 +18,36 @@
             </ul>
 
             <section class="top-bar-section">
-                <ul class="left">
-                    <li><a class="channel">#butts</a></li>
+                <ul class="left title">
+                    <li><a class="channel"></a></li>
                 </ul>
 
                 <ul class="right">
-                    <li class="has-dropdown">
-                        <a href="#">Right Button Dropdown</a>
-                        <ul class="dropdown">
-                            <li><a href="#">First link in dropdown</a></li>
-                            <li class="active"><a href="#">Active link in dropdown</a></li>
-                        </ul>
-                    </li>
+                    <li><a class="user"><span class="count">0</span> User<span class="plural">s</span> Online</a></li>
+                    <li><a class="channel">In <span class="count">0</span> Channel<span class="plural">s</span></a></li>
                 </ul>
             </section>
         </nav>
-    
+
+
+        <div class="content">
+            <div class="row">
+                <div class="small-12 columns">
+                    <h1>Welcome to Sync!</h1>
+
+                    <p>
+                        This is a place to share stuff with friends. Maybe try going to a channel?
+                    </p>
+
+                    <ul>
+                        <li><a href="/butts">Butts</a></li>
+                        <li><a href="/wetfish">Wetfish</a></li>
+                        <li><a href="/example">Example</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
         <script src="/socket.io/socket.io.js"></script>
         <script src="/vendor/jquery.min.js"></script>
         <script src="/vendor/foundation/js/foundation.min.js"></script>
