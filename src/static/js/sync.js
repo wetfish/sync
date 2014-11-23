@@ -30,14 +30,24 @@ $(document).ready(function()
 
     socket.on('stats', function(stats)
     {
-        $('.user .count').text(stats.users);
-
         if(typeof stats.users != "undefined")
         {
+            $('.user .count').text(stats.users);
+
             if(stats.users == 1)
                 $('.user .plural').hide();
             else
                 $('.user .plural').show();
+        }
+
+        if(typeof stats.channels != "undefined")
+        {
+            $('.channel .count').text(stats.channels);
+
+            if(stats.channels == 1)
+                $('.channel .plural').hide();
+            else
+                $('.channel .plural').show();
         }
 
         if(typeof stats.channel != "undefined")

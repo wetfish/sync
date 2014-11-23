@@ -32,7 +32,7 @@ io.sockets.on('connection', function(socket)
     socket.emit('connected');
     
     count++;
-    io.sockets.emit('stats', {users: count});
+    io.sockets.emit('stats', {users: count, channels: Object.keys(io.sockets.adapter.rooms).length});
 
     socket.on('join', function(channel)
     {
@@ -60,6 +60,13 @@ io.sockets.on('connection', function(socket)
         console.log('User disconnected');
         count--;
         
-        io.sockets.emit('stats', {users: count});
+        io.sockets.emit('stats', {users: count, channels: Object.keys(io.sockets.adapter.rooms).length});
+
+        // Leave channel if user joined one
+        if(typeof user.channel != undefined)
+        {
+            socket.leave(user.channel);
+            io.to(user.channel).emit('stats', {channel: Object.keys(io.sockets.adapter.rooms[user.channel]).length});
+        }
     });
 });
