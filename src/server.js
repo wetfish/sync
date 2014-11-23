@@ -9,11 +9,12 @@ console.log("Sync Server Started");
 
 app.use(express.static(__dirname + '/static'));
 
-app.get('/', function(req, res)
+app.get('/:room', function(req, res)
 {
     console.log("Home page loaded!");
     res.sendFile(__dirname + '/static/index.html');
 });
+
 
 // Socket variables
 var count = 0;

@@ -1,14 +1,51 @@
 <html>
     <head>
         <title>Sync</title>
+        <link rel="stylesheet" href="/vendor/foundation/css/normalize.css">
+        <link rel="stylesheet" href="/vendor/foundation/css/foundation.min.css">
         <link rel="stylesheet" type="text/css" href="/css/sync.css" />
     </head>
 
     <body>
-        <h1 class="count">Connecting...</h1>
-        
+        <div class="row full-width">
+            <div class="small-2 columns">
+                <h1 class="count">Connecting...</h1>
+            </div>
+
+            <div class="small-10 columns">
+            </div>
+        </div>
+
+        <nav class="bottom-bar top-bar" data-topbar role="navigation">
+            <ul class="title-area">
+                <li class="name">
+                    <h1><a href="/">Sync</a></h1>
+                </li>
+
+                <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+                <li class="toggle-topbar menu-icon"><a href="#"><span>Sync</span></a></li>
+            </ul>
+
+            <section class="top-bar-section">
+                <ul class="left">
+                    <li><a class="channel">#butts</a></li>
+                </ul>
+
+                <ul class="right">
+                    <li class="has-dropdown">
+                        <a href="#">Right Button Dropdown</a>
+                        <ul class="dropdown">
+                            <li><a href="#">First link in dropdown</a></li>
+                            <li class="active"><a href="#">Active link in dropdown</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </section>
+        </nav>
+    
         <script src="/socket.io/socket.io.js"></script>
-        <script src="/js/vendor/jquery.min.js"></script>
+        <script src="/vendor/jquery.min.js"></script>
+        <script src="/vendor/foundation/js/foundation.min.js"></script>
         <script src="/js/sync.js"></script>        
     </body>
 </html>
