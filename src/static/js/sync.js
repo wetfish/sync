@@ -17,14 +17,33 @@ $(document).ready(function()
         }
     });
 
+    socket.on('join', function()
+    {
+        $('.status').removeClass('secondary').addClass('success');
+        $('.status').text("Connected");
+
+        setTimeout(function()
+        {
+            $('.status').css({opacity: 0});
+        }, 2000);
+    });
+
     socket.on('stats', function(stats)
     {
         $('.user .count').text(stats.users);
 
-        if(status.users == 1)
-            $('.user .plural').hide();
-        else
-            $('.user .plural').show();
+        if(typeof stats.users != "undefined")
+        {
+            if(stats.users == 1)
+                $('.user .plural').hide();
+            else
+                $('.user .plural').show();
+        }
+
+        if(typeof stats.channel != "undefined")
+        {
+            $('.channel .count').text(stats.channel);
+        }
     });
 
     socket.on('chat', function(chat)

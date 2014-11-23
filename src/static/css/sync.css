@@ -21,3 +21,11 @@
 .title .channel:before {
     content: '#';
 }
+
+.content {
+    margin-top: 1em;
+}
+
+.status {
+    transition: all 0.6s;
+}
