@@ -33,6 +33,13 @@ app.get('/:room', function(req, res)
 var count = 0;
 var channels = {};
 
+// Thanks MDN
+function random_int(min, max)
+{
+    max++;
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 io.sockets.on('connection', function(socket)
 {
     var user = {};
@@ -51,6 +58,7 @@ io.sockets.on('connection', function(socket)
         // Maybe this is a better idea...
         channel = channel.toString();
         user.channel = channel;
+        user.color = {h: random_int(0, 360), s: random_int(25, 100), l: random_int(25, 50)};
 
         socket.join(channel);
         socket.emit('join');
@@ -67,6 +75,7 @@ io.sockets.on('connection', function(socket)
     
     socket.on('chat', function(chat)
     {
+        chat.color = user.color;
         io.sockets.emit('chat', chat);
     });
 

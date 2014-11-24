@@ -67,6 +67,7 @@ $(document).ready(function()
 
         var template = $('.chat-wrap .template').clone();
         template.find('.user').text(chat.user);
+        template.find('.user').css({color: 'hsl('+chat.color.h+', '+chat.color.s+'%, '+chat.color.l+'%)'});
         template.find('.message').text(chat.message);
 
         template.removeClass('template hide').addClass('chat');
