@@ -2,6 +2,8 @@ $(document).foundation();
 
 $(document).ready(function()
 {
+    var user = {};
+    
     // Socket handling code
     if(typeof config.websocket != "undefined")
         socket = io.connect(config.websocket);
@@ -22,8 +24,11 @@ $(document).ready(function()
         }
     });
 
-    socket.on('join', function()
+    socket.on('join', function(user_data)
     {
+        user = user_data;
+        $('.account').trigger('change');
+
         $('.status').removeClass('secondary').addClass('success');
         $('.status').text("Connected");
 
@@ -85,6 +90,42 @@ $(document).ready(function()
         var message = $(this).find('.message').val();
         $(this).find('.message').val('');
 
-        socket.emit('chat', {'user': 'Anonymous', message: message});
+        socket.emit('chat', {'user': user.name, message: message});
+    });
+
+    $('body').on('submit', '.name-form', function(event)
+    {        
+        event.preventDefault();
+        user.nick = $(this).find('.name').val();
+        user.name = user.nick;
+        
+        $('.account option[value="custom"]').text(user.name);
+        $('.account').trigger('change');
+
+        $('.name-form').hide();
+        $('.input-form').fadeIn();
+    });
+
+    $('body').on('change', '.account', function()
+    {
+        if($(this).val() == "custom")
+        {
+            if(typeof user.nick == "undefined")
+            {
+                $('.input-form').hide();
+                $('.name-form').removeClass('hide').hide().fadeIn();
+            }
+            else
+            {
+                user.name = user.nick;
+            }
+        }
+        else
+        {
+            $('.name-form').hide();
+            $('.input-form').fadeIn();
+
+            user.name = 'Anonymous';
+        }
     });
 });

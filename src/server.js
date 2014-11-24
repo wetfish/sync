@@ -61,7 +61,9 @@ io.sockets.on('connection', function(socket)
         user.color = {h: random_int(0, 360), s: random_int(25, 100), l: random_int(25, 50)};
 
         socket.join(channel);
-        socket.emit('join');
+
+        // Tell the user about itself
+        socket.emit('join', user);
 
         if(typeof channels[channel] == "undefined")
             channels[channel] = 0;

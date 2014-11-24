@@ -51,3 +51,8 @@
     max-height: 12em;
     overflow-y: scroll;
 }
+
+.chat .user {
+    white-space: nowrap;
+    overflow: hidden;
+}
