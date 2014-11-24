@@ -45,25 +45,16 @@
 
             <div class="row chat-wrap">
                 <div class="messages">
-                    <div class="chat">
+                    <div class="template hide">
                         <div class="small-2 columns user">
-                            rachel
+                            Template
                         </div>
 
                         <div class="small-10 columns message">
-                            Hello world how are you doing today
+                            Template
                         </div>
                     </div>
 
-                    <div class="chat">
-                        <div class="small-2 columns user">
-                            Anonymous
-                        </div>
-
-                        <div class="small-10 columns message">
-                            Oh yes fine doing great thanks
-                        </div>
-                    </div>
                 </div>
             </div>
 
@@ -76,13 +67,15 @@
                     </select>
                 </div>
 
-                <div class="small-9 columns">
-                    <input type="text" placeholder="Message" />
-                </div>
+                <form class="input-form">
+                    <div class="small-9 columns">
+                        <input type="text" class="message" placeholder="Message" />
+                    </div>
 
-                <div class="small-1 columns">
-                    <div class="tiny button">Send</div>
-                </div>
+                    <div class="small-1 columns">
+                        <input type="submit" class="tiny button" value="Send">
+                    </div>
+                </form>
             </div>
         </div>
         

@@ -2,8 +2,7 @@ $(document).foundation();
 
 $(document).ready(function()
 {
-    console.log('Hi!');
-
+    // Socket handling code
     if(typeof config.websocket != "undefined")
         socket = io.connect(config.websocket);
     else
@@ -65,5 +64,26 @@ $(document).ready(function()
     socket.on('chat', function(chat)
     {
         console.log("Chat recieved!", chat);
+
+        var template = $('.chat-wrap .template').clone();
+        template.find('.user').text(chat.user);
+        template.find('.message').text(chat.message);
+
+        template.removeClass('template hide').addClass('chat');
+
+        // Append new message to the messages list and scroll to the bottom
+        $('.chat-wrap .messages').append(template);
+        $('.chat-wrap .messages').scrollTop($('.chat-wrap .messages').height());
+    });
+
+    // User triggered behavior
+    $('body').on('submit', '.input-form', function(event)
+    {
+        event.preventDefault();
+
+        var message = $(this).find('.message').val();
+        $(this).find('.message').val('');
+
+        socket.emit('chat', {'user': 'Anonymous', message: message});
     });
 });

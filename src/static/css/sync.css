@@ -46,3 +46,8 @@
     padding: 0em 2em;
     margin-bottom: 1em;
 }
+
+.chat-wrap .messages {
+    max-height: 12em;
+    overflow-y: scroll;
+}
