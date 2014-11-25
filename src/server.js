@@ -7,21 +7,22 @@ var ssl_options = {};
 // Main application variables
 var express = require('express'),
     app = express(),
-    io = require('socket.io')(server);
-
+    server = {};
+    
 if (config.ssl_enabled) 
 {
     ssl_options = {
         key: fs.readFileSync(config.ssl_paths.key),
         cert: fs.readFileSync(config.ssl_paths.cert)
     };
-    var server = require('https').createServer(ssl_options, app);
+    server = require('https').createServer(ssl_options, app);
 }
 else
 {
-    var server = require('http').createServer(app);
+    server = require('http').createServer(app);
 }
 
+var io = require('socket.io')(server);
 
 server.listen(2333);
 console.log("Sync Server Started");
