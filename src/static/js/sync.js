@@ -79,7 +79,9 @@ $(document).ready(function()
 
         // Append new message to the messages list and scroll to the bottom
         $('.chat-wrap .messages').append(template);
-        $('.chat-wrap .messages').scrollTop($('.chat-wrap .messages').height());
+        $('.chat-wrap').scrollTop($('.chat-wrap .messages').height());
+
+console.log($('.chat-wrap .messages').height());
     });
 
     // User triggered behavior

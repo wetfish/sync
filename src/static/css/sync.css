@@ -47,7 +47,7 @@
     margin-bottom: 1em;
 }
 
-.chat-wrap .messages {
+.chat-wrap {
     max-height: 12em;
     overflow-y: scroll;
 }
@@ -55,4 +55,8 @@
 .chat .user {
     white-space: nowrap;
     overflow: hidden;
+}
+
+.chat {
+    clear: both;
 }
