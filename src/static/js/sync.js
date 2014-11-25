@@ -5,7 +5,7 @@ $(document).ready(function()
     var user = {};
     
     // Socket handling code
-    if(typeof config.websocket != "undefined")
+    if(typeof config != "undefined" && typeof config.websocket != "undefined")
         socket = io.connect(config.websocket);
     else
         socket = io.connect();
