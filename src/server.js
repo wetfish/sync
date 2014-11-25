@@ -1,7 +1,6 @@
 var fs = require('fs');
 var config = require('./config.js');
 
-// Todo: These should be config options
 var ssl_options = {};
 
 // Main application variables
