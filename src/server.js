@@ -1,18 +1,29 @@
 var fs = require('fs');
+var config = require('./config.js');
 
 // Todo: These should be config options
-var ssl_options = {
-    key: fs.readFileSync('cert/key.pem'),
-    cert: fs.readFileSync('cert/cert.pem')
-};
+var ssl_options = {};
 
 // Main application variables
 var express = require('express'),
     app = express(),
-    server = require('https').createServer(ssl_options, app),
     io = require('socket.io')(server);
 
-server.listen(2333);    
+if (config.ssl_enabled) 
+{
+    ssl_options = {
+        key: fs.readFileSync(config.ssl_paths.key),
+        cert: fs.readFileSync(config.ssl_paths.cert)
+    };
+    var server = require('https').createServer(ssl_options, app);
+}
+else
+{
+    var server = require('http').createServer(app);
+}
+
+
+server.listen(2333);
 console.log("Sync Server Started");
 
 app.use(express.static(__dirname + '/static'));
