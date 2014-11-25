@@ -80,8 +80,6 @@ $(document).ready(function()
         // Append new message to the messages list and scroll to the bottom
         $('.chat-wrap .messages').append(template);
         $('.chat-wrap').scrollTop($('.chat-wrap .messages').height());
-
-console.log($('.chat-wrap .messages').height());
     });
 
     // User triggered behavior
@@ -106,6 +104,7 @@ console.log($('.chat-wrap .messages').height());
 
         $('.name-form').hide();
         $('.input-form').fadeIn();
+        $('.input-form .message').focus();
     });
 
     $('body').on('change', '.account', function()
@@ -116,6 +115,7 @@ console.log($('.chat-wrap .messages').height());
             {
                 $('.input-form').hide();
                 $('.name-form').removeClass('hide').hide().fadeIn();
+                $('.name-form .name').focus();
             }
             else
             {
