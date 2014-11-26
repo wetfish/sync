@@ -145,13 +145,27 @@ $(document).ready(function()
         $(this).val('Play');
     });
 
+    // Update video position when clicking the progress bar
+    $('body').on('click', '.controls .progress', function(event)
+    {
+        // This is the position we clicked relative to the progress bar
+        var offset = event.clientX - $(this).offset().left;
+
+        // Find the width of the area we clicked
+        var width = (offset / $(this).width()) * 100;
+
+        // Find the time based on the video duration
+        var time = $('.video')[0].duration * (width / 100);
+
+        // Make it so
+        $('.controls .progress .meter').width(width+"%");
+        $('.video')[0].currentTime = time;
+    });
+
     // There's got to be a better way than interval
     setInterval(function()
     {
         var width = (100 / $('.video')[0].duration) * $('.video')[0].currentTime;
-        
         $('.controls .progress .meter').width(width+"%");
-
-        console.log(width, $('.video')[0].duration, $('.video')[0].currentTime);
     }, 100);
 });
