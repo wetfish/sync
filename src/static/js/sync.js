@@ -130,4 +130,18 @@ $(document).ready(function()
             user.name = 'Anonymous';
         }
     });
+
+    $('body').on('click', '.controls .play', function()
+    {
+        $('.video')[0].play();
+        $(this).removeClass('play').addClass('pause');
+        $(this).val('Pause');
+    });
+
+    $('body').on('click', '.controls .pause', function()
+    {
+        $('.video')[0].pause();
+        $(this).removeClass('pause').addClass('play');
+        $(this).val('Play');
+    });
 });
