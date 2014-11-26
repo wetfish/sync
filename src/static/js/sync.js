@@ -144,4 +144,14 @@ $(document).ready(function()
         $(this).removeClass('pause').addClass('play');
         $(this).val('Play');
     });
+
+    // There's got to be a better way than interval
+    setInterval(function()
+    {
+        var width = (100 / $('.video')[0].duration) * $('.video')[0].currentTime;
+        
+        $('.controls .progress .meter').width(width+"%");
+
+        console.log(width, $('.video')[0].duration, $('.video')[0].currentTime);
+    }, 100);
 });

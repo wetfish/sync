@@ -33,7 +33,7 @@
 .video-wrap {
     text-align: center;
     padding: 0em 2em;
-    margin-bottom: 6em;
+    margin-bottom: 0.25em;
 }
 
 .video {
@@ -42,6 +42,7 @@
 }
 
 .chat-wrap,
+.controls,
 .input-wrap {
     padding: 0em 2em;
     margin-bottom: 1em;
