@@ -36,6 +36,11 @@ $(document).ready(function()
         {
             $('.status').css({opacity: 0});
         }, 2000);
+
+        if(user.leader)
+        {
+            $('.leader-only').removeClass('hide');
+        }
     });
 
     socket.on('stats', function(stats)

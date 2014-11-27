@@ -73,16 +73,29 @@ io.sockets.on('connection', function(socket)
 
         socket.join(channel);
 
+        if(typeof channels[channel] == "undefined")
+        {
+            // We should probably store the leader's session ID?
+            channels[channel] = {users: 0, leader: false};
+        }
+
+        // If there is no leader, you get to be a leader!
+        if(!channels[channel].leader)
+        {
+            channels[channel].leader = true;
+
+            // TODO: Leadership should be based on channel
+            user.leader = true;
+        }
+
+        channels[channel].users++;
+
         // Tell the user about itself
         socket.emit('join', user);
 
-        if(typeof channels[channel] == "undefined")
-            channels[channel] = 0;
-
-        channels[channel]++;
-
+        // Emit other statistics
         io.sockets.emit('stats', {channels: Object.keys(channels).length});
-        io.to(channel).emit('stats', {channel: channels[channel]});
+        io.to(channel).emit('stats', {channel: channels[channel].users});
         console.log("User joined "+channel);
     });
     
@@ -100,14 +113,17 @@ io.sockets.on('connection', function(socket)
         // Leave channel if user joined one
         if(typeof user.channel != "undefined")
         {
-            channels[user.channel]--;
+            if(user.leader)
+                channels[user.channel].leader = false;
+                
+            channels[user.channel].users--;
 
             // If no one is in this channel anymore
-            if(channels[user.channel] == 0)
+            if(channels[user.channel].users == 0)
                 delete channels[user.channel];
             
             socket.leave(user.channel);
-            io.to(user.channel).emit('stats', {channel: channels[user.channel]});
+            io.to(user.channel).emit('stats', {channel: channels[user.channel].users});
         }
 
         io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});

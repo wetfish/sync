@@ -61,3 +61,13 @@
 .chat {
     clear: both;
 }
+
+.leader {
+    display: inline-block;
+    cursor: help;
+    text-shadow: 1px 1px 1px #888;
+    color: yellow;
+    font-size: 2em;
+    height: 2em;
+    vertical-align: bottom;
+}
