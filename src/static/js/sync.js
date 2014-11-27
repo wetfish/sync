@@ -3,6 +3,7 @@ $(document).foundation();
 $(document).ready(function()
 {
     var user = {};
+    var video = {};
     
     // Socket handling code
     if(typeof config != "undefined" && typeof config.websocket != "undefined")
@@ -87,6 +88,24 @@ $(document).ready(function()
         $('.chat-wrap').scrollTop($('.chat-wrap .messages').height());
     });
 
+    socket.on('video', function(video)
+    {
+        // If we're not the leader
+        if(!user.leader)
+        {
+            if(video.playing)
+                $('.video')[0].play();
+            else
+                $('.video')[0].pause();
+       }
+    });
+
+    socket.on('time', function(video)
+    {
+        if(!user.leader)
+            $('.video')[0].currentTime = video.time;
+    });
+
     // User triggered behavior
     $('body').on('submit', '.input-form', function(event)
     {
@@ -138,6 +157,12 @@ $(document).ready(function()
 
     $('body').on('click', '.controls .play', function()
     {
+        if(user.leader)
+        {
+            video.playing = true;
+            socket.emit('video', video);
+        }
+        
         $('.video')[0].play();
         $(this).removeClass('play').addClass('pause');
         $(this).val('Pause');
@@ -145,6 +170,12 @@ $(document).ready(function()
 
     $('body').on('click', '.controls .pause', function()
     {
+        if(user.leader)
+        {
+            video.playing = false;
+            socket.emit('video', video);
+        }
+        
         $('.video')[0].pause();
         $(this).removeClass('pause').addClass('play');
         $(this).val('Play');
@@ -165,11 +196,19 @@ $(document).ready(function()
         // Make it so
         $('.controls .progress .meter').width(width+"%");
         $('.video')[0].currentTime = time;
+
+        socket.emit('time', {time: time});
     });
 
     // There's got to be a better way than interval
     setInterval(function()
     {
+        if(user.leader)
+        {
+            video.time = $('.video')[0].currentTime;
+            socket.emit('video', video);
+        }
+        
         var width = (100 / $('.video')[0].duration) * $('.video')[0].currentTime;
         $('.controls .progress .meter').width(width+"%");
     }, 100);

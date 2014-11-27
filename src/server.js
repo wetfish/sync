@@ -76,7 +76,7 @@ io.sockets.on('connection', function(socket)
         if(typeof channels[channel] == "undefined")
         {
             // We should probably store the leader's session ID?
-            channels[channel] = {users: 0, leader: false};
+            channels[channel] = {users: 0, leader: false, video: {}};
         }
 
         // If there is no leader, you get to be a leader!
@@ -84,7 +84,7 @@ io.sockets.on('connection', function(socket)
         {
             channels[channel].leader = true;
 
-            // TODO: Leadership should be based on channel
+            // TODO: Leadership should be based on channel, in case a user joins multiple?
             user.leader = true;
         }
 
@@ -92,6 +92,7 @@ io.sockets.on('connection', function(socket)
 
         // Tell the user about itself
         socket.emit('join', user);
+        socket.emit('time', channels[channel].video);
 
         // Emit other statistics
         io.sockets.emit('stats', {channels: Object.keys(channels).length});
@@ -103,6 +104,25 @@ io.sockets.on('connection', function(socket)
     {
         chat.color = user.color;
         io.sockets.emit('chat', chat);
+    });
+
+    socket.on('video', function(video)
+    {
+        // Only listen to leaders
+        if(user.leader)
+        {
+            channels[user.channel].video = video;
+            io.to(user.channel).emit('video', video);
+        }
+    });
+
+    socket.on('time', function(video)
+    {
+        if(user.leader)
+        {
+            channels[user.channel].video.time = video.time;
+            io.to(user.channel).emit('time', video);
+        }
     });
 
     socket.on('disconnect', function()
