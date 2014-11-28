@@ -39,7 +39,7 @@
                 
                 <div class="small-12 columns video-wrap">
                     <video class="video">
-                        <source src="/video/sample2.mp4" type="video/mp4">
+                        <source src="/video/sample-sd.mp4" type="video/mp4">
                     </video>
                 </div>
             </div>
@@ -97,6 +97,15 @@
                 </form>
             </div>
         </div>
+
+        <a href="#" data-reveal-id="android-modal" class="android-modal hide"></a>
+
+        <div id="android-modal" class="reveal-modal" data-reveal>
+            <h2>Hello, android!</h2>
+            <p class="lead">We've detected you're using android.</p>
+            <p>Android doesn't let javascript control HTML5 video/audio elements unless they are triggered by a user action first. Please click anywhere on the page to enable Sync.</p>
+            <a class="close-reveal-modal">&#215;</a>
+        </div>
         
         <script src="/socket.io/socket.io.js"></script>
         <script src="/vendor/jquery.min.js"></script>
@@ -104,6 +113,6 @@
 
         <!-- Optional client-side config options -->
         <script src="/js/config.js"></script>
-        <script src="/js/sync.js"></script>        
+        <script src="/js/sync.js"></script>
     </body>
 </html>

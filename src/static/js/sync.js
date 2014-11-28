@@ -212,4 +212,24 @@ $(document).ready(function()
         var width = (100 / $('.video')[0].duration) * $('.video')[0].currentTime;
         $('.controls .progress .meter').width(width+"%");
     }, 100);
+
+
+    // If the user is running android, show a modal to capture their click event
+    var ua = navigator.userAgent.toLowerCase();
+    var android = ua.indexOf("android") > -1;
+    if(android)
+    {
+        $('.android-modal').trigger('click');
+
+        $('body').on('click.android', function()
+        {
+            // Unbind this event since it only needs to be used once
+            $('body').off('click.android');
+
+            $('.reveal-modal .close-reveal-modal').trigger('click');
+            
+            $('.video')[0].play();
+            $('.video')[0].pause();
+        });
+    }
 });

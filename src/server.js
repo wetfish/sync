@@ -138,12 +138,12 @@ io.sockets.on('connection', function(socket)
                 
             channels[user.channel].users--;
 
+            socket.leave(user.channel);
+            io.to(user.channel).emit('stats', {channel: channels[user.channel].users});
+
             // If no one is in this channel anymore
             if(channels[user.channel].users == 0)
                 delete channels[user.channel];
-            
-            socket.leave(user.channel);
-            io.to(user.channel).emit('stats', {channel: channels[user.channel].users});
         }
 
         io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
