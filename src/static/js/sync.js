@@ -88,8 +88,10 @@ $(document).ready(function()
         $('.chat-wrap').scrollTop($('.chat-wrap .messages').height());
     });
 
-    socket.on('video', function(video)
+    socket.on('video', function(input)
     {
+        video = input;
+        
         // If we're not the leader
         if(!user.leader)
         {
@@ -100,8 +102,10 @@ $(document).ready(function()
        }
     });
 
-    socket.on('time', function(video)
+    socket.on('time', function(input)
     {
+        video = input;
+        
         if(!user.leader)
             $('.video')[0].currentTime = video.time;
     });
@@ -203,6 +207,12 @@ $(document).ready(function()
     // There's got to be a better way than interval
     setInterval(function()
     {
+        // Update debug info
+        var client = {time: $('.video')[0].currentTime, playing: ($('.video')[0].paused) ? false: true};
+
+        $('.debug .server').text(JSON.stringify(video));
+        $('.debug .client').text(JSON.stringify(client));
+        
         if(user.leader)
         {
             video.time = $('.video')[0].currentTime;
@@ -232,4 +242,24 @@ $(document).ready(function()
             $('.video')[0].pause();
         });
     }
+
+    // All media events (for debugging and stuff)
+    $('.video').on('loadstart progress suspend abort error emptied stalled loadedmetadata loadeddata canplay canplaythrough playing waiting seeking seeked ended durationchange timeupdate play pause ratechange resize volumechange', function(event)
+    {
+        // Ignore these for now
+        if(event.type != 'timeupdate')
+        {
+            console.log(event.type);
+            console.log(event);
+        }
+    });
+
+    $('.video').on('playing', function()
+    {
+        if(Math.abs($('.video')[0].currentTime - video.time) > 0.1)
+        {
+            console.log('oh no');
+//            $('.video')[0].currentTime = video.time;
+        }
+    });
 });
