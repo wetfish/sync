@@ -7,18 +7,16 @@ $(document).ready(function()
 
     function display(track)
     {
-        var template = $('.video').clone();
-
         // Include autoplay param when the video is playing
-        template.prop('autoplay', video.playing);
+        $('.video').prop('autoplay', video.playing);
         
         if(typeof track.media.mp4 != "undefined")
         {
-            template.html('');
-            template.append('<source src="'+track.media.mp4+'" type="video/mp4"></source>');
+            $('.video').html('');
+            $('.video').append('<source src="'+track.media.mp4+'" type="video/mp4"></source>');
         }
 
-        $('.video').replaceWith(template);
+        $('.video').load();
     }
 
     // Playlist stuff
@@ -128,7 +126,12 @@ $(document).ready(function()
         video = input;
         
         if(!user.leader)
+        {
             $('.video')[0].currentTime = video.time;
+
+            // Make sure the video is playing
+            $('.video')[0].play();
+        }
     });
 
     // User triggered behavior
