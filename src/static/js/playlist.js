@@ -26,10 +26,10 @@ var playlist =
 
     next: function()
     {
-        playlist.index--;
+        playlist.index++;
 
-        if(playlist.index < 0)
-            playlist.index = playlist.legnth -1;
+        if(playlist.index >= playlist.length)
+            playlist.index = 0;
 
         return playlist.playing();
     },

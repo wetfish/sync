@@ -7,11 +7,18 @@ $(document).ready(function()
 
     function display(track)
     {
+        var template = $('.video').clone();
+
+        // Include autoplay param when the video is playing
+        template.prop('autoplay', video.playing);
+        
         if(typeof track.media.mp4 != "undefined")
         {
-            $('.video').html('');
-            $('.video').append('<source src="'+track.media.mp4+'" type="video/mp4"></source>');
+            template.html('');
+            template.append('<source src="'+track.media.mp4+'" type="video/mp4"></source>');
         }
+
+        $('.video').replaceWith(template);
     }
 
     // Playlist stuff
@@ -234,6 +241,13 @@ $(document).ready(function()
         
         var width = (100 / $('.video')[0].duration) * $('.video')[0].currentTime;
         $('.controls .progress .meter').width(width+"%");
+    });
+
+    // Autoplay the next video
+    $('.video').on('ended', function()
+    {
+        playlist.next();
+        display(playlist.playing());
     });
 
     // If the user is running android, show a modal to capture their click event
