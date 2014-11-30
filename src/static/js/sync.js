@@ -218,8 +218,7 @@ $(document).ready(function()
         socket.emit('time', {time: time});
     });
 
-    // There's got to be a better way than interval
-    setInterval(function()
+    $('.video').on('timeupdate', function()
     {
         // Update debug info
         var client = {time: $('.video')[0].currentTime, playing: ($('.video')[0].paused) ? false: true};
@@ -235,8 +234,7 @@ $(document).ready(function()
         
         var width = (100 / $('.video')[0].duration) * $('.video')[0].currentTime;
         $('.controls .progress .meter').width(width+"%");
-    }, 100);
-
+    });
 
     // If the user is running android, show a modal to capture their click event
     var ua = navigator.userAgent.toLowerCase();
