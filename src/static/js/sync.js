@@ -4,6 +4,20 @@ $(document).ready(function()
 {
     var user = {};
     var video = {};
+
+    function display(track)
+    {
+        if(typeof track.media.mp4 != "undefined")
+        {
+            $('.video').html('');
+            $('.video').append('<source src="'+track.media.mp4+'" type="video/mp4"></source>');
+        }
+    }
+
+    // Playlist stuff
+    var current = playlist.playing();
+    display(current);
+    
     
     // Socket handling code
     if(typeof config != "undefined" && typeof config.websocket != "undefined")
