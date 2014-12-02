@@ -30,3 +30,6 @@ node_modules
 config.js
 cert
 video
+
+# Ignore the login repo
+login
