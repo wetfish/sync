@@ -1,0 +1,98 @@
+Server started
+Pages displayed in express
+
+Break everything into hogan
+
+What pages are there?
+- /
+- /login
+- /logout
+- /create
+- /c/:channel
+- /u/:user
+
+Pages are places with URLs
+All other information is sent over sockets
+
+
+Socket events list
+- server/connect
+- server/disconnect
+
+- user/connect
+- user/disconnect
+- user/name
+- user/color
+- user/profile
+
+- channel/connect
+- channel/disconnect
+- channel/users
+- channel/playlist
+- channel/chat
+- channel/options
+- channel/video
+
+- playlist/create
+- playlist/delete
+- playlist/save
+- playlist/get
+
+
+
+App flow
+1. User loads home page
+2. socket.io connects to the server
+3. Statistics updated, everything else is static
+
+
+1. User 1 loads channel page
+2. socket.io connects to the server
+3. server says "yay you did it!"
+4. client joins channel
+5. server checks to make sure the channel exists
+6. server checks the channel's permissions
+7. server says "yay you did it!"
+8. server sends additional channel data (updates stats, sends users, playlist, and current track info)
+9. client says "add this video to the playlist"
+10. client says "play this video"
+
+
+server -> channel -> playlist
+                  -> track
+
+
+MySQL database
+- Users
+- Channels
+- Playlists
+
+Redis used for caching data in sessions
+
+Some socket events, annotated
+- server/connect
+ - Called whenever someone connects to the websocket server
+ - Initializes the socket
+ - Loads all other socket event handlers
+ - Updates basic user statistics
+
+- server/disconnect
+ - Updates basic user statistics
+ - Cleans up user data
+ 
+- user/connect
+ - Sets up basic user object
+ - Generates random user color
+ - Generates random anonymous color
+
+- user/disconnect
+ - Destroys all user data (log out)
+ 
+- user/name
+ - Saves a name for the user
+
+- user/color
+ - Saves a color for the user
+
+ 
+
