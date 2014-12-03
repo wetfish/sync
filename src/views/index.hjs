@@ -1,0 +1,21 @@
+{{> head}}
+    {{> header}}
+
+    <div class="content">
+        <div class="row">
+            <div class="small-12 columns">
+                <h1>Welcome to Sync!</h1>
+
+                <p>
+                    This is a place to share stuff with friends. Maybe try going to a channel?
+                </p>
+
+                <ul>
+                    <li><a href="/butts">Butts</a></li>
+                    <li><a href="/wetfish">Wetfish</a></li>
+                    <li><a href="/example">Example</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+{{> foot}}

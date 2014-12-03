@@ -1,0 +1,22 @@
+<nav class="top-bar" data-topbar role="navigation">
+    <ul class="title-area">
+        <li class="name">
+            <h1><a href="/">Sync</a></h1>
+        </li>
+
+        <!-- Remove the class "menu-icon" to get rid of menu icon. Take out "Menu" to just have icon alone -->
+        <li class="toggle-topbar menu-icon"><a href="#"><span>Sync</span></a></li>
+    </ul>
+
+    <section class="top-bar-section">
+        <ul class="left title">
+            <li><a class="channel"></a></li>
+        </ul>
+
+        <ul class="right">
+            <li><a class="user"><span class="count">0</span> User<span class="plural">s</span> Online</a></li>
+            <li><a class="channel">In <span class="count">0</span> Channel<span class="plural">s</span></a></li>
+            <li><a href="/login">Login</a></li>
+        </ul>
+    </section>
+</nav>

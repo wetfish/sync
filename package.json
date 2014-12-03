@@ -6,6 +6,7 @@
   "dependencies" : {
     "jquery": "*",
     "express": "*",
+    "hjs": "*",
     "express-session": "*",
     "connect-redis": "*",
     "socket.io": "*"

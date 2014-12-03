@@ -6,7 +6,8 @@ var ssl_options = {};
 // Main application variables
 var express = require('express'),
     app = express(),
-    server = {};
+    server = {},
+    model = {};
     
 if (config.ssl_enabled) 
 {
@@ -26,13 +27,20 @@ var io = require('socket.io')(server);
 server.listen(2333);
 console.log("Sync Server Started");
 
-app.use(express.static(__dirname + '/static'));
 
-app.get('/', function(req, res)
+app.set('views', __dirname + '/views');
+app.set('view engine', 'hjs');
+
+// Required variables routes need access to
+var required = {app: app, model: model};
+var routes = ['index', 'login', 'logout', 'channel', 'user'];
+
+routes.map(function(route)
 {
-    console.log("Home page loaded!");
-    res.sendFile(__dirname + '/static/index.html');
+    require(__dirname + '/routes/'+route+'.js')(required);
 });
+
+app.use(express.static(__dirname + '/static'));
 
 app.get('/:room', function(req, res)
 {
