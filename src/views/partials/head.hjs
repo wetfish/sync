@@ -4,6 +4,7 @@
         <title>Sync</title>
         <link rel="stylesheet" href="/vendor/foundation/css/normalize.css">
         <link rel="stylesheet" href="/vendor/foundation/css/foundation.min.css">
+        <link rel="stylesheet" href="/vendor/foundation/css/foundation-icons.css">
         <link rel="stylesheet" type="text/css" href="/css/sync.css" />
     </head>
 

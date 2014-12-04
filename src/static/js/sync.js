@@ -32,9 +32,9 @@ $(document).ready(function()
 
     socket.on('connected', function()
     {
-        var channel = window.location.pathname.substr(1);
+        var channel = $('#channel').val();
 
-        if(channel.length)
+        if(typeof channel != "undefined")
         {
             $('.title .channel').text(channel);
             $('.title .channel').css({opacity: 1});

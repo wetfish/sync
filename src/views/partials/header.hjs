@@ -15,7 +15,15 @@
 
         <ul class="right">
             <li><a class="user"><span class="count">0</span> User<span class="plural">s</span> Online</a></li>
-            <li><a class="channel">In <span class="count">0</span> Channel<span class="plural">s</span></a></li>
+
+            {{#channel}}
+                <li><a class="channel"><span class="count">0</span> In This Channel</a></li>
+            {{/channel}}
+
+            {{^channel}}
+                <li><a class="channel">In <span class="count">0</span> Channel<span class="plural">s</span></a></li>
+            {{/channel}}
+            
             <li><a href="/login">Login</a></li>
         </ul>
     </section>

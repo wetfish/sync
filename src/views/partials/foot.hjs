@@ -9,6 +9,12 @@
 
         <!-- Optional client-side config options -->
         <script src="/js/config.js"></script>
-        <script src="/js/sync.js"></script>        
+
+        <!-- Plugins -->
+        <script src="/js/playlist.js"></script>
+        <script src="/js/playlist-example.js"></script>
+
+        <!-- Sync! -->
+        <script src="/js/sync.js"></script>
     </body>
 </html>

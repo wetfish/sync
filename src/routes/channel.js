@@ -10,6 +10,7 @@ module.exports = function(required)
     {
         console.log("GET: /c/:channel");
         res.render('channel', {
+            channel: req.params.channel,
             partials: {
                 head: 'partials/head',
                 header: 'partials/header',
