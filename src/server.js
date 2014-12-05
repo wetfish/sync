@@ -1,5 +1,8 @@
 var fs = require('fs');
-var config = require('./config.js');
+var config = require('./config');
+var login = require("../login/sdk/server/wetfish-login");
+
+login.init(config.login);
 
 var ssl_options = {};
 
@@ -9,7 +12,7 @@ var express = require('express'),
     server = {},
     model = {};
     
-if (config.ssl_enabled) 
+if(config.ssl_enabled) 
 {
     ssl_options = {
         key: fs.readFileSync(config.ssl_paths.key),
@@ -32,7 +35,7 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'hjs');
 
 // Required variables routes need access to
-var required = {app: app, model: model};
+var required = {app: app, model: model, login: login};
 var routes = ['index', 'login', 'logout', 'channel', 'user'];
 
 routes.map(function(route)

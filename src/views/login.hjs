@@ -1,0 +1,13 @@
+{{> head}}
+    {{> header}}
+
+    <div class="content">
+        <div class="row">
+            {{#alert}}
+                <div data-alert class="alert-box {{class}}">
+                    {{message}}
+                </div>
+            {{/alert}}
+        </div>
+    </div>
+{{> foot}}

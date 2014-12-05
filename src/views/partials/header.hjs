@@ -24,7 +24,7 @@
                 <li><a class="channel">In <span class="count">0</span> Channel<span class="plural">s</span></a></li>
             {{/channel}}
             
-            <li><a href="/login">Login</a></li>
+            <li><a href="https://login.wetfish.net/apps/join/138b5afe22fe4cd2371492ad22c0071bf54bdf6f55f71e46dfc48ab47f9ea716">Login</a></li>
         </ul>
     </section>
 </nav>
