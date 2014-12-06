@@ -7,6 +7,9 @@
     "jquery": "*",
     "express": "*",
     "hjs": "*",
+    "redis": "*",
+    "mysql": "*",
+    "async": "*",
     "express-session": "*",
     "connect-redis": "*",
     "socket.io": "*"

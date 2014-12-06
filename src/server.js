@@ -1,17 +1,22 @@
-var fs = require('fs');
+// Required local packages
 var config = require('./config');
+var model = require('./model');
 var login = require("../login/sdk/server/wetfish-login");
 
-login.init(config.login);
+// Required node packages
+var fs = require('fs');
 
-var ssl_options = {};
+// Required packages from npm
+var express = require('express');
+var session = require('express-session');
+var RedisStore = require('connect-redis')(session);
 
 // Main application variables
-var express = require('express'),
-    app = express(),
-    server = {},
-    model = {};
-    
+var app = express();
+var ssl_options = {};
+var server = {};
+
+
 if(config.ssl_enabled) 
 {
     ssl_options = {
@@ -30,6 +35,16 @@ var io = require('socket.io')(server);
 server.listen(2333);
 console.log("Sync Server Started");
 
+login.init(config.login);
+
+// Connect to redis and MySQL
+model.connect(config);
+
+// Use the existing connection for session data
+app.use(session({
+    store: new RedisStore({client: model.redis}),
+    secret: config.session.secret
+}));
 
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hjs');
