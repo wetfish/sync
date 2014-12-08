@@ -10,6 +10,7 @@ module.exports = function(required)
     {
         console.log("GET: /");
         res.render('index', {
+            session: req.session,
             partials: {
                 head: 'partials/head',
                 header: 'partials/header',

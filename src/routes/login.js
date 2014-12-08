@@ -4,6 +4,7 @@ var action = new events.EventEmitter();
 action.on('render', function(req, res, data)
 {
     res.render('login', {
+        session: req.session,
         alert: data.alert,
         partials: {
             head: 'partials/head',

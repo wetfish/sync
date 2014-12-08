@@ -6,10 +6,11 @@ module.exports = function(required)
     app = required.app;
     model = required.model;
 
-    app.get('/logut', function(req, res)
+    app.get('/logout', function(req, res)
     {
         console.log("GET: /logout");
         res.render('logout', {
+            session: req.session,
             partials: {
                 head: 'partials/head',
                 header: 'partials/header',

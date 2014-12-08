@@ -10,6 +10,7 @@ module.exports = function(required)
     {
         console.log("GET: /u/:user");
         res.render('user', {
+            session: req.session,
             partials: {
                 head: 'partials/head',
                 header: 'partials/header',
