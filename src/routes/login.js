@@ -1,3 +1,18 @@
+var events = require('events')
+var action = new events.EventEmitter();
+
+action.on('render', function(req, res, data)
+{
+    res.render('login', {
+        alert: data.alert,
+        partials: {
+            head: 'partials/head',
+            header: 'partials/header',
+            foot: 'partials/foot'
+        }
+    });
+});
+
 var app = false;
 var model = false;
 var login = false;
@@ -12,6 +27,14 @@ module.exports = function(required)
     {
         console.log("GET: /login");
         var alert = {};
+
+        if(typeof req.session.login != "undefined")
+        {
+            alert.class = "alert";
+            alert.message = "You're already logged in!";
+            action.emit('render', req, res, {alert: alert});
+            return;
+        }
         
         login.verify(req.query.token, function(verified)
         {
@@ -19,23 +42,18 @@ module.exports = function(required)
             {
                 alert.class = "success";
                 alert.message = "You have successfully logged in";
+                req.session.login = verified.data;
             }
             else
             {
                 alert.class = "alert";
                 alert.message = "Unable to login: " + verified.message;
+
+                // Make sure no login session data exists
+                delete(req.session.login);
             }
 
-            console.log(verified.data);
-
-            res.render('login', {
-                alert: alert,
-                partials: {
-                    head: 'partials/head',
-                    header: 'partials/header',
-                    foot: 'partials/foot'
-                }
-            });
+            action.emit('render', req, res, {alert: alert});
         });
     });
 }
