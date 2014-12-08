@@ -60,12 +60,6 @@ routes.map(function(route)
 
 app.use(express.static(__dirname + '/static'));
 
-app.get('/:room', function(req, res)
-{
-    console.log("Room loaded!");
-    res.sendFile(__dirname + '/static/sync.html');
-});
-
 // Socket variables
 var count = 0;
 var channels = {};
