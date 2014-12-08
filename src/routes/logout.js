@@ -8,6 +8,8 @@ module.exports = function(required)
 
     app.get('/logout', function(req, res)
     {
+        req.session.destroy();
+        
         console.log("GET: /logout");
         res.render('logout', {
             session: req.session,

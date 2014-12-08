@@ -1,0 +1,11 @@
+{{> head}}
+    {{> header}}
+
+    <div class="content">
+        <div class="row">
+            <div data-alert class="alert-box success">
+                You are now logged out
+            </div>
+        </div>
+    </div>
+{{> foot}}
