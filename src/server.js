@@ -61,7 +61,7 @@ routes.map(function(route)
 app.use(express.static(__dirname + '/static'));
 
 // Socket variables
-var count = 0;
+var stats = {count: 0};
 var channels = {};
 
 io.sockets.on('connection', function(socket)
@@ -69,7 +69,7 @@ io.sockets.on('connection', function(socket)
     var user = {};
 
     // Required variables events need access to
-    var required = {io: io, socket: socket, user: user, channels: channels, count: count};
+    var required = {io: io, socket: socket, user: user, channels: channels, stats: stats};
     var events = ['join', 'chat', 'video', 'time', 'disconnect'];
 
     events.map(function(event)
@@ -80,6 +80,6 @@ io.sockets.on('connection', function(socket)
     console.log('User connected');
     socket.emit('connected');
     
-    count++;
-    io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
+    stats.count++;
+    io.sockets.emit('stats', {users: stats.count, channels: Object.keys(channels).length});
 });

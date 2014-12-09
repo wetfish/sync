@@ -1,7 +1,8 @@
+var io = false;
 var socket = false;
 var user = false;
 var channels = false;
-var count = false;
+var stats = false;
 
 module.exports = function(required)
 {
@@ -9,12 +10,12 @@ module.exports = function(required)
     socket = required.socket;
     user = required.user;
     channels = required.channels;
-    count = required.count;
-    
+    stats = required.stats;
+
     socket.on('disconnect', function()
     {
         console.log('User disconnected');
-        count--;
+        stats.count--;
 
         // Leave channel if user joined one
         if(typeof user.channel != "undefined")
@@ -32,6 +33,6 @@ module.exports = function(required)
                 delete channels[user.channel];
         }
 
-        io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
+        io.sockets.emit('stats', {users: stats.count, channels: Object.keys(channels).length});
     });
 }
