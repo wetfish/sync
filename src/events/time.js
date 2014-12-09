@@ -9,9 +9,12 @@ module.exports = function(required)
     user = required.user;
     channels = required.channels;
     
-    socket.on('chat', function(chat)
+    socket.on('time', function(video)
     {
-        chat.color = user.color;
-        io.sockets.emit('chat', chat);
+        if(user.leader)
+        {
+            channels[user.channel].video.time = video.time;
+            io.to(user.channel).emit('time', video);
+        }
     });
 }

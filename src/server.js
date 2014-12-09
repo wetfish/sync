@@ -64,21 +64,13 @@ app.use(express.static(__dirname + '/static'));
 var count = 0;
 var channels = {};
 
-// Thanks MDN
-function random_int(min, max)
-{
-    max++;
-    return Math.floor(Math.random() * (max - min)) + min;
-}
-
 io.sockets.on('connection', function(socket)
 {
     var user = {};
-    var channels = {};
 
     // Required variables events need access to
-    var required = {socket: socket, user: user, channels: channels};
-    var events = ['join'] //, 'chat', 'video', 'time', 'disconnect'];
+    var required = {io: io, socket: socket, user: user, channels: channels, count: count};
+    var events = ['join', 'chat', 'video', 'time', 'disconnect'];
 
     events.map(function(event)
     {
@@ -90,53 +82,4 @@ io.sockets.on('connection', function(socket)
     
     count++;
     io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
-    
-    socket.on('chat', function(chat)
-    {
-        chat.color = user.color;
-        io.sockets.emit('chat', chat);
-    });
-
-    socket.on('video', function(video)
-    {
-        // Only listen to leaders
-        if(user.leader)
-        {
-            channels[user.channel].video = video;
-            io.to(user.channel).emit('video', video);
-        }
-    });
-
-    socket.on('time', function(video)
-    {
-        if(user.leader)
-        {
-            channels[user.channel].video.time = video.time;
-            io.to(user.channel).emit('time', video);
-        }
-    });
-
-    socket.on('disconnect', function()
-    {
-        console.log('User disconnected');
-        count--;
-
-        // Leave channel if user joined one
-        if(typeof user.channel != "undefined")
-        {
-            if(user.leader)
-                channels[user.channel].leader = false;
-                
-            channels[user.channel].users--;
-
-            socket.leave(user.channel);
-            io.to(user.channel).emit('stats', {channel: channels[user.channel].users});
-
-            // If no one is in this channel anymore
-            if(channels[user.channel].users == 0)
-                delete channels[user.channel];
-        }
-
-        io.sockets.emit('stats', {users: count, channels: Object.keys(channels).length});
-    });
 });

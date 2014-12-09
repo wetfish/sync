@@ -2,8 +2,16 @@ var socket = false;
 var user = false;
 var channels = false;
 
+// Thanks MDN
+function random_int(min, max)
+{
+    max++;
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
 module.exports = function(required)
 {
+    io = required.io;
     socket = required.socket;
     user = required.user;
     channels = required.channels;

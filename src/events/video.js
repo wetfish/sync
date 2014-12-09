@@ -9,9 +9,13 @@ module.exports = function(required)
     user = required.user;
     channels = required.channels;
     
-    socket.on('chat', function(chat)
+    socket.on('video', function(video)
     {
-        chat.color = user.color;
-        io.sockets.emit('chat', chat);
+        // Only listen to leaders
+        if(user.leader)
+        {
+            channels[user.channel].video = video;
+            io.to(user.channel).emit('video', video);
+        }
     });
 }
