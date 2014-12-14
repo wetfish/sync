@@ -4,11 +4,33 @@
     <div class="content">
         <div class="row">
             <div class="small-12 columns">
-                <h1>Welcome to Sync!</h1>
+                <h1>Create a Channel</h1>
 
-                <p>
-                    HEY THERE
-                </p>
+
+                <form>
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <label>Channel Name</label>
+                            <input type="text" placeholder="Super Fun Room!" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <label>Channel URL</label>
+                            <input type="text" placeholder="superfun" />
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="small-6 columns">
+                            <label>URL Preview</label>
+                            <input type="text" placeholder="https://sync.wetfish.net/c/superfun" readonly />
+                        </div>
+                    </div>
+
+                    <input type="submit" class="button" value="Create">
+                </form>
             </div>
         </div>
     </div>
