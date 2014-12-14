@@ -16,5 +16,6 @@
 
         <!-- Sync! -->
         <script src="/js/sync.js"></script>
+        <script src="/js/channel/create.js"></script>
     </body>
 </html>
