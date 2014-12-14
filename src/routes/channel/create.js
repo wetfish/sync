@@ -22,6 +22,6 @@ module.exports = function(required)
     app.post('/create', function(req, res)
     {
         console.log("GET: /create");
-        res.end(JSON.stringify(req.query, null, 4));
+        res.end(JSON.stringify(req.body, null, 4));
     });
 }

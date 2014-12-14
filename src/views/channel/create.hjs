@@ -11,14 +11,14 @@
                     <div class="row">
                         <div class="small-6 columns">
                             <label>Channel Name</label>
-                            <input type="text" placeholder="Super Fun Room!" />
+                            <input type="text" name="name" placeholder="Super Fun Room!" />
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="small-6 columns">
                             <label>Channel URL</label>
-                            <input type="text" class="url" placeholder="superfun" />
+                            <input type="text" name="url" class="url" placeholder="superfun" />
                         </div>
                     </div>
 

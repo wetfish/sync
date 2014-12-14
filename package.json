@@ -12,7 +12,8 @@
     "async": "*",
     "express-session": "*",
     "connect-redis": "*",
-    "socket.io": "*"
+    "socket.io": "*",
+    "body-parser": "*"
   },
   "license": "MIT"
 }
