@@ -51,7 +51,7 @@ app.set('view engine', 'hjs');
 
 // Required variables routes need access to
 var required = {app: app, model: model, login: login};
-var routes = ['index', 'login', 'logout', 'channel', 'user'];
+var routes = ['index', 'login', 'logout', 'channel', 'user', 'channel/create'];
 
 routes.map(function(route)
 {
