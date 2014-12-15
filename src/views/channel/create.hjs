@@ -4,33 +4,40 @@
     <div class="content">
         <div class="row">
             <div class="small-12 columns">
-                <h1>Create a Channel</h1>
-
-
-                <form class="create-channel" method="post">
-                    <div class="row">
-                        <div class="small-6 columns">
-                            <label>Channel Name</label>
-                            <input type="text" name="name" placeholder="Super Fun Room!" />
-                        </div>
+                {{#alert}}
+                    <div data-alert class="alert-box {{class}}">
+                        {{message}}
                     </div>
+                {{/alert}}
 
-                    <div class="row">
-                        <div class="small-6 columns">
-                            <label>Channel URL</label>
-                            <input type="text" name="url" class="url" placeholder="superfun" />
+                {{^alert}}
+                    <h1>Create a Channel</h1>
+                
+                    <form class="create-channel" method="post">
+                        <div class="row">
+                            <div class="small-6 columns">
+                                <label>Channel Name</label>
+                                <input type="text" name="name" placeholder="Super Fun Room!" />
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="row">
-                        <div class="small-6 columns">
-                            <label>URL Preview</label>
-                            <input type="text" class="preview" placeholder="https://sync.wetfish.net/c/superfun" readonly />
+                        <div class="row">
+                            <div class="small-6 columns">
+                                <label>Channel URL</label>
+                                <input type="text" name="url" class="url" placeholder="superfun" />
+                            </div>
                         </div>
-                    </div>
 
-                    <input type="submit" class="button" value="Create">
-                </form>
+                        <div class="row">
+                            <div class="small-6 columns">
+                                <label>URL Preview</label>
+                                <input type="text" class="preview" placeholder="https://sync.wetfish.net/c/superfun" readonly />
+                            </div>
+                        </div>
+
+                        <input type="submit" class="button" value="Create">
+                    </form>
+                {{/alert}}
             </div>
         </div>
     </div>
