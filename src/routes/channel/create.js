@@ -3,6 +3,9 @@ var action = new events.EventEmitter();
 
 action.on('render', function(req, res, data)
 {
+    if(typeof data == "undefined")
+        data = {};
+    
     res.render('channel/create', {
         session: req.session,
         alert: data.alert,
