@@ -53,6 +53,12 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.set('views', __dirname + '/views');
 app.set('view engine', 'hjs');
 
+app.use(function(req, res, next)
+{
+    console.log(req.sessionID + " - " + req.method + " - " + req.url)
+    next();
+});
+
 // Required variables routes need access to
 var required = {app: app, model: model, login: login};
 var routes = ['index', 'login', 'logout', 'channel', 'user', 'channel/create'];
