@@ -90,6 +90,14 @@ var model =
         }
 
         return equal;
+    },
+
+    user:
+    {
+        login: function(data, callback)
+        {
+            model.mysql.query("Insert into `users` set ?", data, callback);
+        }
     }
 };
 

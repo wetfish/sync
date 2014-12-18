@@ -47,6 +47,15 @@ module.exports = function(required)
                 alert.class = "success";
                 alert.message = "You have successfully logged in";
                 req.session.login = verified.data;
+
+                var user_data =
+                {
+                    fish_id: verified.data.user_id,
+                    username: verified.data.user_name,
+                    email: verified.data.user_email
+                };
+                
+                model.user.login(user_data, function(error, response) {});
             }
             else
             {

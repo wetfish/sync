@@ -8,8 +8,9 @@ CREATE TABLE IF NOT EXISTS `channels` (
 
 CREATE TABLE IF NOT EXISTS `users` (
   `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `fish_id` int(11) NOT NULL,
+  `fish_id` varchar(64) NOT NULL,
   `username` varchar(32) NOT NULL,
   `email` varchar(254) NOT NULL,
-  PRIMARY KEY (`user_id`)
+  PRIMARY KEY (`user_id`),
+  UNIQUE KEY `fish_id` (`fish_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
