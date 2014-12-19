@@ -27,8 +27,6 @@ module.exports = function(required)
 
     app.get('/create', function(req, res)
     {
-        console.log("GET: /create");
-
         if(typeof req.session.login == "undefined")
         {
             var alert = {class: 'alert', message: 'You must login to create a channel.'};
@@ -42,7 +40,38 @@ module.exports = function(required)
 
     app.post('/create', function(req, res)
     {
-        console.log("GET: /create");
-        res.end(JSON.stringify(req.body, null, 4));
+//        res.end(JSON.stringify(req.body, null, 4));
+
+        if(typeof req.session.login == "undefined")
+        {
+            var alert = {class: 'alert', message: 'You must login to create a channel.'};
+            action.emit('render', req, res, {alert: alert});
+        }
+        else
+        {
+            var channel_data =
+            {
+                channel_name: req.body.name,
+                channel_url: req.body.url,
+                channel_owner: req.session.login.user_id
+            };
+            
+            model.channel.create(channel_data, function(error, response)
+            {
+
+                var alert = {};
+
+                if(error)
+                {
+                    alert = {class: 'error', message: 'There was an error! ' + error};
+                }
+                else
+                {
+                    alert = {class: 'success', message: 'Channel created'};
+                }
+
+                action.emit('render', req, res, {alert: alert});
+            });
+        }
     });
 }

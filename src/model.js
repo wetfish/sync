@@ -98,6 +98,14 @@ var model =
         {
             model.mysql.query("Insert into `users` set ?", data, callback);
         }
+    },
+
+    channel:
+    {
+        create: function(data, callback)
+        {
+            model.mysql.query("Insert into `channels` set ?", data, callback);
+        }
     }
 };
 

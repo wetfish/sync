@@ -3,7 +3,9 @@ CREATE TABLE IF NOT EXISTS `channels` (
   `channel_name` varchar(64) NOT NULL,
   `channel_url` varchar(32) NOT NULL,
   `channel_owner` int(11) NOT NULL,
-  PRIMARY KEY (`channel_id`)
+  PRIMARY KEY (`channel_id`),
+  UNIQUE KEY `channel_name` (`channel_name`),
+  UNIQUE KEY `channel_url` (`channel_url`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
