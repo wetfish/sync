@@ -24,14 +24,14 @@
                 <li><a class="channel">In <span class="count">0</span> Channel<span class="plural">s</span></a></li>
             {{/channel}}
 
-            {{#session.login}}
-                <li><a href="/u/{{user_name}}">{{user_name}}</a></li>
+            {{#session.user}}
+                <li><a href="/u/{{username}}">{{username}}</a></li>
                 <li><a href="/logout">Logout</a></li>            
-            {{/session.login}}
+            {{/session.user}}
 
-            {{^session.login}}
+            {{^session.user}}
                 <li><a href="https://login.wetfish.net/apps/join/138b5afe22fe4cd2371492ad22c0071bf54bdf6f55f71e46dfc48ab47f9ea716">Login</a></li>
-            {{/session.login}}
+            {{/session.user}}
         </ul>
     </section>
 </nav>

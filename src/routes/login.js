@@ -32,7 +32,7 @@ module.exports = function(required)
         console.log("GET: /login");
         var alert = {};
 
-        if(typeof req.session.login != "undefined")
+        if(typeof req.session.user != "undefined")
         {
             alert.class = "alert";
             alert.message = "You're already logged in!";
@@ -44,10 +44,6 @@ module.exports = function(required)
         {
             if(verified.status == "success")
             {
-                alert.class = "success";
-                alert.message = "You have successfully logged in";
-                req.session.login = verified.data;
-
                 var user_data =
                 {
                     fish_id: verified.data.user_id,
@@ -55,7 +51,14 @@ module.exports = function(required)
                     email: verified.data.user_email
                 };
                 
-                model.user.login(user_data, function(error, response) {});
+                model.user.login(user_data, function(error, response)
+                {
+                    alert.class = "success";
+                    alert.message = "You have successfully logged in";
+                    req.session.user = response[0];
+
+                    action.emit('render', req, res, {alert: alert});
+                });
             }
             else
             {
@@ -63,10 +66,10 @@ module.exports = function(required)
                 alert.message = "Unable to login: " + verified.message;
 
                 // Make sure no login session data exists
-                delete(req.session.login);
-            }
+                delete(req.session.user);
 
-            action.emit('render', req, res, {alert: alert});
+                action.emit('render', req, res, {alert: alert});
+            }
         });
     });
 }

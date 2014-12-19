@@ -96,7 +96,11 @@ var model =
     {
         login: function(data, callback)
         {
-            model.mysql.query("Insert into `users` set ?", data, callback);
+            model.mysql.query("Insert into `users` set ?", data, function(error, response)
+            {
+                // Return logged in user's data
+                var what = model.mysql.query("Select * from `users` where `fish_id` = ?", data.fish_id, callback);
+            });
         }
     },
 
