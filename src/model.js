@@ -109,7 +109,12 @@ var model =
         create: function(data, callback)
         {
             model.mysql.query("Insert into `channels` set ?", data, callback);
-        }
+        },
+
+        list: function(callback)
+        {
+            model.mysql.query("Select * from `channels`", callback);
+        },
     }
 };
 

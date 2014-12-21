@@ -60,7 +60,7 @@ module.exports = function(required)
 
                 if(error)
                 {
-                    alert = {class: 'error', message: 'There was an error! ' + error};
+                    alert = {class: 'alert', message: 'There was an error! ' + error};
                 }
                 else
                 {

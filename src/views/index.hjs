@@ -11,5 +11,23 @@
                 </p>
             </div>
         </div>
+
+        <div class="row">
+            <div class="small-12 columns">
+                <h3>Or join one of these?</h3>
+            </div>
+        </div>
+
+        <div class="row">
+            {{#channels}}
+                <div class="small-2 columns">
+                    <a href="/c/{{channel_url}}">{{channel_name}}</a>
+                </div>
+
+                <div class="small-10 columns">
+                    <!-- Todo: Add channel descriptions -->
+                </div>
+            {{/channels}}
+        </div>
     </div>
 {{> foot}}

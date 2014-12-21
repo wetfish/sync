@@ -6,16 +6,22 @@ module.exports = function(required)
     app = required.app;
     model = required.model;
 
-    app.get('/', function(req, res)
+    // Get list of channels
+    model.channel.list(function(error, response)
     {
-        console.log("GET: /");
-        res.render('index', {
-            session: req.session,
-            partials: {
-                head: 'partials/head',
-                header: 'partials/header',
-                foot: 'partials/foot'
-            }
+        console.log(error, response);
+        console.log('hi');
+        app.get('/', function(req, res)
+        {
+            res.render('index', {
+                session: req.session,
+                channels: response,
+                partials: {
+                    head: 'partials/head',
+                    header: 'partials/header',
+                    foot: 'partials/foot'
+                }
+            });
         });
     });
 }
