@@ -20,11 +20,11 @@
 
         <div class="row">
             {{#channels}}
-                <div class="small-2 columns">
+                <div class="small-4 columns">
                     <a href="/c/{{channel_url}}">{{channel_name}}</a>
                 </div>
 
-                <div class="small-10 columns">
+                <div class="small-8 columns">
                     <!-- Todo: Add channel descriptions -->
                 </div>
             {{/channels}}

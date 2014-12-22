@@ -115,6 +115,12 @@ var model =
         {
             model.mysql.query("Select * from `channels`", callback);
         },
+
+        get: function(select, callback)
+        {
+            select = model.where(select);
+            model.mysql.query("Select * from `channels` where "+select.where+" limit 1", select.values, callback);
+        }
     }
 };
 
