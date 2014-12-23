@@ -47,14 +47,14 @@ module.exports = function(required)
         }
         else
         {
-            var channel_data =
+            var channel =
             {
-                channel_name: req.body.name,
-                channel_url: req.body.url,
-                channel_owner: req.session.user.user_id
+                name: req.body.name,
+                url: req.body.url,
+                owner: req.session.user.user_id
             };
             
-            model.channel.create(channel_data, function(error, response)
+            model.channel.create(channel, function(error, response)
             {
                 var alert = {};
 

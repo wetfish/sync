@@ -1,10 +1,16 @@
 CREATE TABLE IF NOT EXISTS `channels` (
   `channel_id` int(11) NOT NULL AUTO_INCREMENT,
-  `channel_name` varchar(64) NOT NULL,
-  `channel_url` varchar(32) NOT NULL,
-  `channel_owner` int(11) NOT NULL,
+  `name` varchar(64) NOT NULL,
+  `desc` varchar(256) NOT NULL,
+  `url` varchar(32) NOT NULL,
+  `owner` int(11) NOT NULL,
+  `playlist` int(11) NOT NULL,
+  `whitelist` text NOT NULL,
+  `blacklist` text NOT NULL,
+  `mods` text NOT NULL,
+  `private` tinyint(1) NOT NULL,
   PRIMARY KEY (`channel_id`),
-  UNIQUE KEY `channel_url` (`channel_url`)
+  UNIQUE KEY `url` (`url`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `users` (
