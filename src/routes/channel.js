@@ -11,17 +11,23 @@ module.exports = function(required)
         // Get channel data
         model.channel.get({channel_url: req.params.channel}, function(error, response)
         {
-            console.log(error, response);
-
-            res.render('channel', {
+            var template =
+            {
                 session: req.session,
-                channel: req.params.channel,
+                channel: response,
                 partials: {
                     head: 'partials/head',
                     header: 'partials/header',
                     foot: 'partials/foot'
                 }
-            });
+            }
+
+            if(response.length)
+                template.channel = response[0];
+            else
+                template.alert = {'class': 'alert', 'message': 'Sorry, this channel does not exist!'};
+            
+            res.render('channel', template);
         });
     });
 }

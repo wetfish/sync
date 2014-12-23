@@ -1,85 +1,95 @@
 {{> head}}
     {{> header}}
 
-    <input type="hidden" id="channel" value="{{channel}}">
-
-    <div class="row debug">
-        <div class="small-12 columns">Server: <span class="server"></span></div>
-        <div class="small-12 columns">Client: <span class="client"></span></div>
-    </div>
-
     <div class="content">
-        <div class="row">
-            <div data-alert class="status alert-box secondary radius">
-                Connecting...
+        {{#alert}}
+            <div class="row">
+                <div data-alert class="alert-box {{class}}">
+                    {{message}}
+                </div>
             </div>
-            
-            <div class="small-12 columns video-wrap">
-                <video class="video"></video>
+        {{/alert}}
+        
+        {{#channel}}
+            <input type="hidden" id="channel" value="{{channel_url}}">
+
+            <div class="row debug">
+                <h2>{{channel_name}}</h2>
+                <div class="small-12 columns">Server: <span class="server"></span></div>
+                <div class="small-12 columns">Client: <span class="client"></span></div>
             </div>
-        </div>
 
-        <div class="row controls">
-            <div class="progress"> <span class="meter"></span> </div>
-
-            <div class="leader-only hide">
-                <input class="button play" type="button" value="Play">
-                <span class="leader fi-star" title="You are the leader"></span>
+            <div class="row">
+                <div data-alert class="status alert-box secondary radius">
+                    Connecting...
+                </div>
+                
+                <div class="small-12 columns video-wrap">
+                    <video class="video"></video>
+                </div>
             </div>
-        </div>
 
-        <div class="row chat-wrap">
-            <div class="messages">
-                <div class="template hide">
-                    <div class="small-2 columns user">
-                        Template
+            <div class="row controls">
+                <div class="progress"> <span class="meter"></span> </div>
+
+                <div class="leader-only hide">
+                    <input class="button play" type="button" value="Play">
+                    <span class="leader fi-star" title="You are the leader"></span>
+                </div>
+            </div>
+
+            <div class="row chat-wrap">
+                <div class="messages">
+                    <div class="template hide">
+                        <div class="small-2 columns user">
+                            Template
+                        </div>
+
+                        <div class="small-10 columns message">
+                            Template
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row input-wrap">
+                <div class="small-2 columns">
+                    <select class="account">
+                      <option value="anonymous">Anonymous</option>
+                      <option value="custom">Nickname</option>
+                      <option value="auth">Wetfish Profile</option>
+                    </select>
+                </div>
+
+                <form class="input-form">
+                    <div class="small-9 columns">
+                        <input type="text" class="message" placeholder="Message" />
                     </div>
 
-                    <div class="small-10 columns message">
-                        Template
+                    <div class="small-1 columns">
+                        <input type="submit" class="tiny button" value="Send">
                     </div>
-                </div>
+                </form>
+
+                <form class="name-form hide">
+                    <div class="small-9 columns">
+                        <input type="text" class="name" placeholder="Choose a nickname" />
+                    </div>
+
+                    <div class="small-1 columns">
+                        <input type="submit" class="tiny button" value="Save">
+                    </div>
+                </form>
             </div>
-        </div>
 
-        <div class="row input-wrap">
-            <div class="small-2 columns">
-                <select class="account">
-                  <option value="anonymous">Anonymous</option>
-                  <option value="custom">Nickname</option>
-                  <option value="auth">Wetfish Profile</option>
-                </select>
+            <a href="#" data-reveal-id="android-modal" class="android-modal hide"></a>
+
+            <div id="android-modal" class="reveal-modal" data-reveal>
+                <h2>Hello, android!</h2>
+                <p class="lead">We've detected you're using android.</p>
+                <p>Android doesn't let javascript control HTML5 video/audio elements unless they are triggered by a user action first. Please click anywhere on the page to enable Sync.</p>
+                <a class="close-reveal-modal">&#215;</a>
             </div>
-
-            <form class="input-form">
-                <div class="small-9 columns">
-                    <input type="text" class="message" placeholder="Message" />
-                </div>
-
-                <div class="small-1 columns">
-                    <input type="submit" class="tiny button" value="Send">
-                </div>
-            </form>
-
-            <form class="name-form hide">
-                <div class="small-9 columns">
-                    <input type="text" class="name" placeholder="Choose a nickname" />
-                </div>
-
-                <div class="small-1 columns">
-                    <input type="submit" class="tiny button" value="Save">
-                </div>
-            </form>
-        </div>
+        {{/channel}}
     </div>
-
-    <a href="#" data-reveal-id="android-modal" class="android-modal hide"></a>
-
-    <div id="android-modal" class="reveal-modal" data-reveal>
-        <h2>Hello, android!</h2>
-        <p class="lead">We've detected you're using android.</p>
-        <p>Android doesn't let javascript control HTML5 video/audio elements unless they are triggered by a user action first. Please click anywhere on the page to enable Sync.</p>
-        <a class="close-reveal-modal">&#215;</a>
-    </div>
-
 {{> foot}}
