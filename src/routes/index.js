@@ -6,10 +6,10 @@ module.exports = function(required)
     app = required.app;
     model = required.model;
 
-    // Get list of channels
-    model.channel.list(function(error, response)
+    app.get('/', function(req, res)
     {
-        app.get('/', function(req, res)
+        // Get list of channels
+        model.channel.list(function(error, response)
         {
             res.render('index', {
                 session: req.session,
