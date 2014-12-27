@@ -14,7 +14,6 @@ module.exports = function(required)
             var template =
             {
                 session: req.session,
-                channel: response,
                 partials: {
                     head: 'partials/head',
                     header: 'partials/header',
@@ -22,12 +21,19 @@ module.exports = function(required)
                 }
             }
 
+            if(error)
+            {
+                template.alert = {'class': 'info', 'message': 'There was an SQL error: '+error};
+
+                res.render('channel', template);
+                return;
+            }
+            
             if(response.length)
                 template.channel = response[0];
             else
                 template.alert = {'class': 'alert', 'message': 'Sorry, this channel does not exist!'};
             
-            res.render('channel', template);
         });
     });
 }
