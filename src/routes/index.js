@@ -9,8 +9,6 @@ module.exports = function(required)
     // Get list of channels
     model.channel.list(function(error, response)
     {
-        console.log(error, response);
-        console.log('hi');
         app.get('/', function(req, res)
         {
             res.render('index', {

@@ -23,6 +23,13 @@
 
                         <div class="row">
                             <div class="small-6 columns">
+                                <label>Channel Description</label>
+                                <textarea name="desc" placeholder="A place to find all sorts of super fun videos~"></textarea>
+                            </div>
+                        </div>                    
+
+                        <div class="row">
+                            <div class="small-6 columns">
                                 <label>Channel URL</label>
                                 <input type="text" name="url" class="url" placeholder="superfun" />
                             </div>

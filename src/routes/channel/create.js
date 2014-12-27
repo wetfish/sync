@@ -50,6 +50,7 @@ module.exports = function(required)
             var channel =
             {
                 name: req.body.name,
+                desc: req.body.desc,
                 url: req.body.url,
                 owner: req.session.user.user_id
             };

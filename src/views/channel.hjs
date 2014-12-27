@@ -11,10 +11,10 @@
         {{/alert}}
         
         {{#channel}}
-            <input type="hidden" id="channel" value="{{channel_url}}">
+            <input type="hidden" id="channel" value="{{url}}">
 
             <div class="row debug">
-                <h2>{{channel_name}}</h2>
+                <h2>{{name}}</h2>
                 <div class="small-12 columns">Server: <span class="server"></span></div>
                 <div class="small-12 columns">Client: <span class="client"></span></div>
             </div>
