@@ -9,7 +9,7 @@ module.exports = function(required)
     app.get('/c/:channel', function(req, res)
     {
         // Get channel data
-        model.channel.get({channel_url: req.params.channel}, function(error, response)
+        model.channel.get({url: req.params.channel}, function(error, response)
         {
             var template =
             {
@@ -34,6 +34,7 @@ module.exports = function(required)
             else
                 template.alert = {'class': 'alert', 'message': 'Sorry, this channel does not exist!'};
             
+            res.render('channel', template);
         });
     });
 }
