@@ -18,45 +18,61 @@ module.exports = function(required)
     channels = required.channels;
     model = required.model;
     
-    socket.on('join', function(channel)
+    socket.on('join', function(channel_url)
     {
-        channel = channel.toString();
+        channel_url = channel_url.toString();
 
         // Get channel data
-        model.channel.get({url: channel}, function(error, response)
+        model.channel.get({url: channel_url}, function(error, response)
         {
-            console.log(response);
-            
-            user.channel = channel;
-            user.color = {h: random_int(0, 360), s: random_int(25, 100), l: random_int(25, 50)};
-
-            socket.join(channel);
-
-            if(typeof channels[channel] == "undefined")
+            if(error)
             {
-                // We should probably store the leader's session ID?
-                channels[channel] = {users: 0, leader: false, video: {}};
+                console.log(error);
+                return;
             }
 
-            // If there is no leader, you get to be a leader!
-            if(!channels[channel].leader)
+            // This channel must not exist
+            if(!response.length)
             {
-                channels[channel].leader = true;
-
-                // TODO: Leadership should be based on channel, in case a user joins multiple?
-                user.leader = true;
+                // You can't join a channel if it doesn't exist!
+                return;
             }
 
-            channels[channel].users++;
+            var channel = response[0];
 
-            // Tell the user about itself
-            socket.emit('join', user);
-            socket.emit('time', channels[channel].video);
+            // Get user session data
+            model.user.session(user.session, function(error, response)
+            {
+                var session = JSON.parse(response);
 
-            // Emit other statistics
-            io.sockets.emit('stats', {channels: Object.keys(channels).length});
-            io.to(channel).emit('stats', {channel: channels[channel].users});
-            console.log("User joined "+channel);
+                user.channel = channel.url;
+                user.color = {h: random_int(0, 360), s: random_int(25, 100), l: random_int(25, 50)};
+
+                socket.join(channel.url);
+
+                if(typeof channels[channel.url] == "undefined")
+                {
+                    channels[channel.url] = {users: 0, video: {}};
+                }
+
+                // If you are the channel creator, you get to be the leader
+                if(channel.owner == session.user.user_id)
+                {
+                    // TODO: Leadership should be based on channel, in case a user joins multiple?
+                    user.leader = true;
+                }
+
+                channels[channel.url].users++;
+
+                // Tell the user about itself
+                socket.emit('join', user);
+                socket.emit('time', channels[channel.url].video);
+
+                // Emit other statistics
+                io.sockets.emit('stats', {channels: Object.keys(channels).length});
+                io.to(channel).emit('stats', {channel: channels[channel.url].users});
+                console.log("User joined "+channel.url);
+            });
         });
     });
 }

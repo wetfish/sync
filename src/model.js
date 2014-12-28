@@ -101,7 +101,12 @@ var model =
                 // Return logged in user's data
                 var what = model.mysql.query("Select * from `users` where `fish_id` = ?", data.fish_id, callback);
             });
-        }
+        },
+
+        session: function(session_id, callback)
+        {
+            model.redis.get("sess:" + session_id, callback);
+        },
     },
 
     channel:

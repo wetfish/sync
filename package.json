@@ -13,7 +13,9 @@
     "express-session": "*",
     "connect-redis": "*",
     "socket.io": "*",
-    "body-parser": "*"
+    "body-parser": "*",
+    "cookie": "*",
+    "cookie-parser": "*"
   },
   "license": "MIT"
 }

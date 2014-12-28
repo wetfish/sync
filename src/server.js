@@ -11,6 +11,8 @@ var express = require('express');
 var session = require('express-session');
 var RedisStore = require('connect-redis')(session);
 var bodyParser = require('body-parser');
+var cookie = require('cookie');
+var cookieParser = require('cookie-parser');
 
 // Main application variables
 var app = express();
@@ -76,7 +78,9 @@ var channels = {};
 
 io.sockets.on('connection', function(socket)
 {
-    var user = {};
+    var cookies = cookie.parse(socket.handshake.headers.cookie);
+    var decrypted = cookieParser.signedCookies(cookies, config.session.secret);
+    var user = {session: decrypted['connect.sid']};
 
     // Required variables events need access to
     var required = {io: io, socket: socket, user: user, channels: channels, stats: stats, model: model};
