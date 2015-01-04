@@ -55,9 +55,12 @@
             <div class="row input-wrap">
                 <div class="small-2 columns">
                     <select class="account">
-                      <option value="anonymous">Anonymous</option>
-                      <option value="custom">Nickname</option>
-                      <option value="auth">Wetfish Profile</option>
+                        <option value="anonymous">Anonymous</option>
+                        <option value="custom">Nickname</option>
+
+                        {{#session.user}}
+                            <option value="auth">Wetfish Profile</option>
+                        {{/session.user}}
                     </select>
                 </div>
 
