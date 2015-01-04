@@ -25,7 +25,7 @@ module.exports = function(required)
             {
                 template.alert = {'class': 'info', 'message': 'There was an SQL error: '+error};
 
-                res.render('channel', template);
+                res.render('channel/view', template);
                 return;
             }
             
@@ -34,7 +34,7 @@ module.exports = function(required)
             else
                 template.alert = {'class': 'alert', 'message': 'Sorry, this channel does not exist!'};
             
-            res.render('channel', template);
+            res.render('channel/view', template);
         });
     });
 }
