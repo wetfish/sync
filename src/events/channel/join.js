@@ -56,7 +56,7 @@ module.exports = function(required)
                 }
 
                 // If you are the channel creator, you get to be the leader
-                if(channel.owner == session.user.user_id)
+                if(typeof session.user != "undefined" && channel.owner == session.user.user_id)
                 {
                     // TODO: Leadership should be based on channel, in case a user joins multiple?
                     user.leader = true;
