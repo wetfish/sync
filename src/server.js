@@ -84,7 +84,7 @@ io.sockets.on('connection', function(socket)
 
     // Required variables events need access to
     var required = {io: io, socket: socket, user: user, channels: channels, stats: stats, model: model};
-    var events = ['channel/join', 'chat', 'video', 'time', 'disconnect'];
+    var events = ['channel/join', 'channel/chat', 'channel/video', 'channel/time', 'disconnect'];
 
     events.map(function(event)
     {
