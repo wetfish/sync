@@ -63,7 +63,7 @@ app.use(function(req, res, next)
 
 // Required variables routes need access to
 var required = {app: app, model: model, login: login};
-var routes = ['index', 'login', 'logout', 'user', 'channel/create', 'channel/view'];
+var routes = ['index', 'login', 'logout', 'user/view', 'channel/create', 'channel/view'];
 
 routes.map(function(route)
 {
