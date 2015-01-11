@@ -137,13 +137,31 @@ var model =
 
         delete: function(select, callback)
         {
-
+            
         },
         
         get: function(select, callback)
         {
             // Get selected playlist info
             // Get track info
+        }
+    },
+
+    track:
+    {
+        create: function(data, callback)
+        {
+            // Add a track to a playlist
+        },
+
+        delete: function(select, callback)
+        {
+            // Remove a track from a playlist
+        },
+
+        update: function(select, data, callback)
+        {
+            // Update existing track information
         }
     }
 };
