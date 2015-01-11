@@ -126,6 +126,25 @@ var model =
             select = model.where(select);
             model.mysql.query("Select * from `channels` where "+select.where+" limit 1", select.values, callback);
         }
+    },
+
+    playlist:
+    {
+        create: function(data, callback)
+        {
+
+        },
+
+        delete: function(select, callback)
+        {
+
+        },
+        
+        get: function(select, callback)
+        {
+            // Get selected playlist info
+            // Get track info
+        }
     }
 };
 

@@ -20,7 +20,7 @@ var ssl_options = {};
 var server = {};
 
 
-if(config.ssl_enabled) 
+if(config.ssl_enabled)
 {
     ssl_options = {
         key: fs.readFileSync(config.ssl_paths.key),
