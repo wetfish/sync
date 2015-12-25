@@ -1,21 +1,30 @@
 {
   "name": "wetfish-sync",
-  "version": "0.0.1",
-  "author": "Rachel <rachel@wetfish.net>",
-  "description": "Synchronize HTML5 audio and video over the 'net with friends! (Also supports YouTube, Vimeo, SoundCloud, etc.)",
-  "dependencies" : {
-    "jquery": "*",
-    "express": "*",
-    "hjs": "*",
-    "redis": "*",
-    "mysql": "*",
-    "async": "*",
-    "express-session": "*",
-    "connect-redis": "*",
-    "socket.io": "*",
-    "body-parser": "*",
-    "cookie": "*",
-    "cookie-parser": "*"
+  "version": "1.0.0",
+  "description": "Synchronize HTML5 audio and video using websockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "license": "MIT"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wetfish/sync.git"
+  },
+  "keywords": [
+    "wetfish",
+    "sync",
+    "websockets",
+    "audio",
+    "video"
+  ],
+  "author": "Rachel Fish <rachel@wetfish.net> (https://wetfish.net)",
+  "license": "AGPLv3",
+  "bugs": {
+    "url": "https://github.com/wetfish/sync/issues"
+  },
+  "homepage": "https://github.com/wetfish/sync#readme",
+  "dependencies": {
+    "wetfish-basic": "^0.7.7",
+    "wetfish-server": "^0.2.0"
+  }
 }

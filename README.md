@@ -1,4 +1,3 @@
-sync
-====
+# Wetfish Sync v1.0
 
-Synchronize audio and video between friends! Supports HTML5 video, YouTube, and Vimeo
+Synchronize HTML5 audio and video between friends!
