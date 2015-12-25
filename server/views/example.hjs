@@ -1,0 +1,10 @@
+{{> head}}
+    {{> header}}
+
+    <p>Notice how the head, header, and foot are reusable templates!</p>
+
+    <ul>
+        <li><a href="/">Go home?</a></li>
+    </ul>
+    
+{{> foot}}

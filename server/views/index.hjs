@@ -1,0 +1,11 @@
+{{> head}}
+    {{> header}}
+
+    <p>Hi there handsome!!</p>
+
+    <ul>
+        <li><a href="/example">Here's another page</a></li>
+        <li><a href="/example.html">Or maybe some static HTML?</a></li>
+    </ul>
+    
+{{> foot}}

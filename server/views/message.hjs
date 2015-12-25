@@ -1,0 +1,16 @@
+{{> head}}
+    {{> header}}
+
+    {{#message}}
+        <div
+            class="alert alert-{{class}} {{#redirect}}redirect{{/redirect}}"
+            role="alert"
+            {{#redirect}}
+                redirect-url="{{url}}"
+                redirect-timeout="{{timeout}}"
+            {{/redirect}}
+        >
+            {{#label}}<b>{{label}}</b>{{/label}} {{text}}
+        </div>
+    {{/message}}
+{{> foot}}
