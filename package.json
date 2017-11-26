@@ -1,27 +1,25 @@
 {
-  "name": "wetfish-sync",
+  "name": "sync",
   "version": "1.0.0",
-  "description": "Synchronize HTML5 audio and video using websockets",
+  "description": "Synchronize HTML5 audio and video between friends!",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wetfish/sync.git"
+    "url": "git+https://github.com/JonathanSchwob/sync.git"
   },
-  "keywords": [
-    "wetfish",
-    "sync",
-    "websockets",
-    "audio",
-    "video"
-  ],
-  "author": "Rachel Fish <rachel@wetfish.net> (https://wetfish.net)",
-  "license": "AGPLv3",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "bugs": {
-    "url": "https://github.com/wetfish/sync/issues"
+    "url": "https://github.com/JonathanSchwob/sync/issues"
   },
-  "homepage": "https://github.com/wetfish/sync#readme",
+  "homepage": "https://github.com/JonathanSchwob/sync#readme",
   "dependencies": {
-    "wetfish-basic": "^0.7.7",
-    "wetfish-login": "^0.1.0",
-    "wetfish-server": "^0.2.0"
+    "express": "^4.16.2",
+    "express-vue": "^4.0.14",
+    "express-ws": "^3.0.0"
   }
 }
