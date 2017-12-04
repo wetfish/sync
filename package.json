@@ -1,25 +1,16 @@
 {
   "name": "sync",
-  "version": "1.0.0",
-  "description": "Synchronize HTML5 audio and video between friends!",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/wetfish/sync.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/wetfish/sync/issues"
-  },
-  "homepage": "https://github.com/wetfish/sync#readme",
+  "version": "0.1.0",
+  "private": true,
   "dependencies": {
-    "express": "^4.16.2",
-    "express-vue": "^4.0.14",
-    "express-ws": "^3.0.0"
+    "react": "^16.2.0",
+    "react-dom": "^16.2.0",
+    "react-scripts": "1.0.17"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
   }
 }
