@@ -21,9 +21,10 @@ class App extends React.Component {
       console.log('state set');
     });
   }
-  
+
   handleData(data) {
-    console.log('todo');
+    var result = JSON.parse(data);
+    console.log('result', result);
   }
 
   render() {
@@ -32,9 +33,9 @@ class App extends React.Component {
         Connected: <strong>{this.state.connected}</strong>
 
         <Websocket url='ws://localhost:3001/echo'
-          onMessage={this.handleData.bind(this)}
           onOpen={this.handleOpen.bind(this)}
-          onClose={this.handleClose.bind(this)}/>
+          onClose={this.handleClose.bind(this)}
+          onMessage={this.handleData.bind(this)}/>
       </div>
     );
   }

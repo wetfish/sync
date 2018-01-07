@@ -15,9 +15,13 @@ app.ws('/echo', (ws, req) => {
   ws.on('close', () => {
     console.log('WebSocket was closed');
   });
+
+  ws.on('open', () => {
+    console.log('WebSocket was opened');
+  });
 });
 
-app.listen(3001, function() {
+app.listen(process.env.PORT || 3001, () => {
   console.log('listening on port 3001');
 });
 
