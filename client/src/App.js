@@ -1,5 +1,4 @@
 import React from 'react';
-import Websocket from 'react-websocket';
 
 class App extends React.Component {
 
@@ -23,19 +22,19 @@ class App extends React.Component {
   }
 
   handleData(data) {
-    var result = JSON.parse(data);
-    console.log('result', result);
+    // var result = JSON.parse(data);
+    alert(data);
+  }
+
+  sendMessage(message) {
+    console.log(this);
   }
 
   render() {
     return (
       <div>
         Connected: <strong>{this.state.connected}</strong>
-
-        <Websocket url='ws://localhost:3001/echo'
-          onOpen={this.handleOpen.bind(this)}
-          onClose={this.handleClose.bind(this)}
-          onMessage={this.handleData.bind(this)}/>
+        <button onClick={() => this.sendMessage('Hello')} >Send Message</button>
       </div>
     );
   }

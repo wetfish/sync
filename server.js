@@ -8,7 +8,8 @@ enableWs(app);
 app.use(express.static(path.join(__dirname, 'client')));
 
 app.ws('/echo', (ws, req) => {
-  ws.on('message', msg => {
+  ws.on('message', (msg) => {
+    console.log(msg, 'this is the message');
     ws.send(msg);
   });
 
