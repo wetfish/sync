@@ -7,5 +7,5 @@ Synchronize HTML5 audio and video between friends!
 - clone the repository
 - cd sync
 - npm install
-- npm start
+- npm start (concurrently starts both server & client)
 
