@@ -21,7 +21,7 @@
   "homepage": "https://github.com/wetfish/sync#readme",
   "dependencies": {
     "express": "^4.16.2",
-    "express-ws": "^3.0.0"
+    "socket.io": "^2.0.4"
   },
   "devDependencies": {
     "concurrently": "^3.5.1"

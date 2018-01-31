@@ -1,26 +1,28 @@
 const express = require('express');
-const enableWs = require('express-ws');
 var path = require('path');
 const app = express();
+const io = require('socket.io')();
 
-enableWs(app);
+const port = 8000;
 
-app.use(express.static(path.join(__dirname, 'client')));
-
-app.ws('/echo', (ws, req) => {
-  ws.on('message', (msg) => {
-    console.log(msg, 'this is the message');
-    ws.send(msg);
-  });
-
-  ws.on('close', () => {
-    console.log('WebSocket was closed');
-  });
-
-  ws.on('open', () => {
-    console.log('WebSocket was opened');
+//socket routesn
+io.on('connection', (client) => {
+  client.on('subscribeToTimer', (interval) => {
+    console.log('client is subscribing to timer with interval ', interval);
+    setInterval(() => {
+      client.emit('timer', new Date());
+    }, interval);
   });
 });
+
+io.listen(port);
+console.log('listening on port ', port);
+
+//express routes
+app.use(express.static(path.join(__dirname, 'client')));
+
+app.get('/', (req, res) => res.send('Hello World!'));
+
 
 app.listen(process.env.PORT || 3001, () => {
   console.log('listening on port 3001');
