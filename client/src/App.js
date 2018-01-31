@@ -1,40 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { subscribeToTimer } from './api';
+import './App.css';
 
-class App extends React.Component {
-
+class App extends Component {
   constructor(props) {
-    super(props); 
-    this.state = {
-      connected: 'false'
-    };
+    super(props);
+    subscribeToTimer((err, timestamp) => this.setState({ 
+      timestamp 
+    }));
   }
 
-  handleOpen(data) {
-    this.setState({connected: 'true'}, () => {
-      console.log('state set');
-    });
-  }
-
-  handleClose(data) {
-    this.setState({connected: 'false'}, () => {
-      console.log('state set');
-    });
-  }
-
-  handleData(data) {
-    // var result = JSON.parse(data);
-    alert(data);
-  }
-
-  sendMessage(message) {
-    console.log(this);
-  }
-
+  state = {
+    timestamp: 'no timestamp yet'
+  };  
+  
   render() {
     return (
-      <div>
-        Connected: <strong>{this.state.connected}</strong>
-        <button onClick={() => this.sendMessage('Hello')} >Send Message</button>
+      <div className="App">
+        <p className="App-intro">
+        This is the timer value: {this.state.timestamp}
+        </p>
       </div>
     );
   }
