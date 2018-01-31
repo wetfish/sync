@@ -1,4 +1,4 @@
-# Wetfish Sync v1.0
+# Wetfish Sync v0.1
 
 Synchronize HTML5 audio and video between friends!
 
