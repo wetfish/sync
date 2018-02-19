@@ -5,6 +5,10 @@ const io = require('socket.io')();
 
 const port = 8000;
 
+//hardcoded playlist
+
+const hardCodedList = ['https://www.youtube.com/watch?v=uO8iFfVuUmA&feature=youtu.be', 'https://www.youtube.com/watch?v=o7IvGKkASuE'];
+
 //socket routes
 io.on('connection', (client) => {
   client.on('subscribeToTimer', (interval) => {
@@ -22,7 +26,6 @@ console.log('listening on port ', port);
 app.use(express.static(path.join(__dirname, 'client')));
 
 app.get('/', (req, res) => res.send('Hello World!'));
-
 
 app.listen(process.env.PORT || 3001, () => {
   console.log('listening on port 3001');
