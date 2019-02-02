@@ -1,0 +1,13 @@
+body {
+    background-color: skyblue
+}
+
+#socket-success {
+    color: green;
+    visibility: hidden;
+}
+
+#socket-fail {
+    color: red;
+    visibility: hidden;
+}

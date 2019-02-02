@@ -1,0 +1,31 @@
+{
+  "name": "sync",
+  "version": "0.2.0",
+  "description": "Synchronize audio and video between friends! Supports HTML5 video, YouTube, and Vimeo",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "mocha || true"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wetfish/sync.git"
+  },
+  "author": "Rachel <rachel@wetfish.net>",
+  "contributors": [
+    "Tyrell <tmccurbin@gmail.com> (https://tyrell.me)"
+  ],
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/wetfish/sync/issues"
+  },
+  "homepage": "https://github.com/wetfish/sync#readme",
+  "dependencies": {
+    "express": "^4.16.4",
+    "socket.io": "^2.2.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9"
+  }
+}
