@@ -1,4 +1,4 @@
-# Wetfish Sync v0.1
+# Wetfish Sync v0.2
 
 Synchronize HTML5 audio and video between friends!
 
@@ -7,5 +7,4 @@ Synchronize HTML5 audio and video between friends!
 - clone the repository
 - cd sync
 - npm install
-- npm start (concurrently starts both server & client)
-
+- npm start
