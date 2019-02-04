@@ -1,5 +1,6 @@
 const express = require('express')
 const socket = require('socket.io')
+const mediaPlayer = require('./media-player')
 
 const app = express()
 const port = process.env.PORT || 3000
