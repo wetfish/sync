@@ -13,6 +13,10 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/views/index.html')
 })
 
+// Hosted frameworks and libraries
+app.get('/vue.js', (req, res) => res.sendFile(__dirname + '/node_modules/vue/dist/vue.js'))
+app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js'))
+
 // Start server
 let server = app.listen(port, () => {
     console.log(`Server listening on port: ${port}`)
