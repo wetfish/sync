@@ -9,5 +9,5 @@ body {
 
 #socket-fail {
     color: red;
-    visibility: hidden;
+    visibility: visible;
 }
