@@ -1,33 +1,29 @@
-const express = require('express');
-var path = require('path');
-const app = express();
-const io = require('socket.io')();
+const express = require('express')
+const socket = require('socket.io')
+const mediaPlayer = require('./media-player')
 
-const port = 8000;
+const app = express()
+const port = process.env.PORT || 3000
 
-//hardcoded playlist
+// Basic Middleware
+app.use(express.static(__dirname + '/public'))
 
-const hardCodedList = ['https://www.youtube.com/watch?v=uO8iFfVuUmA&feature=youtu.be', 'https://www.youtube.com/watch?v=o7IvGKkASuE'];
+// Basic Routes
+app.get('/', (req, res) => {
+    res.sendFile(__dirname + '/public/views/index.html')
+})
 
-//socket routes
-io.on('connection', (client) => {
-  client.on('subscribeToTimer', (interval) => {
-    console.log('client is subscribing to timer with interval ', interval);
-    setInterval(() => {
-      client.emit('timer', new Date());
-    }, interval);
-  });
-});
+// Hosted frameworks and libraries
+app.get('/vue.js', (req, res) => res.sendFile(__dirname + '/node_modules/vue/dist/vue.js'))
+app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js'))
 
-io.listen(port);
-console.log('listening on port ', port);
+// Start server
+let server = app.listen(port, () => {
+    console.log(`Server listening on port: ${port}`)
+})
 
-//express routes
-app.use(express.static(path.join(__dirname, 'client')));
-
-app.get('/', (req, res) => res.send('Hello World!'));
-
-app.listen(process.env.PORT || 3001, () => {
-  console.log('listening on port 3001');
-});
-
+// Socket setup
+let io = socket(server)
+io.on('connection', () => {
+    console.log(`Made socket connection with a client`)
+})

@@ -1,0 +1,24 @@
+    <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Wetfish Sync</title>
+        <link rel="stylesheet" type="text/css" href="/css/style.css">   
+    </head>
+
+    <body>
+        <div id="vue-app">
+            <h1>{{greeting}}</h1>
+            <p id="socket-success">Connected to socket</p>
+            <p id="socket-fail">NOT connected to socket</p>
+        </div>
+
+        <!-- Frameworks and Libraries -->
+        <script src="/vue.js"></script>
+        <script src="/socket.io.js"></script>
+
+        <!--Custom JS -->
+        <script src="/js/vue-app.js"></script>
+        <script src="/js/socket-app.js"></script>
+    </body>
+</html>
