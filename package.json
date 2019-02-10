@@ -23,8 +23,6 @@
   "homepage": "https://github.com/wetfish/sync#readme",
   "dependencies": {
     "express": "^4.16.4",
-    "ffprobe": "^1.1.0",
-    "ffprobe-static": "^3.0.0",
     "socket.io": "^2.2.0",
     "vue": "^2.6.4"
   },

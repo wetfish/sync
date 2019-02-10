@@ -8,18 +8,15 @@ let playlist = [
     './media_files/straight-no-chaser.wav'          // Audio
 ]
 
-// Get media duration using ffprobe
-const ffprobe  = require('ffprobe')
-const ffprobeStatic = require('ffprobe-static')
-const execute = require('child_process').exec // Asynchronous version
+// Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
+const shellCommand = 'ffprobe -v error -sexagesimal -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '
+const execute = require('child_process').exec
 
 const getMediaLength = function (url) {
-    ffprobe(url, {path: ffprobeStatic.path}, function (err, info) {
-        if (err) {
-            return done(err)
-        }
-      console.log(`${url}:.... ${info.streams[0].duration}`);
-    });
+    execute(shellCommand + url, (err, stdout, stderr) => {
+        let duration = stdout.split('\n') // Remove \n
+        console.log( url + '...' + duration)
+    })
 }
 
 playlist.forEach((fileUrl) => {
