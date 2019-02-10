@@ -8,6 +8,24 @@ let playlist = [
     './media_files/straight-no-chaser.wav'          // Audio
 ]
 
+// Get media duration using ffprobe
+const ffprobe  = require('ffprobe')
+const ffprobeStatic = require('ffprobe-static')
+const execute = require('child_process').exec // Asynchronous version
+
+const getMediaLength = function (url) {
+    ffprobe(url, {path: ffprobeStatic.path}, function (err, info) {
+        if (err) {
+            return done(err)
+        }
+      console.log(`${url}:.... ${info.streams[0].duration}`);
+    });
+}
+
+playlist.forEach((fileUrl) => {
+    getMediaLength(fileUrl)
+})
+
 module.exports = {
     playlist: playlist
 }
