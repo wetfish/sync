@@ -6,23 +6,23 @@ let playlist = [
     './media_files/sing-sing-sing.webm',            // Web video
     './media_files/so-what.mp3',                    // Audio
     './media_files/straight-no-chaser.wav'          // Audio
-]
+];
 
 // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
-const shellCommand = 'ffprobe -v error -sexagesimal -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 '
-const execute = require('child_process').exec
+const shellCommand = 'ffprobe -v error -sexagesimal -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
+const execute = require('child_process').exec;
 
 const getMediaLength = function (url) {
-    execute(shellCommand + url, (err, stdout, stderr) => {
-        let duration = stdout.split('\n') // Remove \n
-        console.log( url + '...' + duration)
-    })
-}
+    execute(shellCommand + url, (err, stdout) => {
+        let duration = stdout.split('\n'); // Remove \n
+        console.log( url + '...' + duration);
+    });
+};
 
 playlist.forEach((fileUrl) => {
-    getMediaLength(fileUrl)
-})
+    getMediaLength(fileUrl);
+});
 
 module.exports = {
     playlist: playlist
-}
+};
