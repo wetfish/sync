@@ -13,6 +13,13 @@ app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/views/index.html');
 });
 
+// Serve video files
+app.get('/media', (req, res) => {
+    let mediaIndex = mediaPlayer.index;
+    let mediaURL = mediaPlayer.playlist[mediaIndex].slice(1);
+    res.sendFile(__dirname + mediaURL);
+});
+
 // Hosted frameworks and libraries
 app.get('/vue.js', (req, res) => res.sendFile(__dirname + '/node_modules/vue/dist/vue.js'));
 app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js'));

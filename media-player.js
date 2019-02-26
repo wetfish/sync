@@ -8,6 +8,8 @@ let playlist = [
     './media_files/straight-no-chaser.wav'          // Audio
 ];
 
+let index = 0;
+
 // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
 const shellCommand = 'ffprobe -v error -sexagesimal -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
 const execute = require('child_process').exec;
@@ -24,5 +26,6 @@ playlist.forEach((fileUrl) => {
 });
 
 module.exports = {
-    playlist: playlist
+    playlist: playlist,
+    index: index
 };
