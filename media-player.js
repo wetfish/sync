@@ -8,10 +8,22 @@ let playlist = [
     './media_files/straight-no-chaser.wav'          // Audio
 ];
 
+let startTime;
 let index = 0;
 let filesProcessed = 0;
+let breakpoints = new Array(playlist.length);
 let mediaLengths = new Array(playlist.length);
-let startTime;
+
+const setBreakpoints = function() {
+    let totalTime = 0;
+    breakpoints = mediaLengths.map((currentVal) => {
+        return totalTime += currentVal; 
+    });
+};
+
+const startTimer = function() {
+    startTime = new Date();
+};
 
 // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
 const getMediaLength = function (url, index) {
@@ -20,9 +32,10 @@ const getMediaLength = function (url, index) {
 
     execute(shellCommand + url, (err, stdout) => {
         let duration = stdout.split('\n')[0]; // Remove \n
-        mediaLengths[index] = parseInt(duration);
+        mediaLengths[index] = parseFloat(duration);
         if (++filesProcessed === mediaLengths.length) {
-            startTime = new Date();
+            setBreakpoints();
+            startTimer();
         }
     });
 };
