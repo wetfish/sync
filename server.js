@@ -27,6 +27,8 @@ app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/s
 // Start server
 let server = app.listen(port, () => {
     console.log(`Server listening on port: ${port}`);
+    mediaPlayer.init();
+    console.log('Media player intialized');
 });
 
 // Socket setup

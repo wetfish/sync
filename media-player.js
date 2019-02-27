@@ -9,23 +9,33 @@ let playlist = [
 ];
 
 let index = 0;
+let filesProcessed = 0;
+let mediaLengths = new Array(playlist.length);
+let startTime;
 
 // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
-const shellCommand = 'ffprobe -v error -sexagesimal -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
-const execute = require('child_process').exec;
+const getMediaLength = function (url, index) {
+    const shellCommand = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
+    const execute = require('child_process').exec;
 
-const getMediaLength = function (url) {
     execute(shellCommand + url, (err, stdout) => {
-        let duration = stdout.split('\n'); // Remove \n
-        console.log( url + '...' + duration);
+        let duration = stdout.split('\n')[0]; // Remove \n
+        mediaLengths[index] = parseInt(duration);
+        if (++filesProcessed === mediaLengths.length) {
+            startTime = new Date();
+        }
     });
 };
 
-playlist.forEach((fileUrl) => {
-    getMediaLength(fileUrl);
-});
+// Get mediaLengths. Start timer
+const init = function() {
+    playlist.forEach((fileUrl, index) => {
+        getMediaLength(fileUrl, index);
+    });
+};
 
 module.exports = {
     playlist: playlist,
-    index: index
+    index: index,
+    init: init
 };
