@@ -15,7 +15,7 @@ app.get('/', (req, res) => {
 
 // Serve video files
 app.get('/media', (req, res) => {
-    let mediaIndex = mediaPlayer.index;
+    let mediaIndex = mediaPlayer.mediaIndex;
     let mediaURL = mediaPlayer.playlist[mediaIndex].slice(1);
     res.sendFile(__dirname + mediaURL);
 });
@@ -28,7 +28,9 @@ app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/s
 let server = app.listen(port, () => {
     console.log(`Server listening on port: ${port}`);
     mediaPlayer.init();
-    console.log('Media player intialized');
+    setInterval(() => {
+        console.log(mediaPlayer.getTimestamp());
+    }, 5000);
 });
 
 // Socket setup

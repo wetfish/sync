@@ -9,7 +9,7 @@ let playlist = [
 ];
 
 let startTime;
-let index = 0;
+let mediaIndex = 0;
 let filesProcessed = 0;
 let breakpoints = new Array(playlist.length);
 let mediaLengths = new Array(playlist.length);
@@ -21,8 +21,21 @@ const setBreakpoints = function() {
     });
 };
 
-const startTimer = function() {
-    startTime = new Date();
+const startTimers = function() {
+    startTime = new Date(); // Start main timer
+    for (let index = 0; index < breakpoints.length; index++) {
+        let breakpointMillisecs = breakpoints[index] * 1000;
+        
+        if (index === (breakpoints.length - 1)) {
+            setInterval(() => {mediaIndex = 0;}, breakpointMillisecs); // A timer to reset mediaIndex
+        } else {
+            setInterval(() => {mediaIndex++;}, breakpointMillisecs); // A timer to update mediaIndex
+        }
+    }
+};
+
+const restartTimers = function() {
+    startTimers();
 };
 
 // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
@@ -35,7 +48,7 @@ const getMediaLength = function (url, index) {
         mediaLengths[index] = parseFloat(duration);
         if (++filesProcessed === mediaLengths.length) {
             setBreakpoints();
-            startTimer();
+            startTimers();
         }
     });
 };
@@ -47,8 +60,23 @@ const init = function() {
     });
 };
 
+const getTimestamp = function() {
+    let timePassed = (new Date() - startTime)/1000;
+    for (let index = 0; index < breakpoints.length; index++) {
+        if (timePassed < breakpoints[index]) {
+            let videoStartTime = breakpoints[index - 1] || 0;
+            console.log(`watching video: ${index + 1}`);
+            return timePassed - videoStartTime;
+        }
+    }
+    console.log('Restarting playlist');
+    restartTimers();
+    return 0;
+};
+
 module.exports = {
     playlist: playlist,
-    index: index,
-    init: init
+    mediaIndex: mediaIndex,
+    init: init,
+    getTimestamp: getTimestamp
 };
