@@ -90,8 +90,9 @@ const getTimestamp = function() {
 };
 
 module.exports = {
-    playlist: playlist,
-    mediaIndex: mediaIndex,
     init: init,
+    playlist: playlist,
+    mediaTypes: mediaTypes,
+    mediaIndex: mediaIndex,
     getTimestamp: getTimestamp
 };
