@@ -40,10 +40,17 @@ const startTimers = function() {
     for (let index = 0; index < breakpoints.length; index++) {
         let breakpointMillisecs = breakpoints[index] * 1000;
         
+        // Set timers to update mediaIndex and notify users of next URL in playlist
         if (index === (breakpoints.length - 1)) {
-            setInterval(() => {mediaIndex = 0;}, breakpointMillisecs); // A timer to reset mediaIndex
+            setInterval(() => {
+                // TODO: Emit socket event here. Fix circular dependency.
+                mediaIndex = 0;
+            }, breakpointMillisecs);
         } else {
-            setInterval(() => {mediaIndex++;}, breakpointMillisecs); // A timer to update mediaIndex
+            setInterval(() => {
+                // TODO: Emit socket event here. Fix circular dependency.
+                mediaIndex++;
+            }, breakpointMillisecs);
         }
     }
 };
