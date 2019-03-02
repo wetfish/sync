@@ -49,12 +49,17 @@ class MediaPlayer {
             // Set timers to update mediaIndex and notify users of next URL in playlist
             if (index === (this.breakpoints.length - 1)) {
                 setInterval(() => {
-                    // TODO: Emit socket event here. Fix circular dependency.
+                    // Emit socket event here
+                    let url = this.playlist[0].slice(14);
+                    this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex = 0;
+                    this.restartTimers();
                 }, breakpointMillisecs);
             } else {
                 setInterval(() => {
-                    // TODO: Emit socket event here. Fix circular dependency.
+                    // Emit socket event here
+                    let url = this.playlist[this.mediaIndex + 1].slice(14);
+                    this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex++;
                 }, breakpointMillisecs);
             }
@@ -91,15 +96,12 @@ class MediaPlayer {
     getTimestamp() {
         let timePassed = (new Date() - this.startTime)/1000;
         for (let index = 0; index < this.breakpoints.length; index++) {
-            if (timePassed < this.breakpoints[index]) {
+            if (timePassed <= this.breakpoints[index]) {
                 let videoStartTime = this.breakpoints[index - 1] || 0;
                 console.log(`watching video: ${index + 1}`);
                 return timePassed - videoStartTime;
             }
         }
-        console.log('Restarting playlist');
-        this.restartTimers();
-        return 0;
     }
 }
 
