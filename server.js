@@ -1,6 +1,6 @@
 const express = require('express');
 const socket = require('socket.io');
-const mediaPlayer = require('./media-player');
+const MediaPlayer = require('./media-player');
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -27,10 +27,6 @@ app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/s
 // Start server
 let server = app.listen(port, () => {
     console.log(`Server listening on port: ${port}`);
-    mediaPlayer.init();
-    setInterval(() => {
-        console.log(mediaPlayer.getTimestamp());
-    }, 5000);
 });
 
 // Socket setup
@@ -42,3 +38,10 @@ io.on('connection', () => {
     let mediaType = mediaPlayer.mediaTypes[index];
     console.log(`Client connected! Now playing ${mediaType} file ${url}. Timestamp: ${timestamp}`);
 });
+
+// Start mediaPlayer
+let mediaPlayer = new MediaPlayer(io);
+mediaPlayer.init();
+setInterval(() => {
+    console.log(mediaPlayer.getTimestamp());
+}, 5000);
