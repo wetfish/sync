@@ -33,15 +33,15 @@ class MediaPlayer {
             if (audioTypes.has(extension)) this.mediaTypes.push('audio');
             else if (videoTypes.has(extension)) this.mediaTypes.push('video');
             else if (ambiguousTypes.has(extension)) {
-                const shellCommand = `ffmpeg -i ${url} -hide_banner 2>&1 | grep -i `;
+                const shellCommand = `ffmpeg -i ${url} -hide_banner 2>&1 | grep `;
                 const executeSync = require('child_process').execSync;
                 try {
-                    executeSync(shellCommand + 'video'); // Check if ogg or webm file is video
+                    executeSync(shellCommand + 'Video:'); // Check if ogg or webm file is video
                     this.mediaTypes.push('video');
                 }
                 catch (videoError) {
                     try {
-                        executeSync(shellCommand + 'audio'); // Check if ogg or webm file is audio
+                        executeSync(shellCommand + 'Audio:'); // Check if ogg or webm file is audio
                         this.mediaTypes.push('audio');
                     }
                     catch (audioError) {
