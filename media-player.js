@@ -1,4 +1,5 @@
 let playlist = [
+    './media_files/short-test.mp4',              // Video
     './media_files/giant-steps.ogv',                // Web video
     './media_files/have-you-met-miss-jones.ogg',    // Web audio
     './media_files/milestones.flac',                // Lossless audio
