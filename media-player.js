@@ -60,6 +60,7 @@ class MediaPlayer {
         this.breakpoints = this.mediaLengths.map((currentVal) => {
             return totalTime += currentVal; 
         });
+        console.log(this.breakpoints);
     }
     
 
