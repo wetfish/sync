@@ -34,7 +34,7 @@ class MediaPlayer {
             if (audioTypes.has(extension)) this.mediaTypes.push('audio');
             else if (videoTypes.has(extension)) this.mediaTypes.push('video');
             else if (ambiguousTypes.has(extension)) {
-                const shellCommand = `ffmpeg -i ${url} -hide_banner 2>&1 | grep `;
+                const shellCommand = `heroku run ffmpeg -i ${url} -hide_banner 2>&1 | grep `;
                 const executeSync = require('child_process').execSync;
                 try {
                     executeSync(shellCommand + 'Video:'); // Check if ogg or webm file is video
@@ -94,7 +94,7 @@ class MediaPlayer {
     
     // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
     getMediaLength(url, index) {
-        const shellCommand = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
+        const shellCommand = 'heroku run ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
         const execute = require('child_process').exec;
     
         execute(shellCommand + url, (err, stdout) => {
