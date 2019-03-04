@@ -23,6 +23,7 @@
   "homepage": "https://github.com/wetfish/sync#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "ip": "^1.1.5",
     "socket.io": "^2.2.0",
     "vue": "^2.6.4"
   },
