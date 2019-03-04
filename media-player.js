@@ -109,7 +109,7 @@ class MediaPlayer {
     
     // Initialize by parsing media
     init() {
-        this.getMediaTypes();
+        //this.getMediaTypes();
         this.playlist.forEach((fileUrl, index) => {
             this.getMediaLength(fileUrl, index);
         });
