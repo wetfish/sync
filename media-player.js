@@ -31,8 +31,8 @@ class MediaPlayer {
     getMediaTypes() {
         this.playlist.forEach((url) => {
             let extension = path.parse(url).ext.toLowerCase();
-            if (audioTypes.has(extension)) this.mediaTypes.push('audio');
-            else if (videoTypes.has(extension)) this.mediaTypes.push('video');
+            if (audioTypes.has(extension)) this.mediaTypes.push('audio'); console.log('this is an audio file');
+            else if (videoTypes.has(extension)) this.mediaTypes.push('video'); console.log('this is a video file');
             else if (ambiguousTypes.has(extension)) {
                 const shellCommand = `ffmpeg -i ${url} -hide_banner 2>&1 | grep `;
                 const executeSync = require('child_process').execSync;
@@ -109,7 +109,7 @@ class MediaPlayer {
     
     // Initialize by parsing media
     init() {
-        this.getMediaTypes();
+        //this.getMediaTypes();
         this.playlist.forEach((fileUrl, index) => {
             this.getMediaLength(fileUrl, index);
         });
