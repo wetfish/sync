@@ -13,14 +13,15 @@ class MediaPlayer {
         this.startTime = null;
         this.filesProcessed = 0;
         this.playlist = [
-            './media_files/short-test.mp4',                 // Video
-            './media_files/giant-steps.ogv',                // Web video
-            './media_files/have-you-met-miss-jones.ogg',    // Web audio
-            './media_files/milestones.flac',                // Lossless audio
-            './media_files/nows-the-time.mp4',              // Video
-            './media_files/sing-sing-sing.webm',            // Web video
-            './media_files/so-what.mp3',                    // Audio
-            './media_files/straight-no-chaser.wav'          // Audio
+            './media_files/frozen-tree-branches.ogv',   // Video
+            './media_files/tiny-bird.webm',             // Video
+            './media_files/bird-on-a-rock.mp4',         // Video
+            './media_files/birds-after-rain.oga',       // Audio
+            './media_files/dove.wav',                   // Audio
+            './media_files/farm.webm',                  // Audio
+            './media_files/nature-ambiance.flac',       // Audio
+            './media_files/sunny-day.ogg',              // Audio
+            './media_files/western-sandpiper.mp3'       // Audio
         ];
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
@@ -69,7 +70,7 @@ class MediaPlayer {
             
             // Set timers to update mediaIndex and notify users of next URL in playlist
             if (index === (this.breakpoints.length - 1)) {
-                setInterval(() => {
+                setTimeout(() => {
                     // Emit socket event here
                     let url = this.playlist[0].slice(14);
                     this.io.sockets.emit('newMedia', {url: url});
@@ -77,7 +78,7 @@ class MediaPlayer {
                     this.restartTimers();
                 }, breakpointMillisecs);
             } else {
-                setInterval(() => {
+                setTimeout(() => {
                     // Emit socket event here
                     let url = this.playlist[this.mediaIndex + 1].slice(14);
                     this.io.sockets.emit('newMedia', {url: url});
@@ -119,8 +120,9 @@ class MediaPlayer {
         for (let index = 0; index < this.breakpoints.length; index++) {
             if (timePassed <= this.breakpoints[index]) {
                 let videoStartTime = this.breakpoints[index - 1] || 0;
-                console.log(`watching video: ${index + 1}`);
-                return timePassed - videoStartTime;
+                let timestamp = timePassed - videoStartTime;
+                console.log(`watching file ${index + 1}; ${timestamp}s`);
+                return timestamp;
             }
         }
     }

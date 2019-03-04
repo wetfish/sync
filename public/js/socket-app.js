@@ -1,3 +1,5 @@
+/*globals vueApp */
+
 // Make connection
 let socket = io.connect('http://localhost:3000');
 
@@ -12,5 +14,9 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newMedia', (data) => {
-    console.log(`The next item in the playlist is ${data.url}`);
+    alert(`The next item in the playlist is ${data.url}`);
+});
+
+socket.on('timestamp', (data) => {
+    vueApp.serverMsg = data.msg;
 });

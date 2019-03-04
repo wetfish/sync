@@ -43,5 +43,8 @@ io.on('connection', () => {
 let mediaPlayer = new MediaPlayer(io);
 mediaPlayer.init();
 setInterval(() => {
-    console.log(mediaPlayer.getTimestamp());
-}, 5000);
+    let index = mediaPlayer.mediaIndex;
+    let timestamp = mediaPlayer.getTimestamp();
+    let msg = `Watchign media file ${index + 1}. Timestamp: ${timestamp}s`;
+    io.sockets.emit('timestamp', {msg: msg});
+}, 3000);

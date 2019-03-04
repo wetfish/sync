@@ -1,7 +1,10 @@
-new Vue ({
+/*eslint no-unused-vars: 0 */
+
+let vueApp = new Vue ({
     el: "#vue-app",
     data: {
-        greeting: "Welcome to Vue"
+        greeting: "Welcome to Sync",
+        serverMsg: 'Waiting for server...'
     },
     methods: {},
     computed: {}
