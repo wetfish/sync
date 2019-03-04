@@ -1,4 +1,3 @@
-const ip = require('ip');
 const express = require('express');
 const socket = require('socket.io');
 const MediaPlayer = require('./media-player');
@@ -49,4 +48,3 @@ setInterval(() => {
     let msg = `Watchign media file ${index + 1}. Timestamp: ${timestamp}s`;
     io.sockets.emit('timestamp', {msg: msg});
 }, 3000);
-console.log(`\n\n ***IP ADDRESS: ${ip.address()}*** \n\n`);
