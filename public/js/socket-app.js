@@ -1,7 +1,7 @@
 /*globals vueApp */
 
 // Make connection
-let socket = io.connect('http://localhost:3000');
+let socket = io.connect(location.origin.replace(/^http/, 'ws'));
 
 socket.on('connect', () => {
     document.getElementById('socket-fail').style.visibility = "hidden";
