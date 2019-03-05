@@ -16,7 +16,7 @@
                 <p>{{serverMsg}}</p>
                 <p>{{url}}</p>
             </div>
-            <video v-if="url" autoplay controls>
+            <video id="media-player" v-if="url" autoplay controls>
                 <source v-bind:src="url"/>
             </video>
         </div>

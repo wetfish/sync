@@ -16,7 +16,8 @@ socket.on('disconnect', () => {
 socket.on('newMedia', (data) => {
     console.log(`The next item in the playlist is ${data.url}`);
     vueApp.url = data.url;
-    location.reload();
+    document.getElementById('media-player').load();
+    document.getElementById('media-player').play();
 });
 
 socket.on('timestamp', (data) => {
