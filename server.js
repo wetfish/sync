@@ -45,6 +45,6 @@ mediaPlayer.init();
 setInterval(() => {
     let index = mediaPlayer.mediaIndex;
     let timestamp = mediaPlayer.getTimestamp();
-    let msg = `Watchign media file ${index + 1}. Timestamp: ${timestamp}s`;
+    let msg = `Watching media file ${index + 1}. Timestamp: ${timestamp}s`;
     io.sockets.emit('timestamp', {msg: msg});
 }, 3000);
