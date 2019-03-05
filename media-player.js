@@ -13,15 +13,15 @@ class MediaPlayer {
         this.startTime = null;
         this.filesProcessed = 0;
         this.playlist = [
-            './media_files/frozen-tree-branches.ogv',   // Video
-            './media_files/tiny-bird.webm',             // Video
-            './media_files/bird-on-a-rock.mp4',         // Video
-            './media_files/birds-after-rain.oga',       // Audio
-            './media_files/dove.wav',                   // Audio
-            './media_files/farm.webm',                  // Audio
-            './media_files/nature-ambiance.flac',       // Audio
-            './media_files/sunny-day.ogg',              // Audio
-            './media_files/western-sandpiper.mp3'       // Audio
+            './public/media/frozen-tree-branches.ogv',   // Video
+            './public/media/tiny-bird.webm',             // Video
+            './public/media/bird-on-a-rock.mp4',         // Video
+            './public/media/birds-after-rain.oga',       // Audio
+            './public/media/dove.wav',                   // Audio
+            './public/media/farm.webm',                  // Audio
+            './public/media/nature-ambiance.flac',       // Audio
+            './public/media/sunny-day.ogg',              // Audio
+            './public/media/western-sandpiper.mp3'       // Audio
         ];
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
@@ -72,7 +72,7 @@ class MediaPlayer {
             if (index === (this.breakpoints.length - 1)) {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[0].slice(14);
+                    let url = this.playlist[0].slice(15);
                     this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex = 0;
                     this.restartTimers();
@@ -80,7 +80,7 @@ class MediaPlayer {
             } else {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[this.mediaIndex + 1].slice(14);
+                    let url = this.playlist[this.mediaIndex + 1].slice(15);
                     this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex++;
                 }, breakpointMillisecs);
