@@ -72,7 +72,7 @@ class MediaPlayer {
             if (index === (this.breakpoints.length - 1)) {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[0].slice(15);
+                    let url = this.playlist[0].slice(8);
                     this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex = 0;
                     this.restartTimers();
@@ -80,7 +80,7 @@ class MediaPlayer {
             } else {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[this.mediaIndex + 1].slice(15);
+                    let url = this.playlist[this.mediaIndex + 1].slice(8);
                     this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex++;
                 }, breakpointMillisecs);

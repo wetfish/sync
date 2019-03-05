@@ -14,9 +14,17 @@ socket.on('disconnect', () => {
 });
 
 socket.on('newMedia', (data) => {
-    alert(`The next item in the playlist is ${data.url}`);
+    console.log(`The next item in the playlist is ${data.url}`);
+    vueApp.url = data.url;
+    location.reload();
 });
 
 socket.on('timestamp', (data) => {
     vueApp.serverMsg = data.msg;
+});
+
+socket.on('update', (data) => {
+    vueApp.mediaType = data.mediaType;
+    vueApp.timestamp = data.timestamp;
+    vueApp.url = data.url;
 });

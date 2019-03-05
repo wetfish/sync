@@ -14,9 +14,10 @@
             <div>
                 <h2>Server says:</h2>
                 <p>{{serverMsg}}</p>
+                <p>{{url}}</p>
             </div>
-            <video autoplay controls>
-                <source src="/media/bird-on-a-rock.mp4"/>
+            <video v-if="url" autoplay controls>
+                <source v-bind:src="url"/>
             </video>
         </div>
 

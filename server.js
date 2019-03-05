@@ -24,12 +24,17 @@ let server = app.listen(port, () => {
 
 // Socket setup
 let io = socket(server);
-io.on('connection', () => {
+io.on('connection', (client) => {
     let index = mediaPlayer.mediaIndex;
-    let url = mediaPlayer.playlist[index];
+    let url = mediaPlayer.playlist[index].slice(8);
     let timestamp = mediaPlayer.getTimestamp();
     let mediaType = mediaPlayer.mediaTypes[index];
     console.log(`Client connected! Now playing ${mediaType} file ${url}. Timestamp: ${timestamp}`);
+    client.emit('update', {
+        mediaType: mediaType,
+        timestamp: timestamp,
+        url: url
+    });
 });
 
 // Start mediaPlayer
@@ -37,7 +42,9 @@ let mediaPlayer = new MediaPlayer(io);
 mediaPlayer.init();
 setInterval(() => {
     let index = mediaPlayer.mediaIndex;
+    let total = mediaPlayer.playlist.length;
     let timestamp = mediaPlayer.getTimestamp();
-    let msg = `Watching media file ${index + 1}. Timestamp: ${timestamp}s`;
+    let mediaType = mediaPlayer.mediaTypes[index];
+    let msg = `Watching ${mediaType} file ${index + 1} of ${total}. Timestamp: ${timestamp}s`;
     io.sockets.emit('timestamp', {msg: msg});
 }, 3000);
