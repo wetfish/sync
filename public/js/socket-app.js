@@ -28,4 +28,7 @@ socket.on('update', (data) => {
     vueApp.mediaType = data.mediaType;
     vueApp.timestamp = data.timestamp;
     vueApp.url = data.url;
+    document.getElementById('media-player').currentTime = data.timestamp;
+    document.getElementById('media-player').load();
+    document.getElementById('media-player').play();
 });
