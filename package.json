@@ -23,10 +23,12 @@
   "homepage": "https://github.com/wetfish/sync#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "ip": "^1.1.5",
     "socket.io": "^2.2.0",
     "vue": "^2.6.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9"
+    "nodemon": "^1.18.9",
+    "eslint": "^5.12.1"
   }
 }
