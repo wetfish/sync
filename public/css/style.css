@@ -1,7 +1,3 @@
-body {
-    background-color: skyblue
-}
-
 #socket-success {
     color: green;
     visibility: hidden;
@@ -10,4 +6,8 @@ body {
 #socket-fail {
     color: red;
     visibility: visible;
+}
+
+audio, video {
+    width: 100%;
 }
