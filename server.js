@@ -26,7 +26,7 @@ let server = app.listen(port, () => {
 let io = socket(server);
 io.on('connection', (client) => {
     let index = mediaPlayer.mediaIndex;
-    let url = mediaPlayer.playlist[index].slice(8);
+    let url = mediaPlayer.playlist[index];
     let timestamp = mediaPlayer.getTimestamp();
     let mediaType = mediaPlayer.mediaTypes[index];
     console.log(`Client connected! Now playing ${mediaType} file ${url}. Timestamp: ${timestamp}`);
