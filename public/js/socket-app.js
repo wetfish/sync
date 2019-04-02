@@ -13,22 +13,24 @@ socket.on('disconnect', () => {
     document.getElementById('socket-fail').style.visibility = "visible";
 });
 
+// Server emits event when media ends
 socket.on('newMedia', (data) => {
-    console.log(`The next item in the playlist is ${data.url}`);
+    vueApp.mediaElement = data.mediaType + "-player";
     vueApp.url = data.url;
+    vueApp.timestamp = 0;
+    // Move to lifecycle event
     document.getElementById('media-player').load();
     document.getElementById('media-player').play();
 });
 
+// Server sends timestamp every three seconds
 socket.on('timestamp', (data) => {
     vueApp.serverMsg = data.msg;
 });
 
-socket.on('update', (data) => {
-    vueApp.mediaType = data.mediaType;
+// Server emits event when client connects
+socket.on('updateClient', (data) => {
+    vueApp.mediaElement = data.mediaType + "-player";
     vueApp.timestamp = data.timestamp;
     vueApp.url = data.url;
-    document.getElementById('media-player').currentTime = data.timestamp;
-    document.getElementById('media-player').load();
-    document.getElementById('media-player').play();
 });

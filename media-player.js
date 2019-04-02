@@ -73,20 +73,28 @@ class MediaPlayer {
             if (index === (this.breakpoints.length - 1)) {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[0];
-                    this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex = 0;
+                    emitNewMediaEvent();
                     this.restartTimers();
                 }, breakpointMillisecs);
             } else {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[this.mediaIndex + 1];
-                    this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex++;
+                    emitNewMediaEvent();
                 }, breakpointMillisecs);
             }
         }
+
+        const emitNewMediaEvent = () => {
+            const url = this.playlist[this.mediaIndex];
+            const mediaType = this.mediaTypes[this.mediaIndex];
+            const data = {
+                url: url,
+                mediaType: mediaType
+            };
+            this.io.sockets.emit('newMedia', data);
+        };
     }
     
     restartTimers() {

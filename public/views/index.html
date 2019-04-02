@@ -16,9 +16,9 @@
                 <p>{{serverMsg}}</p>
                 <p>{{url}}</p>
             </div>
-            <video id="media-player" autoplay controls>
-                <source v-bind:src="url"/>
-            </video>
+            <!-- Dynamic Media Component to Accommodate Audio and Video -->
+            <!-- Pass the url and timestamp to the component as a prop -->
+            <component v-bind:is="mediaElement" v-bind:url="url" v-bind:timestamp="timestamp"></component>
         </div>
 
         <!-- Frameworks and Libraries -->

@@ -30,7 +30,7 @@ io.on('connection', (client) => {
     let timestamp = mediaPlayer.getTimestamp();
     let mediaType = mediaPlayer.mediaTypes[index];
     console.log(`Client connected! Now playing ${mediaType} file ${url}. Timestamp: ${timestamp}`);
-    client.emit('update', {
+    client.emit('updateClient', {
         mediaType: mediaType,
         timestamp: timestamp,
         url: url
