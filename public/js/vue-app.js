@@ -3,13 +3,13 @@
 // Video Vue Component
 const videoPlayer = Vue.component('video-player', {
     template: `
-        <video id="media-player" muted autoplay controls>
+        <video id="media-player" autoplay controls>
             <source v-bind:src="url">
         </video>
     `,
-    props: ["url", "timestamp"],
+    props: ["url", "timestamp", "muted"],
     mounted() {
-        document.getElementById('media-player').currentTime = this.timestamp;
+        mountNewPlayer(this);
     }
 });
 
@@ -20,10 +20,9 @@ const audioPlayer = Vue.component('audio-player', {
             <source v-bind:src="url">
         </audio>
     `,
-    props: ["url", "timestamp"],
+    props: ["url", "timestamp", "muted"],
     mounted() {
-        document.getElementById('media-player').currentTime = this.timestamp;
-        document.getElementById('media-player').muted = true;
+        mountNewPlayer(this);
     }
 });
 
@@ -34,7 +33,8 @@ let vueApp = new Vue ({
         serverMsg: 'Waiting for server...',
         url: null,
         mediaElement: null,
-        timestamp: null
+        timestamp: null,
+        muted: true
     },
     methods: {},
     computed: {},
@@ -43,3 +43,13 @@ let vueApp = new Vue ({
         "audio-player": audioPlayer
     }
 });
+
+function mountNewPlayer(mediaComponent) {
+    let mediaElement = document.getElementById('media-player');
+    mediaElement.muted = mediaComponent.muted;
+    mediaElement.currentTime = mediaComponent.timestamp;
+    mediaElement.addEventListener('volumechange', () => {
+        // Update the muted property of the parent element
+        vueApp.muted = document.getElementById('media-player').muted;
+    });
+}
