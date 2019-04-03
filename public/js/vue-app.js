@@ -3,28 +3,27 @@
 // Video Vue Component
 const videoPlayer = Vue.component('video-player', {
     template: `
-        <video id="media-player" controls>
+        <video id="media-player" muted autoplay controls>
             <source v-bind:src="url">
         </video>
     `,
     props: ["url", "timestamp"],
     mounted() {
         document.getElementById('media-player').currentTime = this.timestamp;
-        document.getElementById('media-player').play();
     }
 });
 
 // Vue Audio Component
 const audioPlayer = Vue.component('audio-player', {
     template: `
-        <audio id="media-player" controls>
+        <audio id="media-player" autoplay controls>
             <source v-bind:src="url">
         </audio>
     `,
     props: ["url", "timestamp"],
     mounted() {
         document.getElementById('media-player').currentTime = this.timestamp;
-        document.getElementById('media-player').play();
+        document.getElementById('media-player').muted = true;
     }
 });
 
