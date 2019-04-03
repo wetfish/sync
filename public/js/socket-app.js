@@ -15,12 +15,16 @@ socket.on('disconnect', () => {
 
 // Server emits event when media ends
 socket.on('newMedia', (data) => {
-    vueApp.mediaElement = data.mediaType + "-player";
     vueApp.url = data.url;
     vueApp.timestamp = 0;
-    // Move to lifecycle event
-    document.getElementById('media-player').load();
-    document.getElementById('media-player').play();
+    // Check before updating the type of media player
+    if (vueApp.mediaElement != data.mediaType + "-player"){
+        vueApp.mediaElement = data.mediaType + "-player";
+    } else {
+        // If you only change the src attribute, you must load and play 
+        document.getElementById('media-player').load();
+        document.getElementById('media-player').play();
+    }
 });
 
 // Server sends timestamp every three seconds
