@@ -29,7 +29,11 @@ socket.on('newMedia', (data) => {
 
 // Server sends timestamp every three seconds
 socket.on('timestamp', (data) => {
-    vueApp.serverMsg = data.msg;
+    const mediaPlayerTime = document.getElementById('media-player').currentTime;
+    const serverTime = data.timestamp;
+    const latency = serverTime - mediaPlayerTime;
+    let msg = `Watching ${data.mediaType} file ${data.humanReadableIndex} of ${data.totalFiles}. Timestamp: ${data.timestamp}s. Latency: ${latency}`;
+    vueApp.serverMsg = msg;
 });
 
 // Server emits event when client connects
