@@ -34,7 +34,8 @@ let vueApp = new Vue ({
         url: null,
         mediaElement: null,
         timestamp: null,
-        muted: true
+        muted: true,
+        latencyThresholdSeconds: 5
     },
     methods: {},
     computed: {},
@@ -51,5 +52,22 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('volumechange', () => {
         // Update the muted property of the parent element
         vueApp.muted = document.getElementById('media-player').muted;
+    });
+
+    mediaElement.addEventListener('play', () => {
+        const mediaPlayer = document.getElementById('media-player');
+
+        // If the flag was raised, load and play the newest content. Reset flag.
+        // Else if the latency is too large (ex: user pause or lag), syncronize
+        if (vueApp.newMediaReceivedDuringPause) {
+            mediaPlayer.load();
+            mediaPlayer.currentTime = vueApp.timestamp;
+            mediaPlayer.play();
+            vueApp.newMediaReceivedDuringPause = false;
+        } else if (vueApp.latency > vueApp.latencyThresholdSeconds) {
+            // In order to catch latency issues, make sure that the latency
+            // threshold is greater than the websocket timestamp interval
+            mediaPlayer.currentTime = vueApp.timestamp;
+        }
     });
 }

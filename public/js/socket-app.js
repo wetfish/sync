@@ -17,13 +17,23 @@ socket.on('disconnect', () => {
 socket.on('newMedia', (data) => {
     vueApp.url = data.url;
     vueApp.timestamp = 0;
-    // Check before updating the type of media player
-    if (vueApp.mediaElement != data.mediaType + "-player"){
-        vueApp.mediaElement = data.mediaType + "-player";
+    vueApp.latency = 0;
+    
+    // Automatically play the next item if the player is not paused
+    if (!document.getElementById('media-player').paused) {
+        // Check before updating the type of media player
+        if (vueApp.mediaElement != data.mediaType + "-player"){
+            vueApp.mediaElement = data.mediaType + "-player";
+        } else {
+            // If you only change the src attribute, you must load and play 
+            document.getElementById('media-player').load();
+            document.getElementById('media-player').play();
+        }
     } else {
-        // If you only change the src attribute, you must load and play 
-        document.getElementById('media-player').load();
-        document.getElementById('media-player').play();
+        // Keep track of the media element that should be rendered
+        vueApp.serverMediaType = data.mediaType;
+        // And raise a flag
+        vueApp.newMediaReceivedDuringPause = true;
     }
 });
 
@@ -34,11 +44,14 @@ socket.on('timestamp', (data) => {
     const latency = serverTime - mediaPlayerTime;
     let msg = `Watching ${data.mediaType} file ${data.humanReadableIndex} of ${data.totalFiles}. Timestamp: ${data.timestamp}s. Latency: ${latency}`;
     vueApp.serverMsg = msg;
+    vueApp.latency = latency;
+    vueApp.timestamp = data.timestamp;
 });
 
 // Server emits event when client connects
 socket.on('updateClient', (data) => {
     vueApp.mediaElement = data.mediaType + "-player";
+    vueApp.serverMediaType = data.mediaType;
     vueApp.timestamp = data.timestamp;
     vueApp.url = data.url;
 });
