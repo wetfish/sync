@@ -38,10 +38,12 @@ socket.on('newMedia', (data) => {
 });
 
 // Server sends timestamp every three seconds
+// Calculate latency and update Vue component
 socket.on('timestamp', (data) => {
-    const mediaPlayerTime = document.getElementById('media-player').currentTime;
+    const mediaPlayer = document.getElementById('media-player');
+    const mediaPlayerTime = mediaPlayer.currentTime;
     const serverTime = data.timestamp;
-    const latency = serverTime - mediaPlayerTime;
+    const latency = vueApp.newMediaReceivedDuringPause ? 0 : serverTime - mediaPlayerTime;
     let msg = `Watching ${data.mediaType} file ${data.humanReadableIndex} of ${data.totalFiles}. Timestamp: ${data.timestamp}s. Latency: ${latency}`;
     vueApp.serverMsg = msg;
     vueApp.latency = latency;
