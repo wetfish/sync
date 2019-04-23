@@ -3,7 +3,7 @@
 // Video Vue Component
 const videoPlayer = Vue.component('video-player', {
     template: `
-        <video id="media-player" autoplay controls>
+        <video id="media-player" autoplay>
             <source v-bind:src="url">
         </video>
     `,
@@ -16,7 +16,7 @@ const videoPlayer = Vue.component('video-player', {
 // Vue Audio Component
 const audioPlayer = Vue.component('audio-player', {
     template: `
-        <audio id="media-player" autoplay controls>
+        <audio id="media-player" autoplay>
             <source v-bind:src="url">
         </audio>
     `,

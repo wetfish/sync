@@ -8,6 +8,7 @@
 
     <body>
         <div id="vue-app">
+            <!--
             <h1>{{greeting}}</h1>
             <p id="socket-success">Connected to socket</p>
             <p id="socket-fail">NOT connected to socket</p>
@@ -16,6 +17,7 @@
                 <p>{{serverMsg}}</p>
                 <p>{{url}}</p>
             </div>
+            -->
             <!-- Dynamic Media Component to Accommodate Audio and Video -->
             <!-- Pass the url and timestamp to the component as a prop -->
             <component v-bind:is="mediaElement" v-bind:url="url" v-bind:timestamp="timestamp" v-bind:muted="muted"></component>

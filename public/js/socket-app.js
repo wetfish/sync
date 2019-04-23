@@ -4,13 +4,13 @@
 let socket = io.connect(location.origin.replace(/^http/, 'ws'));
 
 socket.on('connect', () => {
-    document.getElementById('socket-fail').style.visibility = "hidden";
-    document.getElementById('socket-success').style.visibility = "visible";
+    //document.getElementById('socket-fail').style.visibility = "hidden";
+    //document.getElementById('socket-success').style.visibility = "visible";
 });
 
 socket.on('disconnect', () => {
-    document.getElementById('socket-success').style.visibility = "hidden";
-    document.getElementById('socket-fail').style.visibility = "visible";
+    //document.getElementById('socket-success').style.visibility = "hidden";
+    //document.getElementById('socket-fail').style.visibility = "visible";
 });
 
 // Server emits event when media ends
