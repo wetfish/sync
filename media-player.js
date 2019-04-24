@@ -89,8 +89,10 @@ class MediaPlayer {
         const emitNewMediaEvent = () => {
             const url = this.playlist[this.mediaIndex];
             const mediaType = this.mediaTypes[this.mediaIndex];
+            const duration = this.mediaLengths[this.mediaIndex];
             const data = {
                 url: url,
+                duration: duration,
                 mediaType: mediaType
             };
             this.io.sockets.emit('newMedia', data);

@@ -15,6 +15,7 @@ socket.on('disconnect', () => {
 
 // Server emits event when media ends
 socket.on('newMedia', (data) => {
+    vueApp.duration = data.duration;
     vueApp.url = data.url;
     vueApp.timestamp = 0;
     vueApp.latency = 0;
@@ -55,5 +56,6 @@ socket.on('updateClient', (data) => {
     vueApp.mediaElement = data.mediaType + "-player";
     vueApp.serverMediaType = data.mediaType;
     vueApp.timestamp = data.timestamp;
+    vueApp.duration = data.duration;
     vueApp.url = data.url;
 });

@@ -29,10 +29,12 @@ io.on('connection', (client) => {
     let url = mediaPlayer.playlist[index];
     let timestamp = mediaPlayer.getTimestamp();
     let mediaType = mediaPlayer.mediaTypes[index];
+    let duration = mediaPlayer.mediaLengths[index];
     console.log(`Client connected! Now playing ${mediaType} file ${url}. Timestamp: ${timestamp}`);
     client.emit('updateClient', {
         mediaType: mediaType,
         timestamp: timestamp,
+        duration: duration,
         url: url
     });
 });

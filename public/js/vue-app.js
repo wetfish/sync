@@ -34,6 +34,7 @@ let vueApp = new Vue ({
         url: null,
         mediaElement: null,
         timestamp: null,
+        duration: null,
         muted: true,
         latencyThresholdSeconds: 5
     },

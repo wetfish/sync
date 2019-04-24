@@ -33,3 +33,7 @@ body {
     position: absolute;
     bottom: 0;
 }
+
+progress {
+    width: 100%;
+}

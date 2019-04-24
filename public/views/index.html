@@ -22,7 +22,7 @@
             <!-- Pass the url and timestamp to the component as a prop -->
             <component v-bind:is="mediaElement" v-bind:url="url" v-bind:timestamp="timestamp" v-bind:muted="muted"></component>
             <div id="controls-container">
-                <progress value="50" max="100"></progress>
+                <progress v-bind:value="timestamp" v-bind:max="duration"></progress>
             </div>
         </div>
 
