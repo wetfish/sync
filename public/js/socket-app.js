@@ -48,7 +48,7 @@ socket.on('timestamp', (data) => {
     let msg = `Watching ${data.mediaType} file ${data.humanReadableIndex} of ${data.totalFiles}. Timestamp: ${data.timestamp}s. Latency: ${latency}`;
     vueApp.serverMsg = msg;
     vueApp.latency = latency;
-    vueApp.timestamp = data.timestamp;
+    //vueApp.timestamp = data.timestamp;
 });
 
 // Server emits event when client connects

@@ -26,6 +26,15 @@ const audioPlayer = Vue.component('audio-player', {
     }
 });
 
+const mediaPlayerControls = Vue.component('media-player-controls', {
+    template: `
+        <div id="controls-container">
+            <progress v-bind:value="timestamp" v-bind:max="duration"></progress>
+        </div>
+    `,
+    props: ["timestamp", "duration"]
+});
+
 let vueApp = new Vue ({
     el: "#vue-app",
     data: {
@@ -53,6 +62,10 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('volumechange', () => {
         // Update the muted property of the parent element
         vueApp.muted = document.getElementById('media-player').muted;
+    });
+
+    mediaElement.addEventListener('timeupdate', (event) => {
+        vueApp.timestamp = mediaElement.currentTime;
     });
 
     mediaElement.addEventListener('play', () => {
