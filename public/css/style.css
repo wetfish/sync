@@ -29,7 +29,7 @@ body {
 #controls-container {
     width: 100%;
     height: 100px;
-    /*background-color: rgba(0,0,0,0.2);*/
+    background-color: rgba(0,0,0,0.2);
     position: absolute;
     bottom: 0;
     transition: opacity 0.5s;
@@ -42,5 +42,4 @@ progress {
 
 .active {
     opacity: 1 !important;
-    background-color: yellow;
 }
