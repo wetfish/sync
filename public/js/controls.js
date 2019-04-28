@@ -13,5 +13,9 @@ window.addEventListener('DOMContentLoaded', () => {
             controls.classList.remove('active');
         }, 4000);
     });
+
+    document.addEventListener('keydown', function() {
+        document.getElementById('media-player').muted = !document.getElementById('media-player').muted;
+    });
     
 });
