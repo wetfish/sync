@@ -1,7 +1,3 @@
-body {
-    background-color: skyblue
-}
-
 #socket-success {
     color: green;
     visibility: hidden;
@@ -10,4 +6,40 @@ body {
 #socket-fail {
     color: red;
     visibility: visible;
+}
+
+
+body {
+    margin: 0;
+    height: 100vh;
+    width: 100vw;
+}
+
+#vue-app {
+    height: 100%;
+    width: 100%;
+    overflow: hidden;
+}
+
+#media-player {
+    height: 100vh;
+    width: 100vw;
+}
+
+#controls-container {
+    width: 100%;
+    height: 100px;
+    background-color: rgba(0,0,0,0.2);
+    position: absolute;
+    bottom: 0;
+    transition: opacity 0.5s;
+    opacity: 0;
+}
+
+progress {
+    width: 100%;
+}
+
+.active {
+    opacity: 1 !important;
 }

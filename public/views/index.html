@@ -8,6 +8,7 @@
 
     <body>
         <div id="vue-app">
+            <!--
             <h1>{{greeting}}</h1>
             <p id="socket-success">Connected to socket</p>
             <p id="socket-fail">NOT connected to socket</p>
@@ -16,9 +17,11 @@
                 <p>{{serverMsg}}</p>
                 <p>{{url}}</p>
             </div>
-            <video id="media-player" autoplay controls>
-                <source v-bind:src="url"/>
-            </video>
+            -->
+            <!-- Dynamic Media Component to Accommodate Audio and Video -->
+            <!-- Pass the url and timestamp to the component as a prop -->
+            <component v-bind:is="mediaElement" v-bind:url="url" v-bind:timestamp="timestamp" v-bind:muted="muted"/></component>
+            <media-player-controls v-bind:timestamp="timestamp" v-bind:duration="duration"/>
         </div>
 
         <!-- Frameworks and Libraries -->
@@ -28,5 +31,6 @@
         <!--Custom JS -->
         <script src="/js/vue-app.js"></script>
         <script src="/js/socket-app.js"></script>
+        <script src="/js/controls.js"></script>
     </body>
 </html>

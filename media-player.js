@@ -13,15 +13,15 @@ class MediaPlayer {
         this.startTime = null;
         this.filesProcessed = 0;
         this.playlist = [
-            './public/media/frozen-tree-branches.ogv',   // Video
-            './public/media/tiny-bird.webm',             // Video
-            './public/media/bird-on-a-rock.mp4',         // Video
-            './public/media/birds-after-rain.oga',       // Audio
-            './public/media/dove.wav',                   // Audio
-            './public/media/farm.webm',                  // Audio
-            './public/media/nature-ambiance.flac',       // Audio
-            './public/media/sunny-day.ogg',              // Audio
-            './public/media/western-sandpiper.mp3'       // Audio
+            '/media/frozen-tree-branches.ogv',   // Video
+            '/media/tiny-bird.webm',             // Video
+            '/media/bird-on-a-rock.mp4',         // Video
+            '/media/birds-after-rain.oga',       // Audio
+            '/media/dove.wav',                   // Audio
+            '/media/farm.webm',                  // Audio
+            '/media/nature-ambiance.flac',       // Audio
+            '/media/sunny-day.ogg',              // Audio
+            '/media/western-sandpiper.mp3'       // Audio
         ];
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
@@ -30,11 +30,12 @@ class MediaPlayer {
     // Determine whether files are audio, video, or unsupported
     getMediaTypes() {
         this.playlist.forEach((url) => {
-            let extension = path.parse(url).ext.toLowerCase();
+            let relativeUrl = './public' + url;
+            let extension = path.parse(relativeUrl).ext.toLowerCase();
             if (audioTypes.has(extension)) this.mediaTypes.push('audio');
             else if (videoTypes.has(extension)) this.mediaTypes.push('video');
             else if (ambiguousTypes.has(extension)) {
-                const shellCommand = `ffmpeg -i ${url} -hide_banner 2>&1 | grep `;
+                const shellCommand = `ffmpeg -i ${relativeUrl} -hide_banner 2>&1 | grep `;
                 const executeSync = require('child_process').execSync;
                 try {
                     executeSync(shellCommand + 'Video:'); // Check if ogg or webm file is video
@@ -72,20 +73,30 @@ class MediaPlayer {
             if (index === (this.breakpoints.length - 1)) {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[0].slice(8);
-                    this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex = 0;
+                    emitNewMediaEvent();
                     this.restartTimers();
                 }, breakpointMillisecs);
             } else {
                 setTimeout(() => {
                     // Emit socket event here
-                    let url = this.playlist[this.mediaIndex + 1].slice(8);
-                    this.io.sockets.emit('newMedia', {url: url});
                     this.mediaIndex++;
+                    emitNewMediaEvent();
                 }, breakpointMillisecs);
             }
         }
+
+        const emitNewMediaEvent = () => {
+            const url = this.playlist[this.mediaIndex];
+            const mediaType = this.mediaTypes[this.mediaIndex];
+            const duration = this.mediaLengths[this.mediaIndex];
+            const data = {
+                url: url,
+                duration: duration,
+                mediaType: mediaType
+            };
+            this.io.sockets.emit('newMedia', data);
+        };
     }
     
     restartTimers() {
@@ -97,7 +108,7 @@ class MediaPlayer {
         const shellCommand = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
         const execute = require('child_process').exec;
     
-        execute(shellCommand + url, (err, stdout) => {
+        execute(shellCommand + './public' + url, (err, stdout) => {
             let duration = stdout.split('\n')[0]; // Remove \n
             this.mediaLengths[index] = parseFloat(duration);
             if (++this.filesProcessed === this.mediaLengths.length) {
