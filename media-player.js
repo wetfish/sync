@@ -1,5 +1,5 @@
 let path = require('path');
-
+let fs = require('fs');
 let videoTypes = new Set(['.ogv', '.mp4']);
 let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
 let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
@@ -12,17 +12,9 @@ class MediaPlayer {
         this.mediaTypes = [];
         this.startTime = null;
         this.filesProcessed = 0;
-        this.playlist = [
-            '/media/frozen-tree-branches.ogv',   // Video
-            '/media/tiny-bird.webm',             // Video
-            '/media/bird-on-a-rock.mp4',         // Video
-            '/media/birds-after-rain.oga',       // Audio
-            '/media/dove.wav',                   // Audio
-            '/media/farm.webm',                  // Audio
-            '/media/nature-ambiance.flac',       // Audio
-            '/media/sunny-day.ogg',              // Audio
-            '/media/western-sandpiper.mp3'       // Audio
-        ];
+        this.playlist = fs.readdirSync('./public/media').map(function(file){
+            return '/media/'+file;
+        });
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
     }
