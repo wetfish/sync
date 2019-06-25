@@ -16,6 +16,9 @@ class MediaPlayer {
         this.playlist = fs.readdirSync('./public/media').map(function(file){
             return '/media/'+file;
         });
+
+        console.log("Loaded playlist:", this.playlist);
+
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
     }
@@ -28,7 +31,7 @@ class MediaPlayer {
             if (audioTypes.has(extension)) this.mediaTypes.push('audio');
             else if (videoTypes.has(extension)) this.mediaTypes.push('video');
             else if (ambiguousTypes.has(extension)) {
-                const shellCommand = `ffmpeg -i ${relativeUrl} -hide_banner 2>&1 | grep `;
+                const shellCommand = `ffmpeg -i "${relativeUrl}" -hide_banner 2>&1 | grep `;
                 const executeSync = require('child_process').execSync;
                 try {
                     executeSync(shellCommand + 'Video:'); // Check if ogg or webm file is video
@@ -98,10 +101,10 @@ class MediaPlayer {
 
     // Extract media duration. Documentation: https://ffmpeg.org/ffprobe.html
     getMediaLength(url, index) {
-        const shellCommand = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 ';
+        const shellCommand = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1';
         const execute = require('child_process').exec;
 
-        execute(shellCommand + './public' + url, (err, stdout) => {
+        execute(`${shellCommand} "./public${url}"`, (err, stdout) => {
             let duration = stdout.split('\n')[0]; // Remove \n
             this.mediaLengths[index] = parseFloat(duration);
             if (++this.filesProcessed === this.mediaLengths.length) {
@@ -125,7 +128,7 @@ class MediaPlayer {
             if (timePassed <= this.breakpoints[index]) {
                 let videoStartTime = this.breakpoints[index - 1] || 0;
                 let timestamp = timePassed - videoStartTime;
-                console.log(`watching file ${index + 1}; ${timestamp}s`);
+                console.log(`watching file ${playlistUrl}${this.playlist[index]}; ${timestamp}s`);
                 return timestamp;
             }
         }
