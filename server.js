@@ -11,7 +11,9 @@ Actually... all of this stuff should be served by a real webserver, so uploading
 */
 
 // Basic Middleware
-app.use(express.static(__dirname + '/public'));
+app.use('/css', express.static(__dirname + '/public/css'));
+app.use('/js', express.static(__dirname + '/public/js'));
+app.use('/views', express.static(__dirname + '/public/views'));
 
 // Basic Routes
 app.get('/', (req, res) => {
