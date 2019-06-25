@@ -3,7 +3,12 @@ const socket = require('socket.io');
 const MediaPlayer = require('./media-player');
 
 const app = express();
+const playlistUrl = process.env.URL || 'http://localhost:3000';
 const port = process.env.PORT || 3000;
+
+/*
+Actually... all of this stuff should be served by a real webserver, so uploading files to clients doesn't block the websocket thread
+*/
 
 // Basic Middleware
 app.use(express.static(__dirname + '/public'));
@@ -26,7 +31,7 @@ let server = app.listen(port, () => {
 let io = socket(server);
 io.on('connection', (client) => {
     let index = mediaPlayer.mediaIndex;
-    let url = mediaPlayer.playlist[index];
+    let url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
     let timestamp = mediaPlayer.getTimestamp();
     let mediaType = mediaPlayer.mediaTypes[index];
     let duration = mediaPlayer.mediaLengths[index];
