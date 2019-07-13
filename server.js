@@ -12,7 +12,8 @@ Actually... all of this stuff should be served by a real webserver, so uploading
 
 // Basic Middleware
 app.use(express.static(__dirname + '/public'));
-
+// svg Sprites from Font Awesome
+app.use(express.static(__dirname + '/node_modules/@fortawesome/fontawesome-free/sprites'));
 // Basic Routes
 app.get('/', (req, res) => {
     res.sendFile(__dirname + '/public/views/index.html');
@@ -21,6 +22,7 @@ app.get('/', (req, res) => {
 // Hosted frameworks and libraries
 app.get('/vue.js', (req, res) => res.sendFile(__dirname + '/node_modules/vue/dist/vue.js'));
 app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js'));
+app.get('/bulma.min.css',(req,res)=> res.sendFile(__dirname + '/node_modules/bulma/css/bulma.min.css'));
 
 // Start server
 let server = app.listen(port, () => {

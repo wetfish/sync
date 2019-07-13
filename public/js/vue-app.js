@@ -30,9 +30,29 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     template: `
         <div id="controls-container">
             <progress v-bind:value="timestamp" v-bind:max="duration"></progress>
+            <div class is-flex>
+                <a id="fullscreen" class="is-pulled-right" v-on:click="fullscreen()">
+                    <svg class="icon">
+                        <use xlink:href="solid.svg#expand"></use>
+                    </svg>
+                </a>
+            </div>
         </div>
     `,
-    props: ["timestamp", "duration"]
+    props: ["timestamp", "duration"],
+    methods: {
+        fullscreen:function() {
+            let video= document.querySelector("#vue-app");
+            if (!document.fullscreenElement) {
+                video.requestFullscreen().catch(err => {
+                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
+                });
+            } 
+            else {
+                document.exitFullscreen();
+            }
+        }
+    }
 });
 
 let vueApp = new Vue ({
