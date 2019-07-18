@@ -23,6 +23,7 @@ app.get('/', (req, res) => {
 app.get('/vue.js', (req, res) => res.sendFile(__dirname + '/node_modules/vue/dist/vue.js'));
 app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js'));
 app.get('/bulma.min.css',(req,res)=> res.sendFile(__dirname + '/node_modules/bulma/css/bulma.min.css'));
+app.get('/fscreen.js', (req, res) => res.sendFile(__dirname + '/node_modules/fscreen/src/index.js'));
 
 // Start server
 let server = app.listen(port, () => {

@@ -41,15 +41,12 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     `,
     props: ["timestamp", "duration"],
     methods: {
-        fullscreen:function() {
-            let video= document.querySelector("#vue-app");
-            if (!document.fullscreenElement) {
-                video.requestFullscreen().catch(err => {
-                    alert(`Error attempting to enable full-screen mode: ${err.message} (${err.name})`);
-                });
-            } 
-            else {
-                document.exitFullscreen();
+        fullscreen: function() {
+            if (!fscreen.fullscreenElement) {
+                let video = document.querySelector("#vue-app");
+                fscreen.requestFullscreen(video);
+            } else {
+                fscreen.exitFullscreen();
             }
         }
     }
