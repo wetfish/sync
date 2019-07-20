@@ -25,13 +25,14 @@ body {
 #media-player {
     height: 100vh;
     width: 100vw;
+    object-fit: contain;
 }
 
 #controls-container {
     width: 100%;
     height: 100px;
     background-color: rgba(0,0,0,0.2);
-    position: absolute;
+    position: fixed;
     bottom: 0;
     transition: opacity 0.5s;
     opacity: 0;
@@ -43,4 +44,16 @@ progress {
 
 .active {
     opacity: 1 !important;
+}
+
+.icon {
+    fill:white;
+    width: 3rem;
+    height: 3rem;
+}
+
+.icon:hover {
+    fill:#ccc;
+}
+
 }

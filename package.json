@@ -23,12 +23,15 @@
   "homepage": "https://github.com/wetfish/sync#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "fscreen": "^1.0.2",
     "ip": "^1.1.5",
     "socket.io": "^2.2.0",
     "vue": "^2.6.4"
   },
   "devDependencies": {
-    "nodemon": "^1.18.9",
-    "eslint": "^5.12.1"
+    "@fortawesome/fontawesome-free": "^5.9.0",
+    "bulma": "^0.7.5",
+    "eslint": "^5.12.1",
+    "nodemon": "^1.18.9"
   }
 }
