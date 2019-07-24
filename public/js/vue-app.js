@@ -30,7 +30,12 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     template: `
         <div id="controls-container">
             <progress v-bind:value="timestamp" v-bind:max="duration"></progress>
-            <div class is-flex>
+            <div>
+                <a id="play" class="is-hidden" v-on:click="play()">
+                    <svg class="icon">
+                        <use xlink:href="regular.svg#pause-circle"></use>
+                    </svg>
+                </a>
                 <a id="fullscreen" class="is-pulled-right" v-on:click="fullscreen()">
                     <svg class="icon">
                         <use xlink:href="solid.svg#expand"></use>
@@ -47,6 +52,19 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 fscreen.requestFullscreen(video);
             } else {
                 fscreen.exitFullscreen();
+            }
+        },
+        play: function(){
+            let mediaPlayer = document.getElementById('media-player');
+            let playbutton = document.querySelector('#play svg use');
+
+            if (mediaPlayer.paused) {
+                playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
+                mediaPlayer.play();
+            }
+            else if(!mediaPlayer.paused) {
+                playbutton.setAttribute('xlink:href','regular.svg#play-circle');
+                mediaPlayer.pause();
             }
         }
     }
@@ -73,7 +91,10 @@ let vueApp = new Vue ({
 });
 
 function mountNewPlayer(mediaComponent) {
+    // Firefox 1.0+ works on mobile firefox as well
+    let isFirefox = typeof InstallTrigger !== 'undefined';
     let mediaElement = document.getElementById('media-player');
+
     mediaElement.muted = mediaComponent.muted;
     mediaElement.currentTime = mediaComponent.timestamp;
     mediaElement.addEventListener('volumechange', () => {
@@ -84,6 +105,12 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('timeupdate', (event) => {
         vueApp.timestamp = mediaElement.currentTime;
     });
+    if (!isFirefox) {
+        //display playbutton.
+        console.log("user is not using Firefox");
+        let playButton = document.getElementById('play');
+        playButton.classList.remove('is-hidden');
+    }
 
     mediaElement.addEventListener('play', () => {
         const mediaPlayer = document.getElementById('media-player');
