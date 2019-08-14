@@ -33,12 +33,17 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             <div>
                 <a id="play" v-on:click="play()">
                     <svg class="icon">
-                        <use xlink:href="regular.svg#pause-circle"></use>
+                        <use xlink:href="regular.svg#play-circle"></use>
                     </svg>
                 </a>
                 <a id="fullscreen" class="is-pulled-right" v-on:click="fullscreen()">
                     <svg class="icon">
                         <use xlink:href="solid.svg#expand"></use>
+                    </svg>
+                </a>
+                <a class="modal is-active" v-on:click="play()">
+                    <svg class="icon-large">
+                        <use xlink:href="regular.svg#play-circle"></use>
                     </svg>
                 </a>
             </div>
@@ -57,9 +62,10 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         play: function(){
             let mediaPlayer = document.getElementById('media-player');
             let playbutton = document.querySelector('#play svg use');
-
+            let startbutton = document.querySelector(".modal");
             if (mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
+                startbutton.classList.remove("is-active");
                 mediaPlayer.play();
                 mediaPlayer.muted = false;
             }
@@ -104,7 +110,7 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('timeupdate', (event) => {
         vueApp.timestamp = mediaElement.currentTime;
     });
-
+    mediaElement.pause();
     mediaElement.addEventListener('play', () => {
         const mediaPlayer = document.getElementById('media-player');
         // If the flag was raised, load and play the newest content. Reset flag.
