@@ -4,7 +4,6 @@
   "description": "Synchronize audio and video between friends! Supports HTML5 video, YouTube, and Vimeo",
   "main": "server.js",
   "scripts": {
-    "dev": "node server.js",
     "start": "node server.js",
     "test": "mocha || true"
   },
