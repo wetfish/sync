@@ -30,10 +30,20 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     template: `
         <div id="controls-container">
             <progress v-bind:value="timestamp" v-bind:max="duration"></progress>
-            <div class is-flex>
+            <div>
+                <a id="play" v-on:click="play()">
+                    <svg class="icon">
+                        <use xlink:href="regular.svg#play-circle"></use>
+                    </svg>
+                </a>
                 <a id="fullscreen" class="is-pulled-right" v-on:click="fullscreen()">
                     <svg class="icon">
                         <use xlink:href="solid.svg#expand"></use>
+                    </svg>
+                </a>
+                <a class="modal is-active" v-on:click="play()">
+                    <svg class="icon-large">
+                        <use xlink:href="regular.svg#play-circle"></use>
                     </svg>
                 </a>
             </div>
@@ -47,6 +57,21 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 fscreen.requestFullscreen(video);
             } else {
                 fscreen.exitFullscreen();
+            }
+        },
+        play: function(){
+            let mediaPlayer = document.getElementById('media-player');
+            let playbutton = document.querySelector('#play svg use');
+            let startbutton = document.querySelector(".modal");
+            if (mediaPlayer.paused) {
+                playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
+                startbutton.classList.remove("is-active");
+                mediaPlayer.play();
+                mediaPlayer.muted = false;
+            }
+            else if(!mediaPlayer.paused) {
+                playbutton.setAttribute('xlink:href','regular.svg#play-circle');
+                mediaPlayer.pause();
             }
         }
     }
@@ -74,6 +99,7 @@ let vueApp = new Vue ({
 
 function mountNewPlayer(mediaComponent) {
     let mediaElement = document.getElementById('media-player');
+
     mediaElement.muted = mediaComponent.muted;
     mediaElement.currentTime = mediaComponent.timestamp;
     mediaElement.addEventListener('volumechange', () => {
@@ -84,10 +110,9 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('timeupdate', (event) => {
         vueApp.timestamp = mediaElement.currentTime;
     });
-
+    mediaElement.pause();
     mediaElement.addEventListener('play', () => {
         const mediaPlayer = document.getElementById('media-player');
-
         // If the flag was raised, load and play the newest content. Reset flag.
         // Else if the latency is too large (ex: user pause or lag), syncronize
         if (vueApp.newMediaReceivedDuringPause) {

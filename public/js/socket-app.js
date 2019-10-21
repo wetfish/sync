@@ -48,7 +48,15 @@ socket.on('timestamp', (data) => {
     let msg = `Watching ${data.mediaType} file ${data.humanReadableIndex} of ${data.totalFiles}. Timestamp: ${data.timestamp}s. Latency: ${latency}`;
     vueApp.serverMsg = msg;
     vueApp.latency = latency;
-    //vueApp.timestamp = data.timestamp;
+
+    //if the latency is over the threshold, then sync it back up
+    if(vueApp.latency>=vueApp.latencyThresholdSeconds){
+        vueApp.timestamp = data.timestamp;
+    }
+    //check if vueapp.latency is negative. means server was stopped and then restarted
+    if (vueApp.latency < 0 || isNaN(vueApp.latency)){
+        window.location.reload();
+    }
 });
 
 // Server emits event when client connects

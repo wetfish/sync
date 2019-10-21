@@ -56,4 +56,13 @@ progress {
     fill:#ccc;
 }
 
+.icon-large {
+    fill:white;
+    width: 12rem;
+    height: 12rem;
 }
+
+.icon-large:hover {
+    fill:#ccc;
+}
+
