@@ -15,7 +15,9 @@ window.addEventListener('DOMContentLoaded', () => {
     });
 
     document.addEventListener('keydown', function() {
-        document.getElementById('media-player').muted = !document.getElementById('media-player').muted;
+        if (event.keyCode === 77) {
+            document.getElementById('media-player').muted = !document.getElementById('media-player').muted;
+        }
     });
     
 });
