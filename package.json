@@ -4,7 +4,6 @@
   "description": "Synchronize audio and video between friends! Supports HTML5 video, YouTube, and Vimeo",
   "main": "server.js",
   "scripts": {
-    "dev": "nodemon server.js",
     "start": "node server.js",
     "test": "mocha || true"
   },
@@ -31,7 +30,6 @@
   "devDependencies": {
     "@fortawesome/fontawesome-free": "^5.9.0",
     "bulma": "^0.7.5",
-    "eslint": "^5.12.1",
-    "nodemon": "^1.18.9"
+    "eslint": "^5.12.1"
   }
 }
