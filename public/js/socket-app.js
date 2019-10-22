@@ -50,12 +50,8 @@ socket.on('timestamp', (data) => {
     vueApp.latency = latency;
 
     //if the latency is over the threshold, then sync it back up
-    if(vueApp.latency>=vueApp.latencyThresholdSeconds){
+    if(Math.abs(vueApp.latency) >= vueApp.latencyThresholdSeconds) {
         vueApp.timestamp = data.timestamp;
-    }
-    //check if vueapp.latency is negative. means server was stopped and then restarted
-    if (vueApp.latency < 0 || isNaN(vueApp.latency)){
-        window.location.reload();
     }
 });
 
