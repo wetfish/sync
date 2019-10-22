@@ -69,6 +69,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
                 startbutton.classList.remove("is-active");
                 mediaPlayer.play();
+                mediaPlayer.muted = false;
             }
             else if(!mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#play-circle');
