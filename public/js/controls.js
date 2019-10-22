@@ -14,8 +14,10 @@ window.addEventListener('DOMContentLoaded', () => {
         }, 4000);
     });
 
-    document.addEventListener('keydown', function() {
-        document.getElementById('media-player').muted = !document.getElementById('media-player').muted;
+    document.addEventListener('keydown', function(event) {
+        if (event.keyCode === 77) {
+            document.getElementById('media-player').muted = !document.getElementById('media-player').muted;
+        }
     });
     
 });

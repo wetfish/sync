@@ -59,15 +59,16 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 fscreen.exitFullscreen();
             }
         },
-        play: function(){
-            let mediaPlayer = document.getElementById('media-player');
-            let playbutton = document.querySelector('#play svg use');
+        play: function() {
+
+            let mediaPlayer = document.getElementById("media-player");
+            let playbutton = document.querySelector("#play svg use");
             let startbutton = document.querySelector(".modal");
+
             if (mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
                 startbutton.classList.remove("is-active");
                 mediaPlayer.play();
-                mediaPlayer.muted = false;
             }
             else if(!mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#play-circle');
