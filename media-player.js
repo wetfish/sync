@@ -1,9 +1,23 @@
 const playlistUrl = process.env.URL || 'http://localhost:3000';
 let path = require('path');
 let fs = require('fs');
-let videoTypes = new Set(['.ogv', '.mp4']);
-let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
-let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
+
+let videoTypes = new Set(
+    process.env.VIDEO_TYPES ? 
+    process.env.VIDEO_TYPES.split('|') :
+    ['.ogv', '.mp4']
+);
+
+let audioTypes = new Set(process.env.AUDIO_TYPES ? 
+    process.env.AUDIO_TYPES.split('|') :
+    ['.mp3', '.flac', '.oga', '.wav']
+);
+
+let ambiguousTypes = new Set(
+    process.env.AMBIGUOUS_TYPES ?
+    process.env.AMBIGUOUS_TYPES.split('|') :
+     ['.webm', '.ogg']
+); // These can be either audio or video
 
 class MediaPlayer {
 
@@ -25,9 +39,12 @@ class MediaPlayer {
         this.mediaLengths = new Array(this.playlist.length);
     }
 
-    //TODO: validate supported media files.
     isValidMediaFile(file) {
-        return (file !== '.gitkeep');
+        let validExtensions = new Set([...videoTypes, ...audioTypes, ...ambiguousTypes]);
+
+        let extension = path.parse('./'+ file).ext.toLowerCase();
+
+        return (validExtensions.has(extension));
     }
 
     // Determine whether files are audio, video, or unsupported
@@ -140,6 +157,8 @@ class MediaPlayer {
             }
         }
     }
+
+
 }
 
 module.exports = MediaPlayer;
