@@ -13,14 +13,21 @@ class MediaPlayer {
         this.mediaTypes = [];
         this.startTime = null;
         this.filesProcessed = 0;
-        this.playlist = fs.readdirSync('./public/media').map(function(file){
+
+        this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
             return '/media/'+file;
         });
+
 
         console.log("Loaded playlist:", this.playlist);
 
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
+    }
+
+    //TODO: validate supported media files.
+    isValidMediaFile(file) {
+        return (file !== '.gitkeep');
     }
 
     // Determine whether files are audio, video, or unsupported
