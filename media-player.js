@@ -8,7 +8,8 @@ let videoTypes = new Set(
     ['.ogv', '.mp4']
 );
 
-let audioTypes = new Set(process.env.AUDIO_TYPES ? 
+let audioTypes = new Set(
+    process.env.AUDIO_TYPES ? 
     process.env.AUDIO_TYPES.split('|') :
     ['.mp3', '.flac', '.oga', '.wav']
 );
