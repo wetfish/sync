@@ -3,8 +3,15 @@
 
 # Misc
 .DS_Store
+.env
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
-public/media/
+
+
+public/media/*
+
+!public/media/.gitkeep 
+
+.vscode/*

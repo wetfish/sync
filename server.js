@@ -1,5 +1,8 @@
 const express = require('express');
 const socket = require('socket.io');
+
+require('dotenv').config();
+
 const MediaPlayer = require('./media-player');
 
 const app = express();

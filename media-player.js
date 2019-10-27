@@ -1,6 +1,7 @@
 const playlistUrl = process.env.URL || 'http://localhost:3000';
 let path = require('path');
 let fs = require('fs');
+
 let videoTypes = new Set(['.ogv', '.mp4']);
 let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
 let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
@@ -13,14 +14,24 @@ class MediaPlayer {
         this.mediaTypes = [];
         this.startTime = null;
         this.filesProcessed = 0;
-        this.playlist = fs.readdirSync('./public/media').map(function(file){
+
+        this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
             return '/media/'+file;
         });
+
 
         console.log("Loaded playlist:", this.playlist);
 
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
+    }
+
+    isValidMediaFile(file) {
+        let validExtensions = new Set([...videoTypes, ...audioTypes, ...ambiguousTypes]);
+
+        let extension = path.parse('./'+ file).ext.toLowerCase();
+
+        return (validExtensions.has(extension));
     }
 
     // Determine whether files are audio, video, or unsupported
@@ -133,6 +144,8 @@ class MediaPlayer {
             }
         }
     }
+
+
 }
 
 module.exports = MediaPlayer;
