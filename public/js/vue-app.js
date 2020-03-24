@@ -1,4 +1,3 @@
-/*eslint no-unused-vars: 0 */
 
 // Video Vue Component
 const videoPlayer = Vue.component('video-player', {
@@ -41,6 +40,11 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                         <use xlink:href="solid.svg#expand"></use>
                     </svg>
                 </a>
+                 <a id="resync" class="is-pulled-right" v-on:click="resync()">
+                    <svg class="icon">
+                        <use xlink:href="solid.svg#redo-alt"></use>
+                    </svg>
+                </a>
                 <a class="modal is-active" v-on:click="play()">
                     <svg class="icon-large">
                         <use xlink:href="regular.svg#play-circle"></use>
@@ -74,6 +78,15 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             else if(!mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#play-circle');
                 mediaPlayer.pause();
+            }
+        },
+        resync: function () {
+            let mediaPlayer = document.getElementById("media-player");
+            if (vueApp.latency > 0) {
+                mediaPlayer.currentTime += vueApp.latency;
+            }
+            else if (vueApp.latency<0) {
+                mediaPlayer.currentTime -= Math.abs(vueApp.latency);
             }
         }
     }

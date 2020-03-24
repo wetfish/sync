@@ -38,6 +38,10 @@ body {
     opacity: 0;
 }
 
+#resync {
+    margin-right: 1em;
+}
+
 progress {
     width: 100%;
 }
