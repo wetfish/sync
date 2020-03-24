@@ -82,9 +82,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         },
         resync: function () {
             let mediaPlayer = document.getElementById("media-player");
-            //adding 1.5 helps the account for the time it takes for the server 
-            //to assign a time stamp and brings the client closer.
-            mediaPlayer.currentTime = vueApp.serverTime+1.5;
+            mediaPlayer.currentTime = vueApp.serverTime;
         }
     }
 });
