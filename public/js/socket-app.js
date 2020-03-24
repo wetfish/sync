@@ -48,6 +48,7 @@ socket.on('timestamp', (data) => {
     let msg = `Watching ${data.mediaType} file ${data.humanReadableIndex} of ${data.totalFiles}. Timestamp: ${data.timestamp}s. Latency: ${latency}`;
     vueApp.serverMsg = msg;
     vueApp.latency = latency;
+    vueApp.serverTime = data.timestamp;
 
     //if the latency is over the threshold, then sync it back up
     if(Math.abs(vueApp.latency) >= vueApp.latencyThresholdSeconds) {

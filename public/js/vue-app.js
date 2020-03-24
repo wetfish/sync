@@ -82,12 +82,9 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         },
         resync: function () {
             let mediaPlayer = document.getElementById("media-player");
-            if (vueApp.latency > 0) {
-                mediaPlayer.currentTime += vueApp.latency;
-            }
-            else if (vueApp.latency<0) {
-                mediaPlayer.currentTime -= Math.abs(vueApp.latency);
-            }
+            //adding 1.5 helps the account for the time it takes for the server 
+            //to assign a time stamp and brings the client closer.
+            mediaPlayer.currentTime = vueApp.serverTime+1.5;
         }
     }
 });
@@ -98,6 +95,7 @@ let vueApp = new Vue ({
         greeting: "Welcome to Sync",
         serverMsg: 'Waiting for server...',
         url: null,
+        serverTime:null,
         mediaElement: null,
         timestamp: null,
         duration: null,
