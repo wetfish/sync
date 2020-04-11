@@ -82,7 +82,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         },
         resync: function () {
             let mediaPlayer = document.getElementById("media-player");
-            mediaPlayer.currentTime = vueApp.timeSinceLastHeartBeat;   
+            mediaPlayer.currentTime = vueApp.serverTime+vueApp.timeSinceLastHeartBeat;  
         }
     }
 });
@@ -98,6 +98,7 @@ let vueApp = new Vue ({
         timestamp: null,
         duration: null,
         muted: true,
+        heartBeat:null,
         latencyThresholdSeconds: 5
         
     },
@@ -105,18 +106,14 @@ let vueApp = new Vue ({
     },
     computed: { 
         timeSinceLastHeartBeat:function () {
-           return this.serverTime+this.heartBeat;
+            //date objects are in milleseconds, so convert it to seconds.
+            return (new Date().getTime() - vueApp.heartBeat )*.001;
         }
     },
     components: {
         "video-player": videoPlayer,
         "audio-player": audioPlayer
     },
-    mounted() {
-        setInterval(function() {
-            vueApp.heartBeat+=0.2;
-        },200);
-    }
 });
 
 function mountNewPlayer(mediaComponent) {
