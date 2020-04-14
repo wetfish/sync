@@ -82,7 +82,10 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         },
         resync: function () {
             let mediaPlayer = document.getElementById("media-player");
-            mediaPlayer.currentTime = vueApp.serverTime+((new Date().getTime() - vueApp.heartBeat )/1000);  
+
+            // get the difference of the last server heart beat in seconds
+            let lastHeartBeatOffset = ((new Date().getTime() - vueApp.heartBeat )/1000);
+            mediaPlayer.currentTime = vueApp.serverTime+lastHeartBeatOffset;  
         }
     }
 });
