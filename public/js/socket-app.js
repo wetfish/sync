@@ -49,8 +49,8 @@ socket.on('timestamp', (data) => {
     vueApp.serverMsg = msg;
     vueApp.latency = latency;
     vueApp.serverTime = data.timestamp;
-    //reset time since last server update variable heartbeat
-    vueApp.heartBeat = 0;
+    //create a new date object for caculating time since last server message
+    vueApp.heartBeat = new Date().getTime();
     //if the latency is over the threshold, then sync it back up
     if(Math.abs(vueApp.latency) >= vueApp.latencyThresholdSeconds) {
         vueApp.timestamp = data.timestamp;
