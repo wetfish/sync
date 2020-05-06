@@ -62,18 +62,13 @@ function checkRepeat(repeat, count) {
         console.log('we have played through the list '+count+' times');
         process.exit('bye bye!');
     }
-    else if (repeat==='false') {
+    else if (repeat==='false'&& count == 1) {
         if (count == 1) {
             console.log('we have played through the list');
             process.exit('bye bye!');
         }
-        return;
     }
-    else {
-        //if there's no repeat count or repeat is anything other than false, 
-        //repeat ad infinitum
-        return;
-    }
+//if there's no repeat count or repeat is anything other than false, repeat ad infinitum
 }
 setInterval(() => {
     let index = mediaPlayer.mediaIndex;
@@ -88,6 +83,5 @@ setInterval(() => {
         totalFiles: total
     };
     checkRepeat(repeat,playlistCount);
-    //console.log(index+' --total:'+total);
     io.sockets.emit('timestamp', data);
 }, 3000);
