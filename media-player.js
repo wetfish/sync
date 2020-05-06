@@ -6,6 +6,8 @@ let videoTypes = new Set(['.ogv', '.mp4']);
 let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
 let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
 
+let count = 0;
+
 class MediaPlayer {
 
     constructor(io) {
@@ -14,6 +16,7 @@ class MediaPlayer {
         this.mediaTypes = [];
         this.startTime = null;
         this.filesProcessed = 0;
+        this.playlistCount = 0;
 
         this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
             return '/media/'+file;
@@ -102,6 +105,11 @@ class MediaPlayer {
                 duration: duration,
                 mediaType: mediaType
             };
+
+            //on new media event, count each time the index is at zero.
+            if (this.mediaIndex == 0) {
+                this.playlistCount++;
+            }
             this.io.sockets.emit('newMedia', data);
         };
     }
