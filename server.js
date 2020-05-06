@@ -58,18 +58,20 @@ mediaPlayer.init();
 
 // Stop server depending on value given from REPEAT constant
 function checkRepeat(repeat, count) {
-    if (repeat==='true'||repeat=='') {
-        return;
-    }
     if (repeat == count) {
-            console.log('we have played through the list '+count+' times');
-            process.exit('bye bye!');
-        }
-    if (repeat==='false') {
+        console.log('we have played through the list '+count+' times');
+        process.exit('bye bye!');
+    }
+    else if (repeat==='false') {
         if (count == 1) {
             console.log('we have played through the list');
             process.exit('bye bye!');
         }
+        return;
+    }
+    else {
+        //if there's no repeat count or repeat is anything other than false, 
+        //repeat ad infinitum
         return;
     }
 }
@@ -86,5 +88,6 @@ setInterval(() => {
         totalFiles: total
     };
     checkRepeat(repeat,playlistCount);
+    //console.log(index+' --total:'+total);
     io.sockets.emit('timestamp', data);
 }, 3000);
