@@ -63,10 +63,8 @@ function checkRepeat(repeat, count) {
         process.exit('bye bye!');
     }
     else if (repeat==='false'&& count == 1) {
-        if (count == 1) {
-            console.log('we have played through the list');
-            process.exit('bye bye!');
-        }
+        console.log('we have played through the list');
+        process.exit('bye bye!');
     }
 //if there's no repeat count or repeat is anything other than false, repeat ad infinitum
 }
