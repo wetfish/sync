@@ -37,7 +37,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                         </svg>
                     </a>
                     <div id="vol">
-                        <input class="slider" type="range" min="0" max="100" @input="changeVolume()" :value="volume"/>
+                        <input class="slider" type="range" min="0" max="100" @input="changeVolume" v-bind:value="this.$data.volume"/>
                     </div>
                 </div>
                 
@@ -61,7 +61,12 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             </a>
         </div>
     `,
-    props: ["timestamp", "duration","volume"],
+    props: ["timestamp", "duration"],
+    data: function() {
+        return {
+            volume:0
+        };
+    },
     methods: {
         fullscreen: function() {
             if (!fscreen.fullscreenElement) {
@@ -95,14 +100,10 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             let lastHeartBeatOffset = ((new Date().getTime() - vueApp.heartBeat )/1000);
             mediaPlayer.currentTime = vueApp.serverTime+lastHeartBeatOffset;  
         },
-        changeVolume: function (){
-            console.log(this.$props.volume);
-            let mediaPlayer = document.querySelector("#media-player");
-            let slider = document.querySelector(".slider").value;
-
-            mediaPlayer.volume = slider*.01;
-            vueApp.volume = slider*.01;
-            
+        changeVolume: function (event){
+            console.log(event);
+            let mediaPlayer = document.querySelector("#media-player").volume;
+            mediaPlayer = this.volume*.01;
         }
     }
 });
@@ -125,7 +126,7 @@ let vueApp = new Vue ({
     components: {
         "video-player": videoPlayer,
         "audio-player": audioPlayer,
-        "media-player-controls": mediaPlayerControls
+        //"media-player-controls": mediaPlayerControls
     },
 });
 
