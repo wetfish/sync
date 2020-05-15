@@ -70,3 +70,16 @@ progress {
     fill:#ccc;
 }
 
+.right-side-buttons {
+    display: flex;
+    align-items: center;
+}
+.left-side-buttons {
+    display: flex;
+    align-items: center;
+}
+.button-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
