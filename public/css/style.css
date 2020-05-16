@@ -42,6 +42,23 @@ body {
     margin-right: 1em;
 }
 
+#vol {
+    margin-left: 1em;
+}
+#vol input {
+    width: 100px;
+}
+
+@media screen and (max-width: 400px) {
+    #vol input {
+        width: 50px;
+    }
+}
+
+#mute {
+    margin-left: 1em;
+}
+
 progress {
     width: 100%;
 }
@@ -82,4 +99,5 @@ progress {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    flex-wrap: wrap;
 }

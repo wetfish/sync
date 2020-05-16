@@ -6,7 +6,7 @@ const videoPlayer = Vue.component('video-player', {
             <source v-bind:src="url">
         </video>
     `,
-    props: ["url", "timestamp", "muted","volume"],
+    props: ["url", "timestamp", "muted"],
     mounted() {
         mountNewPlayer(this);
     }
@@ -19,7 +19,7 @@ const audioPlayer = Vue.component('audio-player', {
             <source v-bind:src="url">
         </audio>
     `,
-    props: ["url", "timestamp", "muted","volume"],
+    props: ["url", "timestamp", "muted"],
     mounted() {
         mountNewPlayer(this);
     }
@@ -36,18 +36,23 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                             <use xlink:href="regular.svg#play-circle"></use>
                         </svg>
                     </a>
+                    <a id="mute" @click="mute">
+                        <svg class="icon">
+                            <use :xlink:href="volumeStatus"></use>
+                        </svg>
+                    </a>
                     <div id="vol">
-                        <input class="slider" type="range" min="0" max="100" @input="changeVolume" v-bind:value="this.$data.volume"/>
+                        <input class="slider" type="range" min="0" max="100" @input="changeVolume" v-model="volume"/>
                     </div>
                 </div>
                 
                 <div class="right-side-buttons">
-                    <a id="resync" class="is-pulled-right" v-on:click="resync()">
+                    <a id="resync" class="is-pulled-right" v-on:click="resync">
                         <svg class="icon">
                             <use xlink:href="solid.svg#redo-alt"></use>
                         </svg>
                     </a>
-                    <a id="fullscreen" class="is-pulled-right" v-on:click="fullscreen()">
+                    <a id="fullscreen" class="is-pulled-right" v-on:click="fullscreen">
                         <svg class="icon">
                             <use xlink:href="solid.svg#expand"></use>
                         </svg>
@@ -62,9 +67,17 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         </div>
     `,
     props: ["timestamp", "duration"],
-    data: function() {
+    data:function() {
         return {
-            volume:0
+            volume:0,
+            muteIcons: {
+            //declare icons for easy access
+                volumeOff:'solid.svg#volume-off',
+                volumeLow:'solid.svg#volume-down',
+                volumeUp:'solid.svg#volume-up',
+                muted:'solid.svg#volume-mute'
+            },
+            volumeStatus:''
         };
     },
     methods: {
@@ -92,6 +105,8 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 playbutton.setAttribute('xlink:href','regular.svg#play-circle');
                 mediaPlayer.pause();
             }
+            //call this.changeVolume to set the volume icon properly
+            this.changeVolume();
         },
         resync: function () {
             let mediaPlayer = document.getElementById("media-player");
@@ -100,11 +115,48 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             let lastHeartBeatOffset = ((new Date().getTime() - vueApp.heartBeat )/1000);
             mediaPlayer.currentTime = vueApp.serverTime+lastHeartBeatOffset;  
         },
-        changeVolume: function (event){
-            console.log(event);
-            let mediaPlayer = document.querySelector("#media-player").volume;
-            mediaPlayer = this.volume*.01;
+        changeVolume: function (){
+            // get the media player element and set it's volume to whatever the slider value is
+
+            let mediaPlayer = document.querySelector("#media-player");
+            mediaPlayer.volume = this.volume*.01;
+
+            // update our icon status while were at it.
+            if (!mediaPlayer.muted) {
+                if (this.volume == 0 ) {
+                    this.volumeStatus = this.muteIcons.volumeOff;
+                }
+                else if (this.volume < 90 ) {
+                    this.volumeStatus = this.muteIcons.volumeLow;
+                }
+                else if (this.volume >= 90 ) {
+                    this.volumeStatus = this.muteIcons.volumeUp;
+                }
+            }
+            
+
+        },
+        mute: function () {
+            //get the media element and make mute/unmute toggle
+            let mediaPlayer = document.querySelector("#media-player");
+
+            if (mediaPlayer.muted != true) {
+                this.volumeStatus = this.muteIcons.muted;
+                mediaPlayer.muted = true;
+            }
+            else {
+                //else mute the element and call changeVolume() to set the icon
+                mediaPlayer.muted = false;
+                this.changeVolume();
+            }
         }
+    },
+    mounted() {
+        //get the mediaPlayer element set up default volume
+        let mediaPlayer = document.querySelector("#media-player");
+        this.volume = this.$attrs.appvolume;
+        this.volumeStatus = this.muteIcons.muted;
+        mediaPlayer.volume = this.volume*.01;
     }
 });
 
@@ -114,7 +166,7 @@ let vueApp = new Vue ({
         greeting: "Welcome to Sync",
         serverMsg: 'Waiting for server...',
         url: null,
-        volume:75,
+        appVolume:75,
         serverTime:null,
         mediaElement: null,
         timestamp: null,
@@ -126,7 +178,6 @@ let vueApp = new Vue ({
     components: {
         "video-player": videoPlayer,
         "audio-player": audioPlayer,
-        //"media-player-controls": mediaPlayerControls
     },
 });
 
@@ -137,7 +188,6 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('volumechange', () => {
         // Update the muted property of the parent element
         vueApp.muted = document.getElementById('media-player').muted;
-        //vueApp.volume = mediaComponent.$data.volume;
     });
 
     mediaElement.addEventListener('timeupdate', (event) => {
