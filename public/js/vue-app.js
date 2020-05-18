@@ -75,13 +75,6 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     data:function() {
         return {
             volume:0,
-            muteIcons: {
-            //declare icons for easy access
-                volumeOff:'solid.svg#volume-off',
-                volumeLow:'solid.svg#volume-down',
-                volumeUp:'solid.svg#volume-up',
-                muted:'solid.svg#volume-mute'
-            },
             muted:true
         };
     },
