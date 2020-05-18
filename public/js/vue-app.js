@@ -36,9 +36,14 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                             <use xlink:href="regular.svg#play-circle"></use>
                         </svg>
                     </a>
-                    <a id="mute" @click="mute">
-                        <svg class="icon">
-                            <use :xlink:href="volumeStatus"></use>
+                    <a id="mute" @click="mute" >
+                        <svg class="icon" v-if="!this.muted">
+                            <use v-if="volume == 0" xlink:href="solid.svg#volume-off"></use>
+                            <use v-else-if="volume < 90" xlink:href="solid.svg#volume-down"></use>
+                            <use v-else-if="volume >= 90" xlink:href="solid.svg#volume-up"></use>
+                        </svg>
+                        <svg class="icon" v-else>
+                            <use xlink:href="solid.svg#volume-mute"></use>
                         </svg>
                     </a>
                     <div id="vol">
@@ -77,7 +82,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 volumeUp:'solid.svg#volume-up',
                 muted:'solid.svg#volume-mute'
             },
-            volumeStatus:''
+            muted:true
         };
     },
     methods: {
@@ -105,8 +110,8 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                 playbutton.setAttribute('xlink:href','regular.svg#play-circle');
                 mediaPlayer.pause();
             }
-            //call this.changeVolume to set the volume icon properly
-            this.changeVolume();
+            //make sure our icon reflects the unmuted behavior on play.
+            this.muted = false;
         },
         resync: function () {
             let mediaPlayer = document.getElementById("media-player");
@@ -117,37 +122,21 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         },
         changeVolume: function (){
             // get the media player element and set it's volume to whatever the slider value is
-
             let mediaPlayer = document.querySelector("#media-player");
             mediaPlayer.volume = this.volume*.01;
-
-            // update our icon status while were at it.
-            if (!mediaPlayer.muted) {
-                if (this.volume == 0 ) {
-                    this.volumeStatus = this.muteIcons.volumeOff;
-                }
-                else if (this.volume < 90 ) {
-                    this.volumeStatus = this.muteIcons.volumeLow;
-                }
-                else if (this.volume >= 90 ) {
-                    this.volumeStatus = this.muteIcons.volumeUp;
-                }
-            }
-            
-
         },
         mute: function () {
             //get the media element and make mute/unmute toggle
             let mediaPlayer = document.querySelector("#media-player");
 
             if (mediaPlayer.muted != true) {
-                this.volumeStatus = this.muteIcons.muted;
+                this.muted = true;
                 mediaPlayer.muted = true;
             }
             else {
-                //else mute the element and call changeVolume() to set the icon
+                //else mute the element and update the mediaplayer.muted
                 mediaPlayer.muted = false;
-                this.changeVolume();
+                this.muted = false;
             }
         }
     },
@@ -155,7 +144,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         //get the mediaPlayer element set up default volume
         let mediaPlayer = document.querySelector("#media-player");
         this.volume = this.$attrs.appvolume;
-        this.volumeStatus = this.muteIcons.muted;
+        this.muted = false;
         mediaPlayer.volume = this.volume*.01;
     }
 });
