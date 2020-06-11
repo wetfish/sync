@@ -1,12 +1,27 @@
 const playlistUrl = process.env.URL || 'http://localhost:3000';
 let path = require('path');
 let fs = require('fs');
+let m3uParser = require('m3u8-parser');
 
 let videoTypes = new Set(['.ogv', '.mp4']);
 let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
+let m3uTypes = new Set(['.m3u', '.m3u8']);
 let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
 
 let count = 0;
+//import m3u file
+function importM3U(url) {
+    
+    let parser = new m3uParser.Parser();
+    url = fs.readFileSync(url).toString();
+    
+    parser.push(url);
+    parser.end();
+    let parsedFile = parser.manifest;
+   // console.log(parsedFile);
+    return parsedFile;
+}
+
 
 class MediaPlayer {
 
@@ -19,6 +34,19 @@ class MediaPlayer {
         this.playlistCount = 0;
 
         this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
+            //console.log(file);
+            //process M3U file and return an array of content
+            if (file.includes('m3u')) {
+                let playlist = importM3U('./public/media/'+file);
+                //loop through array, and check to see if each file is valid.
+                let list = playlist.segments.map(function(file) {
+                    //process file so that spaces are taken out of file name 
+                    console.log(file);
+                    return file.uri;
+                });
+                return list;
+            }
+                
             return '/media/'+file;
         });
 
@@ -30,9 +58,14 @@ class MediaPlayer {
     }
 
     isValidMediaFile(file) {
-        let validExtensions = new Set([...videoTypes, ...audioTypes, ...ambiguousTypes]);
+        
+
+
+        let validExtensions = new Set([...videoTypes, ...audioTypes, ...ambiguousTypes, ...m3uTypes]);
+
 
         let extension = path.parse('./'+ file).ext.toLowerCase();
+        
 
         return (validExtensions.has(extension));
     }
@@ -40,8 +73,10 @@ class MediaPlayer {
     // Determine whether files are audio, video, or unsupported
     getMediaTypes() {
         this.playlist.forEach((url) => {
+
             let relativeUrl = './public' + url;
             let extension = path.parse(relativeUrl).ext.toLowerCase();
+
             if (audioTypes.has(extension)) this.mediaTypes.push('audio');
             else if (videoTypes.has(extension)) this.mediaTypes.push('video');
             else if (ambiguousTypes.has(extension)) {
@@ -61,7 +96,23 @@ class MediaPlayer {
                     }
                 }
             }
-            else throw Error(`${url} is an unsuported file type`);
+            else throw Error(`${url} is an unsupported file type`);
+
+             //if we get an array for a url, it's a processed m3u playlist
+            if (Array.isArray(url)) {
+                console.log('LOLOLOLOLOL');
+                for (let i of url) {
+                    if (this.isValidMediaFile(i)) {
+                        console.log(i);
+                        console.log(true);
+                    }
+                    else {
+                        console.log(this.isValidMediaFile(i));
+                    }
+                }
+                
+                //trust that the user inputed the correct path, if theres no file then remove it from the playlist
+            } 
         });
     }
 
