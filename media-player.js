@@ -1,16 +1,31 @@
 const playlistUrl = process.env.URL || 'http://localhost:3000';
+const args = process.argv;
 let path = require('path');
 let fs = require('fs');
-
+let m3uParser = require('m3u8-parser');
 let videoTypes = new Set(['.ogv', '.mp4']);
 let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
 let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
 
 let count = 0;
 
+function importM3U(url) {
+    
+    let parser = new m3uParser.Parser();
+
+    url = fs.readFileSync(url).toString();
+    
+    parser.push(url);
+    parser.end();
+    let parsedFile = parser.manifest;
+    //console.log(parsedFile);
+    return parsedFile;
+}
+
 class MediaPlayer {
 
     constructor(io) {
+        this.options = args[2];
         this.io = io;
         this.mediaIndex = 0;
         this.mediaTypes = [];
@@ -18,11 +33,42 @@ class MediaPlayer {
         this.filesProcessed = 0;
         this.playlistCount = 0;
 
-        this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
+        if (this.options == '--m3u') {
+            console.log(true);
+            this.playlist = fs.readdirSync('./public/media').filter(function(file) {
+                if (file.includes('m3u'))return file;
+            }).map(function(file){
+                file = importM3U('./public/media/'+file);
+                let list = file.segments.map(function(i){
+                    if (i.duration) {
+                        if (i.uri) {
+                            i.uri = i.uri.replace(/[\"\']/g,"");
+                            return {
+                                duration:i.duration,
+                                url: i.uri,
+                                name: path.parse(i.uri).name
+                            };
+                        }
+                        throw Error(`Weird. Somehow one of your files is missing a path`);
+                    }
+                    else {
+                        throw Error(`one of your files in your playlist ${file} is missing a duration`);
+                    }
+                });
+                return list;
+            });
+            this.playlist = this.playlist.flat();
+            //console.log(this.playlist);
+        }
+        else {
+            console.log(false);
+            this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
             return '/media/'+file;
         });
+        }
+        
 
-
+        //console.log(this.options);
         console.log("Loaded playlist:", this.playlist);
 
         this.breakpoints = new Array(this.playlist.length);
