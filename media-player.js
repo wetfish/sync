@@ -1,31 +1,32 @@
 const playlistUrl = process.env.URL || 'http://localhost:3000';
-const args = process.argv;
-let path = require('path');
-let fs = require('fs');
-let m3uParser = require('m3u8-parser');
-let videoTypes = new Set(['.ogv', '.mp4']);
-let audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
-let ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
+const argv = require('yargs-parser')(process.argv);
+const path = require('path');
+const fs = require('fs');
+const m3uParser = require('m3u8-parser');
+const videoTypes = new Set(['.ogv', '.mp4']);
+const audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
+const ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
 
 let count = 0;
 
-function importM3U(url) {
-    
-    let parser = new m3uParser.Parser();
+//import m3u files into sync. atm files will need to be located in the project directory.
+function importM3U(file) {
 
-    url = fs.readFileSync(url).toString();
-    
-    parser.push(url);
+    const parser = new m3uParser.Parser();
+
+    let parsedFile = fs.readFileSync(file).toString();
+
+    parser.push(parsedFile);
     parser.end();
-    let parsedFile = parser.manifest;
-    //console.log(parsedFile);
-    return parsedFile;
+    return parser.manifest.segments;
 }
+
+
 
 class MediaPlayer {
 
     constructor(io) {
-        this.options = args[2];
+        this.playlistType = argv;
         this.io = io;
         this.mediaIndex = 0;
         this.mediaTypes = [];
@@ -33,52 +34,56 @@ class MediaPlayer {
         this.filesProcessed = 0;
         this.playlistCount = 0;
 
-        if (this.options == '--m3u') {
-            console.log(true);
-            this.playlist = fs.readdirSync('./public/media').filter(function(file) {
-                if (file.includes('m3u'))return file;
-            }).map(function(file){
-                file = importM3U('./public/media/'+file);
-                let list = file.segments.map(function(i){
-                    if (i.duration) {
-                        if (i.uri) {
-                            i.uri = i.uri.replace(/[\"\']/g,"");
-                            return {
-                                duration:i.duration,
-                                url: i.uri,
-                                name: path.parse(i.uri).name
-                            };
-                        }
-                        throw Error(`Weird. Somehow one of your files is missing a path`);
-                    }
-                    else {
-                        throw Error(`one of your files in your playlist ${file} is missing a duration`);
-                    }
-                });
-                return list;
-            });
-            this.playlist = this.playlist.flat();
-            //console.log(this.playlist);
+        if (this.playlistType.hasOwnProperty('m3u')) {
+            this.playlist = importM3U(this.playlistType.m3u).map(this.processM3U).filter(this.isValidMediaFile);
         }
         else {
-            console.log(false);
             this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
-            return '/media/'+file;
-        });
+                return '/media/'+file;
+            });
         }
-        
-
-        //console.log(this.options);
         console.log("Loaded playlist:", this.playlist);
 
         this.breakpoints = new Array(this.playlist.length);
         this.mediaLengths = new Array(this.playlist.length);
     }
 
+    processM3U(file) {
+        //check file duration
+        if (file.duration) {
+            //check for a file uri
+            if (file.uri) {
+                //remove quotes in filename if they exist.
+                let url = file.uri.replace(/[\"\']/g,"");
+                let name = path.parse(url).name;
+                //return an object with relevant information 
+                return {
+                    duration:file.duration,
+                    url: url,
+                    name: name
+                };
+            }
+            console.warn(`Weird. Somehow one of your files in your playlist is missing a path`);
+        }
+        else {
+            console.warn(`one of your files in your playlist ${file.uri} is missing a duration`);
+        }
+    }
+
     isValidMediaFile(file) {
         let validExtensions = new Set([...videoTypes, ...audioTypes, ...ambiguousTypes]);
-
         let extension = path.parse('./'+ file).ext.toLowerCase();
+
+        //if file happens to be an object and has the property url, parse it differently.
+        if (file.hasOwnProperty('url')) {
+           extension = path.parse('./'+ file.url).ext.toLowerCase();
+           if(validExtensions.has(extension)) {
+                return file;
+           }
+           else {
+            console.warn(`file ${file.url} has an unsupported file extension. skipping...`);
+           }
+        }
 
         return (validExtensions.has(extension));
     }
@@ -110,6 +115,14 @@ class MediaPlayer {
             else throw Error(`${url} is an unsuported file type`);
         });
     }
+    getPlaylistMediaTypes() {
+        //m3u playlists will not support ambiguous file types for the moment.
+        this.playlist.forEach((file)=>{
+            let extension = path.parse(file.url).ext.toLowerCase();
+            if (audioTypes.has(extension)) this.mediaTypes.push('audio');
+            else if (videoTypes.has(extension)) this.mediaTypes.push('video');
+        });
+    }
 
     // Compute video end times
     setBreakpoints() {
@@ -122,6 +135,7 @@ class MediaPlayer {
 
     startTimers() {
         this.startTime = new Date(); // Start main timer
+
         for (let index = 0; index < this.breakpoints.length; index++) {
             let breakpointMillisecs = this.breakpoints[index] * 1000;
 
@@ -143,7 +157,12 @@ class MediaPlayer {
         }
 
         const emitNewMediaEvent = () => {
-            const url = `${playlistUrl}${this.playlist[this.mediaIndex]}`;
+            
+            let url = `${playlistUrl}${this.playlist[this.mediaIndex]}`;
+            //if were in m3u mode were passing an object so we have to fetch the url from the object
+            if (argv.hasOwnProperty('m3u')) {
+                url = `${playlistUrl}${this.playlist[this.mediaIndex]['url']}`;
+            }
             const mediaType = this.mediaTypes[this.mediaIndex];
             const duration = this.mediaLengths[this.mediaIndex];
             const data = {
@@ -178,13 +197,29 @@ class MediaPlayer {
             }
         });
     }
+    //register media lengths from M3U playlist
+    registerMediaLength(file, index) {
+        this.mediaLengths[index] = file.duration;
+        if (++this.filesProcessed === this.mediaLengths.length) {
+                this.setBreakpoints();
+                this.startTimers();
+            }
+    }
 
     // Initialize by parsing media
     init() {
-        this.getMediaTypes();
-        this.playlist.forEach((fileUrl, index) => {
-            this.getMediaLength(fileUrl, index);
-        });
+        if (this.playlistType.hasOwnProperty('m3u')) {
+            this.getPlaylistMediaTypes();
+            this.playlist.forEach((file, index)=>{
+                this.registerMediaLength(file,index);
+            });
+        }
+        else {
+            this.getMediaTypes();
+            this.playlist.forEach((fileUrl, index) => {
+                this.getMediaLength(fileUrl, index);
+            });
+        }
     }
 
     getTimestamp() {
@@ -193,7 +228,14 @@ class MediaPlayer {
             if (timePassed <= this.breakpoints[index]) {
                 let videoStartTime = this.breakpoints[index - 1] || 0;
                 let timestamp = timePassed - videoStartTime;
-                console.log(`watching file ${playlistUrl}${this.playlist[index]}; ${timestamp}s`);
+                //if were in m3u mode were passing an object so we have to fetch the url from the object
+                if (argv.hasOwnProperty('m3u')) {
+                    console.log(`watching file ${playlistUrl}${this.playlist[index]['url']}; ${timestamp}s`);
+                }
+                else {
+                    console.log(`watching file ${playlistUrl}${this.playlist[index]}; ${timestamp}s`);
+                }
+                
                 return timestamp;
             }
         }

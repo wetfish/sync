@@ -9,7 +9,7 @@ const app = express();
 const playlistUrl = process.env.URL || 'http://localhost:3000';
 const port = process.env.PORT || 3000;
 const repeat = process.env.REPEAT;
-
+const argv = require('yargs-parser')(process.argv);
 
 /*
 Actually... all of this stuff should be served by a real webserver, so uploading files to clients doesn't block the websocket thread
@@ -40,6 +40,11 @@ let io = socket(server);
 io.on('connection', (client) => {
     let index = mediaPlayer.mediaIndex;
     let url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
+    if (argv.hasOwnProperty('m3u')) {
+        //console.log(`${playlistUrl}${mediaPlayer.playlist[index]}`);
+        url = `${playlistUrl}${mediaPlayer.playlist[index]['url']}`;
+    }
+    else url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
     let timestamp = mediaPlayer.getTimestamp();
     let mediaType = mediaPlayer.mediaTypes[index];
     let duration = mediaPlayer.mediaLengths[index];
