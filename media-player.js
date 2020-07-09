@@ -26,7 +26,7 @@ function importM3U(file) {
 class MediaPlayer {
 
     constructor(io) {
-        this.playlistType = argv;
+        // this.playlistType = argv;
         this.io = io;
         this.mediaIndex = 0;
         this.mediaTypes = [];
@@ -34,8 +34,8 @@ class MediaPlayer {
         this.filesProcessed = 0;
         this.playlistCount = 0;
 
-        if (this.playlistType.hasOwnProperty('m3u')) {
-            this.playlist = importM3U(this.playlistType.m3u).map(this.processM3U).filter(this.isValidMediaFile);
+        if (argv.m3u) {
+            this.playlist = importM3U(argv.m3u).map(this.processM3U).filter(this.isValidMediaFile);
         }
         else {
             this.playlist = fs.readdirSync('./public/media').filter(this.isValidMediaFile).map(function(file){
@@ -54,13 +54,13 @@ class MediaPlayer {
             //check for a file uri
             if (file.uri) {
                 //remove quotes in filename if they exist.
-                let url = file.uri.replace(/[\"\']/g,"");
-                let name = path.parse(url).name;
+                let parsedUrl = path.parse(file.uri).base;
+                let name = path.parse(parsedUrl).name;
                 //return an object with relevant information 
                 return {
                     duration:file.duration,
-                    url: url,
-                    name: name
+                    url: file.uri,
+                    name: name,
                 };
             }
             console.warn(`Weird. Somehow one of your files in your playlist is missing a path`);
@@ -76,15 +76,15 @@ class MediaPlayer {
 
         //if file happens to be an object and has the property url, parse it differently.
         if (file.hasOwnProperty('url')) {
-           extension = path.parse('./'+ file.url).ext.toLowerCase();
-           if(validExtensions.has(extension)) {
+            validExtensions = new Set([...videoTypes, ...audioTypes]);
+            extension = path.parse('./'+ file.url).ext.toLowerCase();
+            if(validExtensions.has(extension)) {
                 return file;
-           }
-           else {
-            console.warn(`file ${file.url} has an unsupported file extension. skipping...`);
-           }
+            }
+            else {
+                console.warn(`file ${file.url} has an unsupported file extension. skipping...`);
+            }
         }
-
         return (validExtensions.has(extension));
     }
 
@@ -160,7 +160,7 @@ class MediaPlayer {
             
             let url = `${playlistUrl}${this.playlist[this.mediaIndex]}`;
             //if were in m3u mode were passing an object so we have to fetch the url from the object
-            if (argv.hasOwnProperty('m3u')) {
+            if (argv.m3u) {
                 url = `${playlistUrl}${this.playlist[this.mediaIndex]['url']}`;
             }
             const mediaType = this.mediaTypes[this.mediaIndex];
@@ -208,7 +208,7 @@ class MediaPlayer {
 
     // Initialize by parsing media
     init() {
-        if (this.playlistType.hasOwnProperty('m3u')) {
+        if (argv.m3u) {
             this.getPlaylistMediaTypes();
             this.playlist.forEach((file, index)=>{
                 this.registerMediaLength(file,index);
@@ -229,13 +229,18 @@ class MediaPlayer {
                 let videoStartTime = this.breakpoints[index - 1] || 0;
                 let timestamp = timePassed - videoStartTime;
                 //if were in m3u mode were passing an object so we have to fetch the url from the object
-                if (argv.hasOwnProperty('m3u')) {
-                    console.log(`watching file ${playlistUrl}${this.playlist[index]['url']}; ${timestamp}s`);
+                if (argv.m3u) {
+                    //check if the url is remote
+                    if (this.playlist[index]['url'].includes('http')) {
+                        console.log(`watching file ${this.playlist[index]['url']}; ${timestamp}s`);
+                    }
+                    //else include localhost for the person watching the backend of this app.
+                    else console.log(`watching file ${playlistUrl}${this.playlist[index]['url']}; ${timestamp}s`);
                 }
                 else {
                     console.log(`watching file ${playlistUrl}${this.playlist[index]}; ${timestamp}s`);
                 }
-                
+
                 return timestamp;
             }
         }

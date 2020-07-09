@@ -40,9 +40,14 @@ let io = socket(server);
 io.on('connection', (client) => {
     let index = mediaPlayer.mediaIndex;
     let url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
-    if (argv.hasOwnProperty('m3u')) {
-        //console.log(`${playlistUrl}${mediaPlayer.playlist[index]}`);
-        url = `${playlistUrl}${mediaPlayer.playlist[index]['url']}`;
+    if (argv.m3u) {
+        //if the url is remote, don't append the project root url
+        if (url.includes('http')) {
+            url = `${mediaPlayer.playlist[index]['url']}`;
+        }
+        else {
+            url = `${playlistUrl}${mediaPlayer.playlist[index]['url']}`;
+        }
     }
     else url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
     let timestamp = mediaPlayer.getTimestamp();
