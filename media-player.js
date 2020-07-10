@@ -26,7 +26,6 @@ function importM3U(file) {
 class MediaPlayer {
 
     constructor(io) {
-        // this.playlistType = argv;
         this.io = io;
         this.mediaIndex = 0;
         this.mediaTypes = [];
@@ -53,8 +52,7 @@ class MediaPlayer {
         if (file.duration) {
             //check for a file uri
             if (file.uri) {
-                //remove quotes in filename if they exist.
-                let parsedUrl = path.parse(file.uri).base;
+                //get the name of the file which will be the title of the media
                 let name = path.parse(parsedUrl).name;
                 //return an object with relevant information 
                 return {
