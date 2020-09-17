@@ -53,7 +53,7 @@ class MediaPlayer {
             //check for a file uri
             if (file.uri) {
                 //get the name of the file which will be the title of the media
-                let name = path.parse(parsedUrl).name;
+                let name = path.parse(file.uri).name;
                 //return an object with relevant information 
                 return {
                     duration:file.duration,
