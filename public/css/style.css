@@ -101,3 +101,15 @@ progress {
     justify-content: space-between;
     flex-wrap: wrap;
 }
+
+.hidden {
+    display: none;
+    visibility: none;
+}
+
+.start-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

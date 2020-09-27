@@ -64,7 +64,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                     </a>
                 </div>
             </div>
-            <a class="modal is-active" v-on:click="play()">
+            <a class="start-modal" v-on:click="play()">
                 <svg class="icon-large">
                     <use xlink:href="regular.svg#play-circle"></use>
                 </svg>
@@ -91,11 +91,11 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
 
             let mediaPlayer = document.getElementById("media-player");
             let playbutton = document.querySelector("#play svg use");
-            let startbutton = document.querySelector(".modal");
+            let startbutton = document.querySelector(".start-modal");
 
             if (mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
-                startbutton.classList.remove("is-active");
+                startbutton.classList.add("hidden");
                 mediaPlayer.play();
                 mediaPlayer.muted = false;
                 //set the volume when the user actually hits play
