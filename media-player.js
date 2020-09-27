@@ -189,7 +189,8 @@ class MediaPlayer {
         execute(`${shellCommand} "./public${url}"`, (err, stdout) => {
             let duration = stdout.split('\n')[0]; // Remove \n
             this.mediaLengths[index] = parseFloat(duration);
-            if (++this.filesProcessed === this.mediaLengths.length) {
+            this.filesProcessed++;
+            if (this.filesProcessed === this.mediaLengths.length) {
                 this.setBreakpoints();
                 this.startTimers();
             }
@@ -198,7 +199,8 @@ class MediaPlayer {
     //register media lengths from M3U playlist
     registerMediaLength(file, index) {
         this.mediaLengths[index] = file.duration;
-        if (++this.filesProcessed === this.mediaLengths.length) {
+        this.filesProcessed++;
+        if (this.filesProcessed === this.mediaLengths.length) {
                 this.setBreakpoints();
                 this.startTimers();
             }

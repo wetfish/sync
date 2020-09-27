@@ -5,8 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "mocha || true",
-    "playlist": "node server.js --m3u"
+    "test": "mocha || true"
   },
   "repository": {
     "type": "git",
