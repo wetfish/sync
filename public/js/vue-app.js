@@ -64,7 +64,7 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
                     </a>
                 </div>
             </div>
-            <a class="modal is-active" v-on:click="play()">
+            <a class="start-modal" v-on:click="play()">
                 <svg class="icon-large">
                     <use xlink:href="regular.svg#play-circle"></use>
                 </svg>
@@ -91,13 +91,15 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
 
             let mediaPlayer = document.getElementById("media-player");
             let playbutton = document.querySelector("#play svg use");
-            let startbutton = document.querySelector(".modal");
+            let startbutton = document.querySelector(".start-modal");
 
             if (mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
-                startbutton.classList.remove("is-active");
+                startbutton.classList.add("hidden");
                 mediaPlayer.play();
                 mediaPlayer.muted = false;
+                //set the volume when the user actually hits play
+                mediaPlayer.volume = this.volume*.01;
             }
             else if(!mediaPlayer.paused) {
                 playbutton.setAttribute('xlink:href','regular.svg#play-circle');
@@ -117,6 +119,8 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             // get the media player element and set it's volume to whatever the slider value is
             let mediaPlayer = document.querySelector("#media-player");
             mediaPlayer.volume = this.volume*.01;
+            //save the volum in local storage
+            localStorage.setItem('volume',this.volume);
         },
         mute: function () {
             //get the media element and make mute/unmute toggle
@@ -135,10 +139,12 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     },
     mounted() {
         //get the mediaPlayer element set up default volume
-        let mediaPlayer = document.querySelector("#media-player");
-        this.volume = this.$attrs.appvolume;
-        this.muted = false;
-        mediaPlayer.volume = this.volume*.01;
+        if (localStorage.getItem('volume')) {
+            this.volume = localStorage.getItem('volume');
+        }
+        else {
+            this.volume = this.$attrs.appvolume;
+        }
     }
 });
 
