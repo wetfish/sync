@@ -159,7 +159,15 @@ class MediaPlayer {
             let url = `${playlistUrl}${this.playlist[this.mediaIndex]}`;
             //if were in m3u mode were passing an object so we have to fetch the url from the object
             if (argv.m3u) {
-                url = `${playlistUrl}${this.playlist[this.mediaIndex]['url']}`;
+                //check the url for a remote http string
+                if (this.playlist[this.mediaIndex]['url'].includes('http')) {
+                    url = `${this.playlist[this.mediaIndex]['url']}`;
+                }
+                else {
+                    //else its a local file 
+                    url = `${playlistUrl}${this.playlist[this.mediaIndex]['url']}`;
+                }
+                
             }
             const mediaType = this.mediaTypes[this.mediaIndex];
             const duration = this.mediaLengths[this.mediaIndex];
