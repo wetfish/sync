@@ -41,7 +41,7 @@ io.on('connection', (client) => {
     let url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
     if (argv.m3u) {
         //if the url is remote, don't append the project root url
-        if (url.includes('http')) {
+        if (url.startsWith('http')) {
             url = `${mediaPlayer.playlist[index]['url']}`;
         }
         else {

@@ -160,7 +160,7 @@ class MediaPlayer {
             //if were in m3u mode were passing an object so we have to fetch the url from the object
             if (argv.m3u) {
                 //check the url for a remote http string
-                if (this.playlist[this.mediaIndex]['url'].includes('http')) {
+                if (this.playlist[this.mediaIndex]['url'].startsWith('http')) {
                     url = `${this.playlist[this.mediaIndex]['url']}`;
                 }
                 else {
@@ -239,7 +239,7 @@ class MediaPlayer {
                 //if were in m3u mode were passing an object so we have to fetch the url from the object
                 if (argv.m3u) {
                     //check if the url is remote
-                    if (this.playlist[index]['url'].includes('http')) {
+                    if (this.playlist[index]['url'].startsWith('http')) {
                         console.log(`watching file ${this.playlist[index]['url']}; ${timestamp}s`);
                     }
                     //else include localhost for the person watching the backend of this app.
