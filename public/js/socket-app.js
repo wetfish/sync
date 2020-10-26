@@ -26,9 +26,9 @@ socket.on('newMedia', (data) => {
         if (vueApp.mediaElement != data.mediaType + "-player"){
             vueApp.mediaElement = data.mediaType + "-player";
         } else {
-            // If you only change the src attribute, you must load and play 
+            // If you only change the src attribute, you must load the video
+            // vueapp will handle playing of the video
             mediaPlayer.load();
-            mediaPlayer.play();
         }
     } else {
         // Keep track of the media element that should be rendered
