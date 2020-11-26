@@ -19,22 +19,23 @@ socket.on('newMedia', (data) => {
     vueApp.url = data.url;
     vueApp.timestamp = 0;
     vueApp.latency = 0;
-    
+    const mediaPlayer = document.getElementById('media-player');
     // Automatically play the next item if the player is not paused
-    if (!document.getElementById('media-player').paused) {
+    if (!mediaPlayer.paused) {
         // Check before updating the type of media player
         if (vueApp.mediaElement != data.mediaType + "-player"){
             vueApp.mediaElement = data.mediaType + "-player";
         } else {
-            // If you only change the src attribute, you must load and play 
-            document.getElementById('media-player').load();
-            document.getElementById('media-player').play();
+            // If you only change the src attribute, you must load the video
+            // vueapp will handle playing of the video
+            mediaPlayer.load();
         }
     } else {
         // Keep track of the media element that should be rendered
         vueApp.serverMediaType = data.mediaType;
         // And raise a flag
         vueApp.newMediaReceivedDuringPause = true;
+        mediaPlayer.load();
     }
 });
 

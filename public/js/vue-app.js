@@ -189,7 +189,7 @@ function mountNewPlayer(mediaComponent) {
         if (vueApp.newMediaReceivedDuringPause) {
             mediaPlayer.load();
             mediaPlayer.currentTime = vueApp.timestamp;
-            mediaPlayer.play();
+            mediaElement.pause();
             vueApp.newMediaReceivedDuringPause = false;
         } else if (vueApp.latency > vueApp.latencyThresholdSeconds) {
             // In order to catch latency issues, make sure that the latency
