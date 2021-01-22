@@ -35,7 +35,7 @@ let server = app.listen(port, () => {
 });
 
 // Socket setup
-let io = socket(server);
+let io = socket(server,{wsEngine: 'eiows'});
 io.on('connection', (client) => {
     let index = mediaPlayer.mediaIndex;
     let url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
