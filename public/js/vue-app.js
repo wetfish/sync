@@ -166,7 +166,6 @@ let vueApp = new Vue ({
         duration: null,
         muted: true,
         heartBeat:null,
-        newMediaReceivedDuringPause:null,
         latencyThresholdSeconds: 5
     },
     components: {
@@ -176,7 +175,8 @@ let vueApp = new Vue ({
 });
 
 function mountNewPlayer(mediaComponent) {
-    let mediaElement = document.getElementById('media-player');
+    const mediaElement = document.getElementById('media-player');
+    const mediaControls = vueApp.$refs.mediaControls;
     mediaElement.muted = mediaComponent.muted;
     mediaElement.currentTime = mediaComponent.timestamp;
     mediaElement.addEventListener('volumechange', () => {
@@ -187,18 +187,22 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('timeupdate', (event) => {
         vueApp.timestamp = mediaElement.currentTime;
     });
-    mediaElement.pause();
+
+    if(!mediaControls.isPlaying) {
+        mediaElement.pause();
+    }
+    
     mediaElement.addEventListener('play', () => {
         const mediaPlayer = document.getElementById('media-player');
         const mediaControls = vueApp.$refs.mediaControls;
         // If the flag was raised, load and play the newest content. Reset flag.
         // Else if the latency is too large (ex: user pause or lag), syncronize
-        if (vueApp.newMediaReceivedDuringPause) {
-            mediaPlayer.load();
+
+        if (!mediaControls.isPlaying) {
+            mediaPlayer.pause();
             mediaPlayer.currentTime = vueApp.timestamp;
             //tell our media player controls that the media is playing
-            mediaControls.isPlaying = true;
-            vueApp.newMediaReceivedDuringPause = false;
+            mediaControls.isPlaying = false;
         } else if (vueApp.latency > vueApp.latencyThresholdSeconds) {
             // In order to catch latency issues, make sure that the latency
             // threshold is greater than the websocket timestamp interval
