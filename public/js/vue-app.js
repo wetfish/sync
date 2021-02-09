@@ -32,7 +32,12 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
             <div class="button-container">
                 <div class="left-side-buttons">
                     <a id="play" v-on:click="play()">
-                        <svg class="icon">
+                        <svg class="icon" v-if="isPlaying">
+
+                            <use xlink:href="regular.svg#pause-circle"></use>
+                            
+                        </svg>
+                        <svg class="icon" v-else>
                             <use xlink:href="regular.svg#play-circle"></use>
                         </svg>
                     </a>
@@ -75,7 +80,8 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
     data:function() {
         return {
             volume:0,
-            muted:true
+            muted:true,
+            isPlaying:false
         };
     },
     methods: {
@@ -90,20 +96,19 @@ const mediaPlayerControls = Vue.component('media-player-controls', {
         play: function() {
 
             let mediaPlayer = document.getElementById("media-player");
-            let playbutton = document.querySelector("#play svg use");
             let startbutton = document.querySelector(".start-modal");
 
             if (mediaPlayer.paused) {
-                playbutton.setAttribute('xlink:href','regular.svg#pause-circle');
                 startbutton.classList.add("hidden");
                 mediaPlayer.play();
                 mediaPlayer.muted = false;
+                this.isPlaying = true;
                 //set the volume when the user actually hits play
                 mediaPlayer.volume = this.volume*.01;
             }
             else if(!mediaPlayer.paused) {
-                playbutton.setAttribute('xlink:href','regular.svg#play-circle');
                 mediaPlayer.pause();
+                this.isPlaying = false;
             }
             //make sure our icon reflects the unmuted behavior on play.
             this.muted = false;
@@ -170,7 +175,8 @@ let vueApp = new Vue ({
 });
 
 function mountNewPlayer(mediaComponent) {
-    let mediaElement = document.getElementById('media-player');
+    const mediaElement = document.getElementById('media-player');
+    const mediaControls = vueApp.$refs.mediaControls;
     mediaElement.muted = mediaComponent.muted;
     mediaElement.currentTime = mediaComponent.timestamp;
     mediaElement.addEventListener('volumechange', () => {
@@ -181,16 +187,22 @@ function mountNewPlayer(mediaComponent) {
     mediaElement.addEventListener('timeupdate', (event) => {
         vueApp.timestamp = mediaElement.currentTime;
     });
-    mediaElement.pause();
+
+    if(!mediaControls.isPlaying) {
+        mediaElement.pause();
+    }
+    
     mediaElement.addEventListener('play', () => {
         const mediaPlayer = document.getElementById('media-player');
+        const mediaControls = vueApp.$refs.mediaControls;
         // If the flag was raised, load and play the newest content. Reset flag.
         // Else if the latency is too large (ex: user pause or lag), syncronize
-        if (vueApp.newMediaReceivedDuringPause) {
-            mediaPlayer.load();
+
+        if (!mediaControls.isPlaying) {
+            mediaPlayer.pause();
             mediaPlayer.currentTime = vueApp.timestamp;
-            mediaElement.pause();
-            vueApp.newMediaReceivedDuringPause = false;
+            //tell our media player controls that the media is playing
+            mediaControls.isPlaying = false;
         } else if (vueApp.latency > vueApp.latencyThresholdSeconds) {
             // In order to catch latency issues, make sure that the latency
             // threshold is greater than the websocket timestamp interval

@@ -1,7 +1,7 @@
 /*globals vueApp */
 
 // Make connection
-let socket = io.connect(location.origin.replace(/^http/, 'ws'));
+const socket = io.connect(location.origin.replace(/^http/, 'ws'));
 
 socket.on('connect', () => {
     //document.getElementById('socket-fail').style.visibility = "hidden";
@@ -15,13 +15,16 @@ socket.on('disconnect', () => {
 
 // Server emits event when media ends
 socket.on('newMedia', (data) => {
+    const mediaControls = vueApp.$refs.mediaControls;
+    const mediaPlayer = document.getElementById('media-player');
+
     vueApp.duration = data.duration;
     vueApp.url = data.url;
     vueApp.timestamp = 0;
     vueApp.latency = 0;
-    const mediaPlayer = document.getElementById('media-player');
-    // Automatically play the next item if the player is not paused
-    if (!mediaPlayer.paused) {
+
+    // Automatically  the next item if the player is not paused
+    if (!mediaControls.isPlaying) {
         // Check before updating the type of media player
         if (vueApp.mediaElement != data.mediaType + "-player"){
             vueApp.mediaElement = data.mediaType + "-player";

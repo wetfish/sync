@@ -30,7 +30,7 @@ app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/s
 app.get('/fscreen.js', (req, res) => res.sendFile(__dirname + '/node_modules/fscreen/src/index.js'));
 
 // Start server
-let server = app.listen(port, () => {
+const server = app.listen(port, () => {
     console.log(`Server listening on port: ${port}`);
 });
 
@@ -49,9 +49,9 @@ io.on('connection', (client) => {
         }
     }
     else url = `${playlistUrl}${mediaPlayer.playlist[index]}`;
-    let timestamp = mediaPlayer.getTimestamp();
-    let mediaType = mediaPlayer.mediaTypes[index];
-    let duration = mediaPlayer.mediaLengths[index];
+    const timestamp = mediaPlayer.getTimestamp();
+    const mediaType = mediaPlayer.mediaTypes[index];
+    const duration = mediaPlayer.mediaLengths[index];
     console.log(`Client connected! Now playing ${mediaType} file ${url}. Timestamp: ${timestamp}`);
     client.emit('updateClient', {
         mediaType: mediaType,

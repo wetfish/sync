@@ -22,7 +22,7 @@
             <!-- Dynamic Media Component to Accommodate Audio and Video -->
             <!-- Pass the url and timestamp to the component as a prop -->
             <component v-bind:is="mediaElement" v-bind:url="url" v-bind:timestamp="timestamp" v-bind:muted="muted"/></component>
-            <media-player-controls v-bind:timestamp="timestamp" v-bind:duration="duration" :appVolume="appVolume"/>
+            <media-player-controls ref="mediaControls" v-bind:timestamp="timestamp" v-bind:duration="duration" :appVolume="appVolume"/>
         </div>
 
         <!-- Frameworks and Libraries -->
