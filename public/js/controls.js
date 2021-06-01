@@ -19,9 +19,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', function(event) {
         if (event.keyCode === 77) {
-           let muteButton = document.querySelector('#mute');
-           muteButton.click();
+           vueApp.$refs.mediaControls.mute();
         }
     });
-    
 });
