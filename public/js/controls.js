@@ -19,7 +19,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     document.addEventListener('keydown', function(event) {
         if (event.keyCode === 77) {
-            document.getElementById('media-player').muted = !document.getElementById('media-player').muted;
+           let muteButton = document.querySelector('#mute');
+           muteButton.click();
         }
     });
     
