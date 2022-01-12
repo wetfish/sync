@@ -107,6 +107,14 @@ progress {
     visibility: none;
 }
 
+.slider-active{
+    pointer-events: auto!important;
+}
+
+.slider {
+    pointer-events: none;
+}
+
 .start-modal {
     position: fixed;
     top: 50%;
