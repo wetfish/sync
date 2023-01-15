@@ -129,7 +129,52 @@ class MediaPlayer {
             return totalTime += currentVal;
         });
     }
+    previous(){
+        console.log("previous");
+        this.mediaIndex--;
+        if(this.mediaIndex < 0){
+            this.mediaIndex = this.playlist.length - 1;
+        }
+        
+        this.emitNewMediaEvent()   ; 
+    }
+    next(){
+        console.log("next");
+        this.mediaIndex++;
+        if(this.mediaIndex >= this.playlist.length){
+            this.mediaIndex = 0;
+        }
+        this.emitNewMediaEvent()   ;
+    }
+    emitNewMediaEvent = () => {
+            
+        let url = `${playlistUrl}${this.playlist[this.mediaIndex]}`;
+        //if were in m3u mode were passing an object so we have to fetch the url from the object
+        if (argv.m3u) {
+            //check the url for a remote http string
+            if (this.playlist[this.mediaIndex]['url'].startsWith('http')) {
+                url = `${this.playlist[this.mediaIndex]['url']}`;
+            }
+            else {
+                //else its a local file 
+                url = `${playlistUrl}${this.playlist[this.mediaIndex]['url']}`;
+            }
+            
+        }
+        const mediaType = this.mediaTypes[this.mediaIndex];
+        const duration = this.mediaLengths[this.mediaIndex];
+        const data = {
+            url: url,
+            duration: duration,
+            mediaType: mediaType
+        };
 
+        //on new media event, count each time the index is at zero.
+        if (this.mediaIndex == 0) {
+            this.playlistCount++;
+        }
+        this.io.sockets.emit('newMedia', data);
+    }
 
     startTimers() {
         this.startTime = new Date(); // Start main timer
