@@ -7,7 +7,6 @@ const videoTypes = new Set(['.ogv', '.mp4']);
 const audioTypes = new Set(['.mp3', '.flac', '.oga', '.wav']);
 const ambiguousTypes = new Set(['.webm', '.ogg']); // These can be either audio or video
 
-let count = 0;
 
 //import m3u files into sync. atm files will need to be located in the project directory.
 function importM3U(file) {
@@ -63,6 +62,19 @@ class MediaPlayer {
             console.warn(`Weird. Somehow one of your files in your playlist is missing a path`);
         }
         else {
+            if (file.uri) {
+                //get the name of the file which will be the title of the media
+                let name = path.parse(file.uri).name;
+                const shellCommand = 'ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1';
+                const execute = require('child_process').execSync;
+                let duration = execute(`${shellCommand} "./public${file.uri}"`).toString();
+                //return an object with relevant information 
+                return {
+                    duration: parseFloat(duration),
+                    url: file.uri,
+                    name: name,
+                };
+            }
             console.warn(`one of your files in your playlist ${file.uri} is missing a duration`);
         }
     }
@@ -140,7 +152,7 @@ class MediaPlayer {
         }
         this.emitNewMediaEvent()   ;
     }
-    emitNewMediaEvent = () => {
+    emitNewMediaEvent()  {
         this.startTime = new Date();
         let url = `${playlistUrl}${this.playlist[this.mediaIndex]}`;
         //if were in m3u mode were passing an object so we have to fetch the url from the object
