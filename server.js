@@ -27,7 +27,7 @@ app.get('/', (req, res) => {
 // Hosted frameworks and libraries
 app.get('/vue.js', (req, res) => res.sendFile(__dirname + '/node_modules/vue/dist/vue.js'));
 app.get('/socket.io.js', (req, res) => res.sendFile(__dirname + '/node_modules/socket.io-client/dist/socket.io.js'));
-app.get('/fscreen.js', (req, res) => res.sendFile(__dirname + '/node_modules/fscreen/src/index.js'));
+app.get('/fscreen.js', (req, res) => res.sendFile(__dirname + '/node_modules/fscreen/dist/fscreen.esm.js'));
 
 // Start server
 const server = app.listen(port, () => {
